@@ -10,7 +10,22 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=2.0.0">
+  <script>
+    (function() {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        if (params.has('simulate_safe_area')) {
+          const top = params.get('safe_top') || '38px';
+          const bottom = params.get('safe_bottom') || '24px';
+          document.documentElement.style.setProperty('--safe-area-inset-top', top);
+          document.documentElement.style.setProperty('--safe-area-inset-bottom', bottom);
+          document.documentElement.style.setProperty('--safe-top', top);
+          document.documentElement.style.setProperty('--safe-bottom', bottom);
+        }
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body data-theme="light">
   <div class="app-layout" id="appLayout">

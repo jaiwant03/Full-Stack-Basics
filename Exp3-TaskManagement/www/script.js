@@ -1330,6 +1330,17 @@
 
   /* -------------------- 17. APP ENTRYPOINT -------------------- */
   document.addEventListener('DOMContentLoaded', () => {
+    // Optional safe area simulation for browser verification / responsive testing
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has('simulate_safe_area')) {
+        const topInset = urlParams.get('safe_top') || '38px';
+        const bottomInset = urlParams.get('safe_bottom') || '24px';
+        document.documentElement.style.setProperty('--safe-area-inset-top', topInset);
+        document.documentElement.style.setProperty('--safe-area-inset-bottom', bottomInset);
+      }
+    } catch (e) {}
+
     initTheme();
     loadTasks();
     loadNotifications();
