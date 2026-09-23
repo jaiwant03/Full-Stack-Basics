@@ -1270,6 +1270,48 @@
         closeMobileSidebar();
       }
     });
+
+    // Android Hardware Back Button Handling (Capacitor & Web)
+    function handleHardwareBack() {
+      const taskModal = document.getElementById('taskModalBackdrop');
+      const deleteModal = document.getElementById('deleteConfirmModalBackdrop');
+      const notifDrawer = document.getElementById('notificationDrawerBackdrop');
+      const mobileSidebar = document.getElementById('sidebar');
+
+      if (taskModal && !taskModal.classList.contains('hidden')) {
+        closeTaskModal();
+        return;
+      }
+      if (deleteModal && !deleteModal.classList.contains('hidden')) {
+        closeDeleteModal();
+        return;
+      }
+      if (notifDrawer && !notifDrawer.classList.contains('hidden')) {
+        toggleNotificationDrawer(false);
+        return;
+      }
+      if (mobileSidebar && mobileSidebar.classList.contains('mobile-open')) {
+        closeMobileSidebar();
+        return;
+      }
+
+      if (currentView !== 'dashboard') {
+        switchView('dashboard');
+        return;
+      }
+
+      if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
+        window.Capacitor.Plugins.App.exitApp();
+      }
+    }
+
+    if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
+      window.Capacitor.Plugins.App.addListener('backButton', handleHardwareBack);
+    }
+    document.addEventListener('backbutton', (e) => {
+      e.preventDefault();
+      handleHardwareBack();
+    });
   }
 
   /* -------------------- 16. GLOBAL API (For card inline buttons) -------------------- */

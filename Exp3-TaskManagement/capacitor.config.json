@@ -1,0 +1,8 @@
+{
+  "appId": "com.taskmanager.app",
+  "appName": "Task Manager",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}

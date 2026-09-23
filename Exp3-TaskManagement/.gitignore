@@ -1,0 +1,25 @@
+# Node dependencies
+node_modules/
+
+# Android Studio & Gradle build artifacts
+android/.gradle/
+android/build/
+android/app/build/
+android/.idea/
+android/local.properties
+android/*.iml
+android/app/*.iml
+android/captures/
+android/.externalNativeBuild/
+android/.cxx/
+
+# Build packages
+*.apk
+*.aab
+
+# OS & Editor temp files
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/
