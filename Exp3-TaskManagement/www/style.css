@@ -249,6 +249,7 @@ a {
   letter-spacing: -0.035em;
   background: linear-gradient(135deg, var(--color-text-main) 40%, var(--color-primary) 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -491,6 +492,7 @@ a {
   letter-spacing: -0.035em;
   background: linear-gradient(135deg, var(--color-text-main) 30%, var(--color-primary) 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
