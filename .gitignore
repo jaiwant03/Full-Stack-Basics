@@ -1,24 +1,70 @@
-# Node dependencies
+# ==========================================
+# Node & JavaScript Dependencies
+# ==========================================
 node_modules/
 **/node_modules/
 
-# Android Studio & Gradle build artifacts
-android/.gradle/
-**/android/.gradle/
-android/build/
-**/android/build/
-android/app/build/
-**/android/app/build/
-android/.idea/
-**/android/.idea/
-android/local.properties
-**/android/local.properties
-*.apk
-*.aab
+# ==========================================
+# Android & Gradle Build Artifacts
+# ==========================================
+.gradle/
+**/.gradle/
+build/
+**/build/
+local.properties
+**/local.properties
 
-# OS & Editor temp files
+# Build packages & binaries
+*.apk
+*.aar
+*.ap_
+*.aab
+*.dex
+*.class
+bin/
+gen/
+out/
+captures/
+.externalNativeBuild/
+.cxx/
+*.hprof
+lint/
+
+# ==========================================
+# Capacitor Auto-Generated Files
+# ==========================================
+**/android/capacitor-cordova-android-plugins/
+**/android/app/src/main/assets/public/
+**/android/app/src/main/assets/capacitor.config.json
+**/android/app/src/main/assets/capacitor.plugins.json
+**/android/app/src/main/res/xml/config.xml
+
+# ==========================================
+# IDE & Editor Files
+# ==========================================
+.vscode/
+**/.vscode/
+.idea/
+**/.idea/
+*.iml
+**/*.iml
+.navigation/
+.shelf/
+workspace.xml
+vcs.xml
+
+# Eclipse / Language Server Files
+.project
+**/.project
+.classpath
+**/.classpath
+.settings/
+**/.settings/
+*.launch
+
+# ==========================================
+# OS & Ephemeral Temp Files
+# ==========================================
 .DS_Store
 Thumbs.db
 *.log
-.vscode/
-.idea/
