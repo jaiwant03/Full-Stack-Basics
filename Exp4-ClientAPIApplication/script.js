@@ -701,6 +701,7 @@ if (demoModeBtn) {
 window.addEventListener("DOMContentLoaded", () => {
     // If the API key is configured with a real key, fetch the default city (Coimbatore)
     if (isApiKeyConfigured()) {
+        hideApiKeyNotice();
         cityInput.value = DEFAULT_CITY;
         getWeather(DEFAULT_CITY);
     } else {
