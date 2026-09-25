@@ -603,6 +603,13 @@ body.mist, body.fog, body.haze, body.smoke, body.dust {
     margin-bottom: 1.5rem;
 }
 
+.error-actions {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
 .error-retry-btn {
     background: rgba(255, 255, 255, 0.12);
     border: 1px solid rgba(255, 255, 255, 0.25);
@@ -619,6 +626,17 @@ body.mist, body.fog, body.haze, body.smoke, body.dust {
 .error-retry-btn:hover {
     background: rgba(255, 255, 255, 0.22);
     transform: translateY(-1px);
+}
+
+.error-demo-btn {
+    background: rgba(56, 189, 248, 0.2);
+    border-color: rgba(56, 189, 248, 0.45);
+    color: #e0f2fe;
+}
+
+.error-demo-btn:hover {
+    background: rgba(56, 189, 248, 0.35);
+    border-color: rgba(56, 189, 248, 0.6);
 }
 
 @keyframes shakeFadeIn {

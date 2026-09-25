@@ -26,7 +26,7 @@
  * 2. Navigate to "My API Keys" and generate or copy your key.
  * 3. Replace "YOUR_API_KEY" below with your actual 32-character key.
  */
-const API_KEY = "YOUR_API_KEY";
+const API_KEY = "b117d672893d6dcb9de8eeeedd27a5c0";
 
 // Base URL for OpenWeatherMap Current Weather Data endpoint
 const API_BASE_URL = "https://api.openweathermap.org/data/2.5/weather";
