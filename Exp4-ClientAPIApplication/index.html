@@ -34,25 +34,13 @@
                 </div>
             </div>
 
-            <!-- Navigation Links / Tabs -->
-            <nav class="navbar-nav" aria-label="Main Navigation">
-                <button type="button" class="nav-tab active">
-                    <span class="nav-tab-icon" aria-hidden="true">🏠</span>
-                    <span>Home</span>
-                </button>
-                <button type="button" class="nav-tab">
-                    <span class="nav-tab-icon" aria-hidden="true">📅</span>
-                    <span>Forecast</span>
-                </button>
-                <button type="button" class="nav-tab">
-                    <span class="nav-tab-icon" aria-hidden="true">🗺️</span>
-                    <span>Maps</span>
-                </button>
-                <button type="button" class="nav-tab">
-                    <span class="nav-tab-icon" aria-hidden="true">🤍</span>
-                    <span>Favorites</span>
-                </button>
-            </nav>
+            <!-- Navbar Center: Subtle Live Status Indicator -->
+            <div class="navbar-center">
+                <div class="nav-status-badge">
+                    <span class="nav-live-dot" aria-hidden="true"></span>
+                    <span class="nav-live-text">Live Weather</span>
+                </div>
+            </div>
 
             <!-- Search Form on the Right -->
             <div class="navbar-right">
@@ -78,19 +66,6 @@
                 </form>
             </div>
         </header>
-
-        <!-- Quick City Pill Bar for Lab Evaluation & Fast Testing -->
-        <div class="quick-pill-bar" aria-label="Quick city suggestions">
-            <span class="quick-label">Quick Search:</span>
-            <div class="quick-city-tags">
-                <button type="button" class="quick-city-btn" data-city="Coimbatore">Coimbatore</button>
-                <button type="button" class="quick-city-btn" data-city="Chennai">Chennai</button>
-                <button type="button" class="quick-city-btn" data-city="London">London</button>
-                <button type="button" class="quick-city-btn" data-city="Tokyo">Tokyo</button>
-                <button type="button" class="quick-city-btn" data-city="New York">New York</button>
-                <button type="button" class="quick-city-btn" data-city="Paris">Paris</button>
-            </div>
-        </div>
 
         <!-- ==========================================
              NOTICES & STATUS
@@ -229,7 +204,6 @@
                             <span class="blue-accent-bar" aria-hidden="true"></span>
                             <h3 class="card-main-title">Weather Details</h3>
                         </div>
-                        <button type="button" class="view-more-link">View More →</button>
                     </div>
 
                     <!-- 6 Metric Cards Grid (2 cols x 3 rows) -->
@@ -331,7 +305,6 @@
                             <span class="blue-accent-bar" aria-hidden="true"></span>
                             <h3 class="card-main-title">5 Day Forecast</h3>
                         </div>
-                        <button type="button" class="view-more-link">View All →</button>
                     </div>
 
                     <!-- 5 Day Horizontal Pills Container -->

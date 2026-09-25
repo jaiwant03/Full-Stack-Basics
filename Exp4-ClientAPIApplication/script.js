@@ -76,7 +76,6 @@ const DEMO_WEATHER_DATA = {
 const searchForm = document.getElementById("searchForm");
 const cityInput = document.getElementById("cityInput");
 const searchBtn = document.getElementById("searchBtn");
-const quickCityBtns = document.querySelectorAll(".quick-city-btn");
 
 // Status, Loading & Error Sections
 const apiKeyNotice = document.getElementById("apiKeyNotice");
@@ -828,17 +827,6 @@ searchBtn.addEventListener("click", () => {
     if (city.trim()) {
         getWeather(city);
     }
-});
-
-// Quick city tags click
-quickCityBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-        const selectedCity = btn.getAttribute("data-city");
-        if (selectedCity) {
-            cityInput.value = selectedCity;
-            getWeather(selectedCity);
-        }
-    });
 });
 
 // Error retry button click
