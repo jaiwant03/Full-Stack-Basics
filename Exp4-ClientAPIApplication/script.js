@@ -85,6 +85,7 @@ const errorSection = document.getElementById("errorSection");
 const errorTitle = document.getElementById("errorTitle");
 const errorMessage = document.getElementById("errorMessage");
 const errorRetryBtn = document.getElementById("errorRetryBtn");
+const errorDemoBtn = document.getElementById("errorDemoBtn");
 const welcomeSection = document.getElementById("welcomeSection");
 
 // Dashboard & Weather Card Elements
@@ -525,6 +526,14 @@ if (errorRetryBtn) {
     errorRetryBtn.addEventListener("click", () => {
         hideError();
         cityInput.focus();
+    });
+}
+
+// Error demo button click (allows instant inspection of UI if API key is pending activation)
+if (errorDemoBtn) {
+    errorDemoBtn.addEventListener("click", () => {
+        cityInput.value = "Coimbatore";
+        displayWeather(DEMO_WEATHER_DATA);
     });
 }
 
