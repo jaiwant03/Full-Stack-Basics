@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="WeatherNow - Real-Time Weather Information client application powered by JavaScript Fetch API and Weather API.">
+    <title>WeatherNow | Real-Time Weather Information</title>
+
+    <!-- Google Fonts for Modern Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- External Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Ambient Glow Effects -->
+    <div class="background-decorations" aria-hidden="true">
+        <div class="ambient-orb orb-1"></div>
+        <div class="ambient-orb orb-2"></div>
+        <div class="ambient-orb orb-3"></div>
+    </div>
+
+    <!-- Main Application Container -->
+    <div class="app-container">
+        
+        <!-- ==========================================
+             HEADER SECTION
+             ========================================== -->
+        <header class="app-header">
+            <div class="brand-container">
+                <div class="brand-badge">
+                    <span class="brand-icon" aria-hidden="true">⛅</span>
+                    <h1 class="brand-title">WeatherNow</h1>
+                </div>
+                <p class="brand-subtitle">Real-Time Weather Information</p>
+                <p class="brand-description">Get accurate weather information for any city around the world.</p>
+            </div>
+        </header>
+
+        <!-- ==========================================
+             MAIN CONTENT AREA
+             ========================================== -->
+        <main class="main-content">
+            
+            <!-- Search Section -->
+            <section class="search-section" aria-label="City Search">
+                <form id="searchForm" class="search-form" onsubmit="return false;">
+                    <div class="search-box">
+                        <span class="search-icon" aria-hidden="true">🔍</span>
+                        <input 
+                            type="text" 
+                            id="cityInput" 
+                            class="search-input" 
+                            placeholder="Enter city name... (e.g., Coimbatore, London, Tokyo)" 
+                            autocomplete="off" 
+                            spellcheck="false"
+                            aria-label="Enter city name"
+                        />
+                        <button type="submit" id="searchBtn" class="search-btn" aria-label="Search city weather">
+                            <span>Search</span>
+                            <svg class="search-btn-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Popular City Quick Tags for Rapid Testing -->
+                <div class="quick-cities" aria-label="Quick city suggestions">
+                    <span class="quick-cities-label">Popular:</span>
+                    <div class="quick-city-tags">
+                        <button type="button" class="quick-city-btn" data-city="Coimbatore">Coimbatore</button>
+                        <button type="button" class="quick-city-btn" data-city="Chennai">Chennai</button>
+                        <button type="button" class="quick-city-btn" data-city="London">London</button>
+                        <button type="button" class="quick-city-btn" data-city="Tokyo">Tokyo</button>
+                        <button type="button" class="quick-city-btn" data-city="New York">New York</button>
+                        <button type="button" class="quick-city-btn" data-city="Paris">Paris</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- API Key Configuration Notice (shown if API key is not yet set) -->
+            <div id="apiKeyNotice" class="api-key-notice hidden" role="region" aria-label="API Notice">
+                <div class="notice-icon">🔑</div>
+                <div class="notice-content">
+                    <h2 class="notice-title">OpenWeatherMap API Key Required</h2>
+                    <p class="notice-text">
+                        To fetch live API data, set your free API key in <code class="code-badge">script.js</code> at line 17:
+                        <span class="code-snippet">const API_KEY = "YOUR_API_KEY";</span>
+                    </p>
+                    <p class="notice-subtext">You can get a free key instantly from <a href="https://openweathermap.org/api" target="_blank" rel="noopener noreferrer">openweathermap.org</a>.</p>
+                </div>
+                <button type="button" id="demoModeBtn" class="demo-btn" title="View sample data for Coimbatore">
+                    <span>Preview Demo Data</span>
+                </button>
+            </div>
+
+            <!-- Loading State Section -->
+            <section id="loadingSection" class="loading-section hidden" aria-live="polite" aria-label="Loading indicator">
+                <div class="spinner-container">
+                    <div class="loading-spinner"></div>
+                    <div class="spinner-pulse"></div>
+                </div>
+                <p class="loading-text">Loading weather...</p>
+                <p class="loading-subtext">Fetching latest atmospheric data via Fetch API</p>
+            </section>
+
+            <!-- Error State Section -->
+            <section id="errorSection" class="error-section hidden" role="alert" aria-live="assertive">
+                <div class="error-icon-box">
+                    <span class="error-emoji" aria-hidden="true">⚠️</span>
+                </div>
+                <h3 id="errorTitle" class="error-title">City not found.</h3>
+                <p id="errorMessage" class="error-message">Please check the city name and try again.</p>
+                <button type="button" id="errorRetryBtn" class="error-retry-btn">Try Another City</button>
+            </section>
+
+            <!-- Empty / Welcome Initial State Section -->
+            <section id="welcomeSection" class="welcome-section" aria-label="Welcome screen">
+                <div class="welcome-card glass-card">
+                    <div class="welcome-icon-wrapper">
+                        <span class="welcome-icon" aria-hidden="true">🌤️</span>
+                    </div>
+                    <h2 class="welcome-title">Search for a city</h2>
+                    <p class="welcome-description">
+                        Enter a city name above to view real-time weather information, temperatures, humidity, wind conditions, and sunrise/sunset times.
+                    </p>
+                    <div class="welcome-features">
+                        <div class="feature-item">
+                            <span class="feature-icon">⚡</span>
+                            <span>Fetch API Live Stream</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🎨</span>
+                            <span>Dynamic Weather Themes</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">📱</span>
+                            <span>100% Fully Responsive</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Weather Dashboard Display (Rendered upon successful API response) -->
+            <section id="weatherDashboard" class="weather-dashboard hidden" aria-label="Weather Results">
+                
+                <!-- Main Large Weather Card -->
+                <article class="main-weather-card glass-card">
+                    <div class="card-header">
+                        <div class="location-box">
+                            <div class="location-pin-icon" aria-hidden="true">📍</div>
+                            <h2 id="cityName" class="city-name">Coimbatore, IN</h2>
+                        </div>
+                        <p id="currentDate" class="current-date">Friday, September 25, 2026</p>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="weather-visual">
+                            <img id="weatherIcon" class="weather-icon" src="" alt="Weather condition icon" />
+                        </div>
+                        <div class="temp-display">
+                            <div class="temp-main">
+                                <span id="temperature" class="temp-value">28</span>
+                                <span class="temp-degree">°C</span>
+                            </div>
+                            <div class="weather-summary">
+                                <h3 id="weatherCondition" class="weather-condition">Partly Cloudy</h3>
+                                <p id="feelsLike" class="feels-like">Feels like 30°C</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer-stats">
+                        <div class="stat-pill">
+                            <span class="pill-label">Min / Max</span>
+                            <span id="tempMinMax" class="pill-value">24°C / 31°C</span>
+                        </div>
+                        <div class="stat-pill">
+                            <span class="pill-label">Cloud Cover</span>
+                            <span id="cloudinessVal" class="pill-value">40%</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Weather Information Cards Grid (Humidity, Wind Speed, Pressure, Visibility) -->
+                <div class="info-section-header">
+                    <h3 class="section-title">Atmospheric Conditions</h3>
+                </div>
+
+                <div class="weather-info-grid">
+                    <!-- Humidity Card -->
+                    <div class="info-card glass-card">
+                        <div class="info-card-icon-wrap icon-humidity">
+                            <span class="info-card-icon" aria-hidden="true">💧</span>
+                        </div>
+                        <div class="info-card-content">
+                            <span class="info-card-label">Humidity</span>
+                            <span id="humidityVal" class="info-card-value">72%</span>
+                            <span id="humiditySubtext" class="info-card-subtext">Moderate moisture</span>
+                        </div>
+                    </div>
+
+                    <!-- Wind Speed Card -->
+                    <div class="info-card glass-card">
+                        <div class="info-card-icon-wrap icon-wind">
+                            <span class="info-card-icon" aria-hidden="true">💨</span>
+                        </div>
+                        <div class="info-card-content">
+                            <span class="info-card-label">Wind Speed</span>
+                            <span id="windVal" class="info-card-value">14 km/h</span>
+                            <span id="windSubtext" class="info-card-subtext">Gentle breeze</span>
+                        </div>
+                    </div>
+
+                    <!-- Pressure Card -->
+                    <div class="info-card glass-card">
+                        <div class="info-card-icon-wrap icon-pressure">
+                            <span class="info-card-icon" aria-hidden="true">🌡</span>
+                        </div>
+                        <div class="info-card-content">
+                            <span class="info-card-label">Pressure</span>
+                            <span id="pressureVal" class="info-card-value">1012 hPa</span>
+                            <span class="info-card-subtext">Atmospheric pressure</span>
+                        </div>
+                    </div>
+
+                    <!-- Visibility Card -->
+                    <div class="info-card glass-card">
+                        <div class="info-card-icon-wrap icon-visibility">
+                            <span class="info-card-icon" aria-hidden="true">👁</span>
+                        </div>
+                        <div class="info-card-content">
+                            <span class="info-card-label">Visibility</span>
+                            <span id="visibilityVal" class="info-card-value">10 km</span>
+                            <span id="visibilitySubtext" class="info-card-subtext">Clear horizon</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Weather Information: Sunrise & Sunset Cards -->
+                <div class="info-section-header">
+                    <h3 class="section-title">Sun Schedule</h3>
+                </div>
+
+                <div class="sun-schedule-grid">
+                    <!-- Sunrise Card -->
+                    <div class="sun-card glass-card">
+                        <div class="sun-card-visual sunrise-visual">
+                            <span class="sun-emoji" aria-hidden="true">🌅</span>
+                        </div>
+                        <div class="sun-card-details">
+                            <span class="sun-label">Sunrise</span>
+                            <span id="sunriseVal" class="sun-value">6:05 AM</span>
+                            <span class="sun-subtext">Dawn local time</span>
+                        </div>
+                    </div>
+
+                    <!-- Sunset Card -->
+                    <div class="sun-card glass-card">
+                        <div class="sun-card-visual sunset-visual">
+                            <span class="sun-emoji" aria-hidden="true">🌇</span>
+                        </div>
+                        <div class="sun-card-details">
+                            <span class="sun-label">Sunset</span>
+                            <span id="sunsetVal" class="sun-value">6:15 PM</span>
+                            <span class="sun-subtext">Dusk local time</span>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+
+        <!-- ==========================================
+             FOOTER SECTION
+             ========================================== -->
+        <footer class="app-footer">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="footer-logo">WeatherNow</span>
+                    <p class="footer-tagline">Real-time weather powered by Weather API</p>
+                </div>
+                <div class="footer-divider" aria-hidden="true"></div>
+                <p class="footer-tech">Built with HTML • CSS • JavaScript</p>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Application Logic -->
+    <script src="script.js"></script>
+</body>
+</html>
