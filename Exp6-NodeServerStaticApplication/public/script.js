@@ -81,7 +81,6 @@ function setStatus(text, isError = false) {
 // ── API call ──────────────────────────────────────────────────────
 async function callApi(endpoint, activeCard) {
   setActiveCard(activeCard);
-  if (activeEndpointTag) activeEndpointTag.textContent = `GET ${endpoint}`;
   setStatus("Status: Loading…", false);
   const placeholder = "Fetching data…";
   responseCode.innerHTML = `<code>${placeholder}</code>`;
