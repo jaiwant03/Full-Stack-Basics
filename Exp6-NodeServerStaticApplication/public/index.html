@@ -6,12 +6,12 @@
     <title>Static JSON API – Node.js + Express</title>
     <meta
       name="description"
-      content="A simple Node.js application that serves structured JSON data through REST API endpoints. Built with Express.js for academic demonstration."
+      content="A simple Node.js application that serves structured JSON data through REST API endpoints."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
@@ -22,10 +22,10 @@
       <div class="header-inner">
         <div class="header-logo">
           <span class="logo-icon" aria-hidden="true">
-            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="28" height="28" rx="7" fill="#FF7A00"/>
-              <path d="M7 10L14 7L21 10V18L14 21L7 18V10Z" stroke="white" stroke-width="1.6" fill="none"/>
-              <circle cx="14" cy="14" r="2.5" fill="white"/>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="24" height="24" rx="6" fill="#FF7A00"/>
+              <path d="M6 8.5L12 5.5L18 8.5V15.5L12 18.5L6 15.5V8.5Z" stroke="white" stroke-width="1.5" fill="none"/>
+              <circle cx="12" cy="12" r="2" fill="white"/>
             </svg>
           </span>
           <span class="logo-text">Static JSON API</span>
@@ -37,18 +37,16 @@
       </div>
     </header>
 
-    <main>
+    <main class="page-content">
       <!-- ═══════════════════════════════════ HERO ════════════════════════════════════ -->
-      <section class="hero-section" aria-labelledby="heroHeading">
-        <div class="container">
+      <section class="hero-section">
+        <div class="container hero-container">
           <span class="hero-badge">NODE.JS + EXPRESS API</span>
-          <h1 id="heroHeading" class="hero-heading">
-            Static JSON Data,<br />
-            Served Through a REST API
+          <h1 class="hero-heading">
+            Static JSON Data,<br />Served Through a REST API
           </h1>
           <p class="hero-subtext">
-            A simple Node.js application that serves structured JSON data
-            through REST API endpoints.
+            A simple Node.js application that serves structured JSON data through REST API endpoints.
           </p>
           <div class="server-url-box">
             <span class="server-url-label">Server running at</span>
@@ -57,124 +55,98 @@
         </div>
       </section>
 
-      <!-- ════════════════════════════════ ENDPOINTS ══════════════════════════════════ -->
-      <section class="endpoints-section" aria-labelledby="endpointsHeading">
+      <!-- ═══════════════════════════ API ENDPOINTS & VIEWER ══════════════════════════ -->
+      <section class="api-section">
         <div class="container">
-          <h2 id="endpointsHeading" class="section-title">Available API Endpoints</h2>
-          <p class="section-subtitle">Click "Try API" on any card to send a live request and view the JSON response below.</p>
+          <div class="section-title-wrap">
+            <h2 class="section-title">Available API Endpoints</h2>
+            <p class="section-subtitle">Select an endpoint below to test the REST API live.</p>
+          </div>
 
-          <div class="endpoint-cards">
+          <!-- 3 Clean Endpoint Cards -->
+          <div class="endpoint-grid">
             <!-- Card 1: Status -->
-            <div class="endpoint-card" id="card-status">
-              <div class="card-top">
-                <span class="method-badge method-get">GET</span>
+            <div class="endpoint-card" id="cardStatus">
+              <div class="card-header-row">
+                <span class="method-badge">GET</span>
                 <code class="endpoint-path">/api/status</code>
               </div>
-              <p class="card-description">Check whether the API server is running and get server information.</p>
-              <button
-                class="btn-try"
-                id="btnStatus"
-                data-endpoint="/api/status"
-                aria-label="Try GET /api/status"
-              >
-                Try API
-              </button>
+              <p class="card-description">Check whether the API server is running.</p>
+              <button class="btn-try" id="btnStatus">Try API</button>
             </div>
 
             <!-- Card 2: All Products -->
-            <div class="endpoint-card" id="card-products">
-              <div class="card-top">
-                <span class="method-badge method-get">GET</span>
+            <div class="endpoint-card active" id="cardProducts">
+              <div class="card-header-row">
+                <span class="method-badge">GET</span>
                 <code class="endpoint-path">/api/products</code>
               </div>
               <p class="card-description">Retrieve all products from the static JSON file.</p>
-              <button
-                class="btn-try"
-                id="btnProducts"
-                data-endpoint="/api/products"
-                aria-label="Try GET /api/products"
-              >
-                Try API
-              </button>
+              <button class="btn-try" id="btnProducts">Try API</button>
             </div>
 
-            <!-- Card 3: Single Product -->
-            <div class="endpoint-card" id="card-product-id">
-              <div class="card-top">
-                <span class="method-badge method-get">GET</span>
+            <!-- Card 3: Single Product by ID -->
+            <div class="endpoint-card" id="cardProductId">
+              <div class="card-header-row">
+                <span class="method-badge">GET</span>
                 <code class="endpoint-path">/api/products/:id</code>
               </div>
-              <p class="card-description">Retrieve a specific product using its numeric ID.</p>
-              <div class="id-input-row">
-                <label for="productIdInput" class="sr-only">Product ID</label>
+              <p class="card-description">Retrieve a specific product using its ID.</p>
+              <div class="card-input-row">
                 <input
                   type="number"
                   id="productIdInput"
                   class="id-input"
-                  placeholder="Enter ID (1–10)"
+                  value="1"
                   min="1"
                   max="10"
-                  aria-label="Product ID to fetch"
+                  aria-label="Product ID"
                 />
-                <button
-                  class="btn-try"
-                  id="btnProductId"
-                  aria-label="Try GET /api/products/:id"
-                >
-                  Try API
-                </button>
+                <button class="btn-try" id="btnProductId">Try API</button>
               </div>
             </div>
           </div>
-        </div>
-      </section>
 
-      <!-- ════════════════════════════════ RESPONSE VIEWER ════════════════════════════ -->
-      <section class="response-section" aria-labelledby="responseHeading">
-        <div class="container">
-          <div class="response-header">
-            <h2 id="responseHeading" class="section-title no-margin">API Response</h2>
-            <div class="response-meta" id="responseMeta" aria-live="polite">
-              <span class="response-status" id="responseStatus">—</span>
+          <!-- JSON Response Viewer -->
+          <div class="response-container">
+            <div class="response-bar">
+              <div class="response-title-group">
+                <h3 class="response-title">API Response</h3>
+                <span class="active-endpoint-tag" id="activeEndpointTag">GET /api/products</span>
+                <span class="status-badge status-ok" id="responseStatus">Status: 200 OK</span>
+              </div>
+              <button class="btn-copy" id="btnCopy" aria-label="Copy JSON">Copy JSON</button>
             </div>
-            <button class="btn-copy" id="btnCopy" disabled aria-label="Copy JSON to clipboard">
-              Copy JSON
-            </button>
-          </div>
 
-          <div class="response-viewer" id="responseViewer" aria-live="polite" aria-label="API response output">
-            <div class="response-placeholder" id="responsePlaceholder">
-              <span class="placeholder-icon" aria-hidden="true">⬡</span>
-              <p>Press <strong>Try API</strong> on any endpoint card to see the response here.</p>
+            <div class="response-box">
+              <pre class="response-pre" id="responseCode"><code>Loading API response…</code></pre>
             </div>
-            <pre class="response-pre hidden" id="responseCode"></pre>
           </div>
         </div>
       </section>
 
       <!-- ═══════════════════════════════ PRODUCT TABLE ═══════════════════════════════ -->
-      <section class="table-section" aria-labelledby="tableHeading">
+      <section class="table-section">
         <div class="container">
-          <h2 id="tableHeading" class="section-title">Static JSON Data</h2>
-          <p class="section-subtitle">Products loaded from <code>/data/products.json</code> via <code>GET /api/products</code></p>
+          <div class="section-title-wrap">
+            <h2 class="section-title">Static JSON Data</h2>
+            <p class="section-subtitle">Live product records loaded from <code>data/products.json</code></p>
+          </div>
 
-          <div class="table-wrapper">
-            <table class="products-table" id="productsTable">
+          <div class="table-responsive">
+            <table class="products-table">
               <thead>
                 <tr>
-                  <th scope="col">ID</th>
-                  <th scope="col">Product</th>
-                  <th scope="col">Category</th>
-                  <th scope="col">Price (₹)</th>
-                  <th scope="col">Stock</th>
+                  <th>ID</th>
+                  <th>Product</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Stock</th>
                 </tr>
               </thead>
               <tbody id="productsTableBody">
                 <tr>
-                  <td colspan="5" class="table-loading">
-                    <span class="loading-spinner" aria-hidden="true"></span>
-                    Loading products…
-                  </td>
+                  <td colspan="5" class="table-state-cell">Loading products from API…</td>
                 </tr>
               </tbody>
             </table>
@@ -183,38 +155,32 @@
       </section>
 
       <!-- ═══════════════════════════════ HOW IT WORKS ════════════════════════════════ -->
-      <section class="how-section" aria-labelledby="howHeading">
+      <section class="how-section">
         <div class="container">
-          <h2 id="howHeading" class="section-title">How It Works</h2>
-          <p class="section-subtitle">The data flow from static file to browser response.</p>
+          <div class="section-title-wrap center">
+            <h2 class="section-title">How It Works</h2>
+            <p class="section-subtitle">Simple data flow from server to browser</p>
+          </div>
 
-          <div class="flow-diagram" aria-label="Architecture flow: JSON File → Node.js + Express → REST API → Browser">
-            <div class="flow-step">
-              <div class="flow-box">
-                <span class="flow-icon" aria-hidden="true">📄</span>
-                <span>JSON File</span>
-              </div>
+          <div class="horizontal-flow" aria-label="Architecture flow: JSON File to Node.js and Express to REST API to Browser">
+            <div class="flow-node">
+              <span class="node-label">JSON File</span>
+              <span class="node-sub">products.json</span>
             </div>
-            <div class="flow-arrow" aria-hidden="true">↓</div>
-            <div class="flow-step">
-              <div class="flow-box flow-box--accent">
-                <span class="flow-icon" aria-hidden="true">⚙️</span>
-                <span>Node.js + Express</span>
-              </div>
+            <div class="flow-connector" aria-hidden="true">→</div>
+            <div class="flow-node flow-node-highlight">
+              <span class="node-label">Node.js + Express</span>
+              <span class="node-sub">server.js</span>
             </div>
-            <div class="flow-arrow" aria-hidden="true">↓</div>
-            <div class="flow-step">
-              <div class="flow-box">
-                <span class="flow-icon" aria-hidden="true">🔗</span>
-                <span>REST API</span>
-              </div>
+            <div class="flow-connector" aria-hidden="true">→</div>
+            <div class="flow-node">
+              <span class="node-label">REST API</span>
+              <span class="node-sub">/api/*</span>
             </div>
-            <div class="flow-arrow" aria-hidden="true">↓</div>
-            <div class="flow-step">
-              <div class="flow-box">
-                <span class="flow-icon" aria-hidden="true">🌐</span>
-                <span>Browser</span>
-              </div>
+            <div class="flow-connector" aria-hidden="true">→</div>
+            <div class="flow-node">
+              <span class="node-label">Browser</span>
+              <span class="node-sub">Client UI</span>
             </div>
           </div>
         </div>
