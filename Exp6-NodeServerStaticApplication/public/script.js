@@ -1,10 +1,9 @@
 /* ─────────────────────────────────────────────────────────────────────────────
-   Static JSON API – Clean & Friendly Client Logic
+   Static JSON API – Client Logic
 ────────────────────────────────────────────────────────────────────────────── */
-
 "use strict";
 
-// ─── DOM References ───────────────────────────────────────────────────────────
+// ── DOM refs ──────────────────────────────────────────────────────────────────
 const statusDot         = document.getElementById("statusDot");
 const statusLabel       = document.getElementById("statusLabel");
 const responseCode      = document.getElementById("responseCode");
@@ -13,26 +12,26 @@ const activeEndpointTag = document.getElementById("activeEndpointTag");
 const btnCopy           = document.getElementById("btnCopy");
 const productsTableBody = document.getElementById("productsTableBody");
 
-const cardStatus    = document.getElementById("cardStatus");
-const cardProducts  = document.getElementById("cardProducts");
-const cardProductId = document.getElementById("cardProductId");
+const cardStatus        = document.getElementById("cardStatus");
+const cardProducts      = document.getElementById("cardProducts");
+const cardProductId     = document.getElementById("cardProductId");
 
-const btnStatus     = document.getElementById("btnStatus");
-const btnProducts   = document.getElementById("btnProducts");
-const btnProductId  = document.getElementById("btnProductId");
-const productIdInput= document.getElementById("productIdInput");
+const btnStatus         = document.getElementById("btnStatus");
+const btnProducts       = document.getElementById("btnProducts");
+const btnProductId      = document.getElementById("btnProductId");
+const productIdInput    = document.getElementById("productIdInput");
 
 let currentRawJson = "";
 
-// ─── JSON Syntax Colorizer ────────────────────────────────────────────────────
+// ── JSON Syntax Colorizer ─────────────────────────────────────────────────────
 function colorizeJson(json) {
-  const safe = json
+  const escaped = json
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
 
-  return safe.replace(
-    /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
+  return escaped.replace(
+    /("(?:\\u[0-9a-fA-F]{4}|\\[^u]|[^\\"])*"(?:\s*:)?|\b(?:true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
     (match) => {
       let cls = "json-number";
       if (/^"/.test(match)) {
@@ -47,156 +46,135 @@ function colorizeJson(json) {
   );
 }
 
-// ─── Set Active Card Highlight ────────────────────────────────────────────────
-function setActiveCard(activeCard) {
-  [cardStatus, cardProducts, cardProductId].forEach((card) => {
-    if (card) card.classList.remove("active");
-  });
-  if (activeCard) activeCard.classList.add("active");
+// ── Active card highlight ─────────────────────────────────────────────────────
+function setActiveCard(card) {
+  [cardStatus, cardProducts, cardProductId].forEach((c) => c?.classList.remove("active"));
+  card?.classList.add("active");
 }
 
-// ─── API Fetch Handler ────────────────────────────────────────────────────────
+// ── Status badge state ────────────────────────────────────────────────────────
+function setStatusBadge(text, isError = false) {
+  responseStatus.textContent = text;
+  responseStatus.classList.toggle("error", isError);
+}
+
+// ── Fetch wrapper ─────────────────────────────────────────────────────────────
 async function callApi(endpoint, activeCard) {
   setActiveCard(activeCard);
   activeEndpointTag.textContent = `GET ${endpoint}`;
-  responseStatus.textContent = "Loading…";
-  responseStatus.className = "status-badge";
-  responseCode.innerHTML = "<code>Fetching data from server…</code>";
+  setStatusBadge("Loading…", false);
+  responseCode.innerHTML = "<code>Fetching data…</code>";
 
   try {
-    const res = await fetch(endpoint);
+    const res  = await fetch(endpoint);
     const data = await res.json();
     currentRawJson = JSON.stringify(data, null, 2);
-
     responseCode.innerHTML = `<code>${colorizeJson(currentRawJson)}</code>`;
-
-    if (res.ok) {
-      responseStatus.textContent = `Status: ${res.status} OK`;
-      responseStatus.className = "status-badge status-ok";
-    } else {
-      responseStatus.textContent = `Status: ${res.status} Error`;
-      responseStatus.className = "status-badge status-error";
-    }
+    setStatusBadge(res.ok ? `${res.status} OK` : `${res.status} Error`, !res.ok);
   } catch (err) {
-    const errorData = {
-      status: "error",
+    const errObj = {
+      status : "error",
       message: "Network request failed. Is the server running?",
-      detail: err.message,
+      detail : err.message,
     };
-    currentRawJson = JSON.stringify(errorData, null, 2);
+    currentRawJson = JSON.stringify(errObj, null, 2);
     responseCode.innerHTML = `<code>${colorizeJson(currentRawJson)}</code>`;
-    responseStatus.textContent = "Status: 500 Error";
-    responseStatus.className = "status-badge status-error";
+    setStatusBadge("500 Error", true);
   }
 }
 
-// ─── Event Listeners ──────────────────────────────────────────────────────────
-btnStatus.addEventListener("click", () => {
-  callApi("/api/status", cardStatus);
-});
-
-btnProducts.addEventListener("click", () => {
-  callApi("/api/products", cardProducts);
-});
+// ── Button events ─────────────────────────────────────────────────────────────
+btnStatus.addEventListener("click",   () => callApi("/api/status",   cardStatus));
+btnProducts.addEventListener("click", () => callApi("/api/products", cardProducts));
 
 btnProductId.addEventListener("click", () => {
-  const id = productIdInput.value.trim() || "1";
+  const id = (productIdInput.value || "").trim() || "1";
   callApi(`/api/products/${encodeURIComponent(id)}`, cardProductId);
 });
 
 productIdInput.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    btnProductId.click();
-  }
+  if (e.key === "Enter") btnProductId.click();
 });
 
-// ─── Copy JSON ────────────────────────────────────────────────────────────────
+// ── Copy JSON ─────────────────────────────────────────────────────────────────
 btnCopy.addEventListener("click", async () => {
   if (!currentRawJson) return;
 
   try {
     await navigator.clipboard.writeText(currentRawJson);
-    btnCopy.textContent = "✓ Copied!";
-    btnCopy.classList.add("copied");
-    setTimeout(() => {
-      btnCopy.textContent = "Copy JSON";
-      btnCopy.classList.remove("copied");
-    }, 1800);
   } catch {
     const ta = document.createElement("textarea");
     ta.value = currentRawJson;
-    ta.style.position = "fixed";
-    ta.style.opacity = "0";
+    Object.assign(ta.style, { position: "fixed", opacity: "0", pointerEvents: "none" });
     document.body.appendChild(ta);
     ta.select();
     document.execCommand("copy");
     document.body.removeChild(ta);
-
-    btnCopy.textContent = "✓ Copied!";
-    setTimeout(() => {
-      btnCopy.textContent = "Copy JSON";
-    }, 1800);
   }
+
+  btnCopy.textContent = "✓ Copied!";
+  btnCopy.classList.add("copied");
+  setTimeout(() => {
+    btnCopy.textContent = "Copy JSON";
+    btnCopy.classList.remove("copied");
+  }, 1800);
 });
 
-// ─── Populate Products Table ──────────────────────────────────────────────────
-function escapeHtml(str) {
+// ── Products table ────────────────────────────────────────────────────────────
+function escHtml(str) {
   return String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
 async function loadProductsTable() {
   try {
-    const res = await fetch("/api/products");
-    const json = await res.json();
+    const res      = await fetch("/api/products");
+    const json     = await res.json();
     const products = json.data || [];
 
-    if (products.length === 0) {
-      productsTableBody.innerHTML = `<tr><td colspan="5" class="table-state-cell">No products found.</td></tr>`;
+    if (!products.length) {
+      productsTableBody.innerHTML =
+        `<tr><td colspan="5" class="table-empty">No products found.</td></tr>`;
       return;
     }
 
-    productsTableBody.innerHTML = products
-      .map(
-        (p) => `
-        <tr>
-          <td>#${p.id}</td>
-          <td><strong>${escapeHtml(p.name)}</strong></td>
-          <td><span class="category-tag">${escapeHtml(p.category)}</span></td>
-          <td class="price-text">₹${Number(p.price).toLocaleString("en-IN")}</td>
-          <td>${p.stock}</td>
-        </tr>`
-      )
-      .join("");
+    productsTableBody.innerHTML = products.map((p) => `
+      <tr>
+        <td>#${escHtml(String(p.id))}</td>
+        <td><strong>${escHtml(p.name)}</strong></td>
+        <td><span class="tag-cat">${escHtml(p.category)}</span></td>
+        <td class="td-price">₹${Number(p.price).toLocaleString("en-IN")}</td>
+        <td>${escHtml(String(p.stock))}</td>
+      </tr>`).join("");
+
   } catch {
-    productsTableBody.innerHTML = `<tr><td colspan="5" class="table-state-cell" style="color:#ef4444;">Unable to load products from server.</td></tr>`;
+    productsTableBody.innerHTML =
+      `<tr><td colspan="5" class="table-empty" style="color:#EF4444">
+         Unable to load products. Is the server running?
+       </td></tr>`;
   }
 }
 
-// ─── Check Server Status on Load ──────────────────────────────────────────────
+// ── Server status ─────────────────────────────────────────────────────────────
 async function checkServerStatus() {
   try {
     const res = await fetch("/api/status");
     if (res.ok) {
-      statusDot.className = "status-dot online";
+      statusDot.className = "pill-dot online";
       statusLabel.textContent = "API Online";
     } else {
-      statusDot.className = "status-dot offline";
-      statusLabel.textContent = "API Offline";
+      throw new Error("not ok");
     }
   } catch {
-    statusDot.className = "status-dot offline";
+    statusDot.className = "pill-dot offline";
     statusLabel.textContent = "Offline";
   }
 }
 
-// ─── Initial Load ─────────────────────────────────────────────────────────────
+// ── Init ──────────────────────────────────────────────────────────────────────
 (async function init() {
   await checkServerStatus();
   await loadProductsTable();
-  // Automatically show all products in the viewer on initial page load
   await callApi("/api/products", cardProducts);
-})();
+}());

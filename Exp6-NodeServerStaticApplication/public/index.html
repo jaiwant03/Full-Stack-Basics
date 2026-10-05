@@ -1,208 +1,324 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Static JSON API – Node.js + Express</title>
-    <meta name="description" content="A Node.js application that serves static JSON data through REST API endpoints." />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Static JSON API – Node.js + Express</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
-    <!-- Stylish non-cursive font: Space Grotesk -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
+<!-- ═══════════ HEADER ═══════════ -->
+<header class="header">
+  <div class="hdr-inner">
+    <a class="hdr-logo" href="/">
+      <!-- hexagon icon -->
+      <svg class="hdr-logo-icon" width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <rect width="32" height="32" rx="8" fill="#00C853"/>
+        <path d="M16 6L26 11.5V20.5L16 26L6 20.5V11.5Z" stroke="white" stroke-width="1.6" fill="none"/>
+        <circle cx="16" cy="16" r="3.2" fill="white"/>
+      </svg>
+      <div class="hdr-logo-text">
+        <span class="hdr-logo-name"><strong>Static</strong> JSON API</span>
+        <span class="hdr-logo-sub">Node.js + Express</span>
+      </div>
+    </a>
+    <div class="hdr-right">
+      <div class="hdr-status" id="statusPill">
+        <span class="hdr-dot" id="statusDot"></span>
+        <span id="statusLabel">Checking…</span>
+      </div>
+      <div class="hdr-server">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+        <span>Server: localhost:5000</span>
+      </div>
+    </div>
+  </div>
+</header>
 
-    <!-- ══════════════════════ HEADER ══════════════════════ -->
-    <header class="header">
-      <div class="header-left">
-        <span class="logo-icon" aria-hidden="true">
-          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="32" height="32" rx="8" fill="#00C853"/>
-            <path d="M8 11.5L16 7.5L24 11.5V20.5L16 24.5L8 20.5V11.5Z" stroke="white" stroke-width="1.8" fill="none"/>
-            <circle cx="16" cy="16" r="3" fill="white"/>
-          </svg>
-        </span>
-        <div class="logo-text-group">
-          <span class="logo-title">Static JSON API</span>
-          <span class="logo-sub">Node.js + Express</span>
+<main>
+
+  <!-- ═══════════ HERO ═══════════ -->
+  <section class="hero reveal">
+    <div class="hero-left">
+      <div class="hero-eyebrow">
+        <svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#00C853"/></svg>
+        NODE.JS + EXPRESS REST API
+      </div>
+      <h1 class="hero-h1">
+        Static JSON Data,<br>
+        <span class="hero-accent">Served Through a REST API</span>
+      </h1>
+      <p class="hero-desc">
+        A simple Node.js application that reads static JSON data from a file
+        and exposes it through clean REST API endpoints.
+      </p>
+      <div class="hero-url-bar">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00C853" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <span>http://localhost:5000</span>
+        <button class="hero-copy-btn" title="Copy URL" onclick="navigator.clipboard.writeText('http://localhost:5000')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <!-- Laptop mockup -->
+      <div class="laptop-wrap">
+        <div class="laptop-screen">
+          <div class="laptop-titlebar">
+            <span class="ltb-dot ltb-red"></span>
+            <span class="ltb-dot ltb-amber"></span>
+            <span class="ltb-dot ltb-green"></span>
+            <span class="ltb-filename">products.json</span>
+          </div>
+          <div class="laptop-code">
+            <pre><code><span class="jk">[</span>
+  <span class="jk">{</span>
+    <span class="jkey">"id"</span>: <span class="jnum">1</span>,
+    <span class="jkey">"name"</span>: <span class="jstr">"Wireless Headphones"</span>,
+    <span class="jkey">"category"</span>: <span class="jstr">"Electronics"</span>,
+    <span class="jkey">"price"</span>: <span class="jnum">2499</span>,
+    <span class="jkey">"stock"</span>: <span class="jnum">25</span>
+  <span class="jk">}</span>,
+  <span class="jdim">…</span>
+<span class="jk">]</span></code></pre>
+          </div>
+        </div>
+        <div class="laptop-base"></div>
+        <div class="laptop-foot"></div>
+      </div>
+
+      <!-- JSON File → arrow -->
+      <div class="hero-flow-left">
+        <div class="hf-node">
+          <div class="hf-icon hf-icon-outline">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00C853" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <span>JSON File</span>
+        </div>
+        <div class="hf-arrow">→</div>
+      </div>
+
+      <!-- Right stack: Node.js, REST API, Browser -->
+      <div class="hero-flow-right">
+        <div class="hf-node hf-node-sm">
+          <div class="hf-icon hf-icon-green">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <div><div class="hfn-name">Node.js</div><div class="hfn-sub">+ Express</div></div>
+        </div>
+        <div class="hf-node hf-node-sm">
+          <div class="hf-icon hf-icon-outline">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00C853" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          </div>
+          <div><div class="hfn-name">REST API</div></div>
+        </div>
+        <div class="hf-node hf-node-sm">
+          <div class="hf-icon hf-icon-outline">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00C853" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <div><div class="hfn-name">Browser</div><div class="hfn-sub">(Client)</div></div>
         </div>
       </div>
-      <div class="header-right">
-        <div class="status-pill" id="statusPill">
-          <span class="status-dot" id="statusDot"></span>
-          <span id="statusLabel">Checking…</span>
+    </div>
+  </section>
+
+  <!-- ═══════════ ENDPOINTS SECTION ═══════════ -->
+  <section class="ep-section reveal">
+    <div class="page-wrap">
+      <div class="ep-section-hdr">
+        <div class="ep-section-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
         </div>
-        <div class="server-chip">
-          <span class="chip-label">Server</span>
-          <code class="chip-url">localhost:5000</code>
+        <div>
+          <h2 class="ep-section-title">Available API Endpoints</h2>
+          <p class="ep-section-sub">Test the API endpoints and view the JSON response below.</p>
         </div>
       </div>
-    </header>
 
-    <!-- ══════════════════════ MAIN ══════════════════════ -->
-    <main>
+      <div class="ep-grid">
 
-      <!-- ── HERO ────────────────────────────────────── -->
-      <section class="hero">
-        <div class="hero-inner">
-          <div class="hero-badge">
-            <span class="badge-dot" aria-hidden="true"></span>
-            NODE.JS + EXPRESS REST API
-          </div>
-          <h1 class="hero-heading">
-            Static JSON Data,<br />
-            <span class="heading-accent">Served Through a REST API</span>
-          </h1>
-          <p class="hero-sub">
-            A clean Node.js server that reads <code>products.json</code> and serves it
-            through live REST endpoints — testable directly from this page.
-          </p>
-        </div>
-      </section>
-
-      <!-- ── ENDPOINTS + RESPONSE ────────────────────── -->
-      <section class="api-block">
-        <div class="api-block-inner">
-
-          <!-- Left: Endpoint Cards -->
-          <aside class="endpoints-panel">
-            <p class="panel-label">API ENDPOINTS</p>
-
-            <!-- Card 1: Status -->
-            <div class="ep-card" id="cardStatus">
-              <div class="ep-card-top">
-                <span class="badge-get">GET</span>
-                <code class="ep-path">/api/status</code>
-              </div>
-              <p class="ep-desc">Check if the API server is running.</p>
-              <button class="btn-try" id="btnStatus">Try API</button>
+        <!-- Card: /api/status -->
+        <div class="ep-card reveal-item" id="cardStatus">
+          <div class="ep-card-top">
+            <div class="ep-card-head">
+              <span class="ep-badge">GET</span>
+              <code class="ep-path">/api/status</code>
             </div>
-
-            <!-- Card 2: All Products -->
-            <div class="ep-card active" id="cardProducts">
-              <div class="ep-card-top">
-                <span class="badge-get">GET</span>
-                <code class="ep-path">/api/products</code>
-              </div>
-              <p class="ep-desc">Retrieve all products from the JSON file.</p>
-              <button class="btn-try" id="btnProducts">Try API</button>
-            </div>
-
-            <!-- Card 3: Product by ID -->
-            <div class="ep-card" id="cardProductId">
-              <div class="ep-card-top">
-                <span class="badge-get">GET</span>
-                <code class="ep-path">/api/products/:id</code>
-              </div>
-              <p class="ep-desc">Retrieve a product by its numeric ID.</p>
-              <div class="ep-input-row">
-                <input
-                  type="number"
-                  id="productIdInput"
-                  class="id-input"
-                  value="1"
-                  min="1"
-                  max="10"
-                  aria-label="Product ID"
-                />
-                <button class="btn-try" id="btnProductId">Try API</button>
-              </div>
-            </div>
-          </aside>
-
-          <!-- Right: Response Viewer -->
-          <div class="response-panel">
-            <div class="response-topbar">
-              <div class="response-meta-group">
-                <span class="meta-label">RESPONSE</span>
-                <span class="active-ep-tag" id="activeEpTag">GET /api/products</span>
-              </div>
-              <div class="response-actions">
-                <span class="http-status-badge" id="httpStatus">200 OK</span>
-                <button class="btn-copy" id="btnCopy">Copy JSON</button>
-              </div>
-            </div>
-            <div class="response-body">
-              <pre class="response-pre" id="responseCode"><code>Loading…</code></pre>
+            <div class="ep-card-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00C853" stroke-width="1.8"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
             </div>
           </div>
-
+          <p class="ep-desc">Check whether the API server is up and running.</p>
+          <button class="ep-btn" id="btnStatus">▶ Try API →</button>
         </div>
-      </section>
 
-      <!-- ── PRODUCTS TABLE ──────────────────────────── -->
-      <section class="table-section">
-        <div class="section-header">
+        <!-- Card: /api/products -->
+        <div class="ep-card reveal-item" id="cardProducts">
+          <div class="ep-card-top">
+            <div class="ep-card-head">
+              <span class="ep-badge">GET</span>
+              <code class="ep-path">/api/products</code>
+            </div>
+            <div class="ep-card-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00C853" stroke-width="1.8"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            </div>
+          </div>
+          <p class="ep-desc">Retrieve all products from the static JSON file.</p>
+          <button class="ep-btn" id="btnProducts">▶ Try API →</button>
+        </div>
+
+        <!-- Card: /api/products/:id -->
+        <div class="ep-card reveal-item" id="cardProductId">
+          <div class="ep-card-top">
+            <div class="ep-card-head">
+              <span class="ep-badge">GET</span>
+              <code class="ep-path">/api/products/:id</code>
+            </div>
+            <div class="ep-card-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00C853" stroke-width="1.8"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            </div>
+          </div>
+          <p class="ep-desc">Retrieve a specific product using its ID.</p>
+          <div class="ep-id-row">
+            <input type="number" id="productIdInput" class="ep-id-input" value="1" min="1" max="10" aria-label="Product ID" />
+            <button class="ep-btn ep-btn-full" id="btnProductId">▶ Try API →</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ API RESPONSE VIEWER ═══════════ -->
+  <section class="resp-section reveal">
+    <div class="page-wrap">
+      <div class="resp-viewer">
+        <div class="resp-bar">
+          <div class="resp-bar-left">
+            <div class="resp-bar-title-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            </div>
+            <div>
+              <div class="resp-bar-title">API Response</div>
+              <div class="resp-bar-sub">The JSON response from the selected endpoint will appear here.</div>
+            </div>
+          </div>
+          <div class="resp-bar-right">
+            <span class="resp-status" id="responseStatus">Status: 200 OK</span>
+            <button class="resp-copy-btn" id="btnCopy">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              Copy JSON
+            </button>
+          </div>
+        </div>
+        <div class="resp-body">
+          <div class="resp-gutter" id="respGutter"></div>
+          <pre class="resp-pre" id="responseCode"><code>Loading…</code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ BOTTOM: TABLE + HOW IT WORKS ═══════════ -->
+  <section class="bottom-section reveal">
+    <div class="page-wrap bottom-grid">
+
+      <!-- LEFT: Static JSON Data Table -->
+      <div class="table-col">
+        <div class="table-col-hdr">
+          <div class="tbl-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
           <div>
-            <h2 class="section-title">Product Data</h2>
-            <p class="section-sub">Live records from <code>data/products.json</code> via <code>GET /api/products</code></p>
+            <div class="tbl-col-title">Static JSON Data</div>
+            <div class="tbl-col-sub">Products loaded from products.json</div>
           </div>
         </div>
-
-        <div class="table-scroll">
+        <div class="table-wrap">
           <table class="data-table">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Product Name</th>
+                <th></th>
+                <th>Product</th>
                 <th>Category</th>
-                <th>Price</th>
+                <th>Price (₹)</th>
                 <th>Stock</th>
               </tr>
             </thead>
-            <tbody id="tableBody">
-              <tr>
-                <td colspan="5" class="table-msg">Loading products…</td>
-              </tr>
+            <tbody id="productsTableBody">
+              <tr><td colspan="5" class="tbl-empty">Loading…</td></tr>
             </tbody>
           </table>
         </div>
-      </section>
+      </div>
 
-      <!-- ── HOW IT WORKS ────────────────────────────── -->
-      <section class="flow-section">
-        <h2 class="section-title center">How It Works</h2>
-        <p class="section-sub center">The data path from file to browser</p>
-
-        <div class="flow-track">
-          <div class="flow-box">
-            <span class="flow-icon">📄</span>
-            <span class="flow-name">JSON File</span>
-            <code class="flow-detail">products.json</code>
+      <!-- RIGHT: How It Works -->
+      <div class="how-col reveal-item">
+        <div class="how-hdr">
+          <div class="how-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
           </div>
-          <span class="flow-arrow" aria-hidden="true">→</span>
-          <div class="flow-box flow-box-green">
-            <span class="flow-icon">⚙️</span>
-            <span class="flow-name">Node.js + Express</span>
-            <code class="flow-detail">server.js</code>
-          </div>
-          <span class="flow-arrow" aria-hidden="true">→</span>
-          <div class="flow-box">
-            <span class="flow-icon">🔗</span>
-            <span class="flow-name">REST API</span>
-            <code class="flow-detail">/api/*</code>
-          </div>
-          <span class="flow-arrow" aria-hidden="true">→</span>
-          <div class="flow-box">
-            <span class="flow-icon">🌐</span>
-            <span class="flow-name">Browser</span>
-            <code class="flow-detail">Client UI</code>
+          <div>
+            <div class="how-title">How It Works</div>
+            <div class="how-sub">Simple flow of data in this application</div>
           </div>
         </div>
-      </section>
 
-    </main>
+        <div class="how-flow">
+          <div class="how-node">
+            <div class="how-node-icon how-node-icon-outline">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00C853" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div class="how-node-label">JSON File</div>
+            <div class="how-node-sub">Static data<br>(products.json)</div>
+          </div>
+          <div class="how-arrow">→</div>
+          <div class="how-node">
+            <div class="how-node-icon how-node-icon-green">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <div class="how-node-label">Node.js + Express</div>
+            <div class="how-node-sub">Reads the JSON<br>data</div>
+          </div>
+          <div class="how-arrow">→</div>
+          <div class="how-node">
+            <div class="how-node-icon how-node-icon-outline">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00C853" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            </div>
+            <div class="how-node-label">REST API</div>
+            <div class="how-node-sub">Serves data<br>through endpoints</div>
+          </div>
+          <div class="how-arrow">→</div>
+          <div class="how-node">
+            <div class="how-node-icon how-node-icon-outline">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00C853" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <div class="how-node-label">Browser</div>
+            <div class="how-node-sub">Displays JSON<br>response</div>
+          </div>
+        </div>
 
-    <!-- ══════════════════════ FOOTER ══════════════════════ -->
-    <footer class="footer">
-      <p>Static JSON API &bull; Built with <span class="footer-accent">Node.js + Express</span></p>
-    </footer>
+        <div class="key-point">
+          <div class="kp-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <p class="kp-text">
+            <strong>Key Point</strong><br>
+            The input is a static JSON file, and the output is the JSON data served through REST API endpoints using Node.js and Express.
+          </p>
+        </div>
+      </div>
 
-    <script src="script.js"></script>
-  </body>
+    </div>
+  </section>
+
+</main>
+
+<script src="script.js"></script>
+</body>
 </html>
