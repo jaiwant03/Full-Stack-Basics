@@ -1,34 +1,37 @@
 /* ─────────────────────────────────────────────────────────────────────────────
-   Static JSON API – script.js
-   Handles: API status check, product table, endpoint testing, JSON viewer
+   Static JSON API – Clean & Friendly Client Logic
 ────────────────────────────────────────────────────────────────────────────── */
 
 "use strict";
 
-// ─── DOM References ────────────────────────────────────────────────────────────
-const statusDot        = document.getElementById("statusDot");
-const statusLabel      = document.getElementById("statusLabel");
-const responseViewer   = document.getElementById("responseViewer");
-const responsePlaceholder = document.getElementById("responsePlaceholder");
-const responseCode     = document.getElementById("responseCode");
-const responseStatus   = document.getElementById("responseStatus");
-const btnCopy          = document.getElementById("btnCopy");
+// ─── DOM References ───────────────────────────────────────────────────────────
+const statusDot         = document.getElementById("statusDot");
+const statusLabel       = document.getElementById("statusLabel");
+const responseCode      = document.getElementById("responseCode");
+const responseStatus    = document.getElementById("responseStatus");
+const activeEndpointTag = document.getElementById("activeEndpointTag");
+const btnCopy           = document.getElementById("btnCopy");
 const productsTableBody = document.getElementById("productsTableBody");
 
-// Endpoint buttons
-const btnStatus    = document.getElementById("btnStatus");
-const btnProducts  = document.getElementById("btnProducts");
-const btnProductId = document.getElementById("btnProductId");
-const productIdInput = document.getElementById("productIdInput");
+const cardStatus    = document.getElementById("cardStatus");
+const cardProducts  = document.getElementById("cardProducts");
+const cardProductId = document.getElementById("cardProductId");
 
-// ─── Utility: JSON Syntax Highlighter ─────────────────────────────────────────
-function syntaxHighlight(json) {
-  const escaped = json
+const btnStatus     = document.getElementById("btnStatus");
+const btnProducts   = document.getElementById("btnProducts");
+const btnProductId  = document.getElementById("btnProductId");
+const productIdInput= document.getElementById("productIdInput");
+
+let currentRawJson = "";
+
+// ─── JSON Syntax Colorizer ────────────────────────────────────────────────────
+function colorizeJson(json) {
+  const safe = json
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
 
-  return escaped.replace(
+  return safe.replace(
     /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
     (match) => {
       let cls = "json-number";
@@ -44,187 +47,99 @@ function syntaxHighlight(json) {
   );
 }
 
-// ─── Utility: Display Response in Viewer ──────────────────────────────────────
-function showResponse(data, httpStatus) {
-  const jsonStr = JSON.stringify(data, null, 2);
-
-  // Hide placeholder, show code block
-  responsePlaceholder.classList.add("hidden");
-  responseCode.classList.remove("hidden");
-
-  // Syntax-highlighted output
-  responseCode.innerHTML = syntaxHighlight(jsonStr);
-
-  // Status badge
-  const isOk = httpStatus >= 200 && httpStatus < 300;
-  responseStatus.textContent = `${httpStatus} ${isOk ? "OK" : "Error"}`;
-  responseStatus.className = `response-status ${isOk ? "status-ok" : "status-error"}`;
-
-  // Enable copy button
-  btnCopy.disabled = false;
-  // Store raw JSON for copying
-  btnCopy.dataset.json = jsonStr;
+// ─── Set Active Card Highlight ────────────────────────────────────────────────
+function setActiveCard(activeCard) {
+  [cardStatus, cardProducts, cardProductId].forEach((card) => {
+    if (card) card.classList.remove("active");
+  });
+  if (activeCard) activeCard.classList.add("active");
 }
 
-// ─── Utility: Show Loading State in Viewer ────────────────────────────────────
-function showViewerLoading() {
-  responsePlaceholder.classList.remove("hidden");
-  responsePlaceholder.innerHTML = `
-    <span class="loading-spinner" aria-hidden="true"></span>
-    <p style="color:#9ca3af;margin-top:10px;">Fetching response…</p>
-  `;
-  responseCode.classList.add("hidden");
-  responseStatus.textContent = "—";
-  responseStatus.className = "response-status";
-  btnCopy.disabled = true;
-}
-
-// ─── Utility: Show Error in Viewer ────────────────────────────────────────────
-function showViewerError(message) {
-  responsePlaceholder.classList.remove("hidden");
-  responsePlaceholder.innerHTML = `
-    <span class="placeholder-icon" aria-hidden="true">⚠</span>
-    <p style="color:#ef4444;">${message}</p>
-  `;
-  responseCode.classList.add("hidden");
-  responseStatus.textContent = "Error";
-  responseStatus.className = "response-status status-error";
-  btnCopy.disabled = true;
-}
-
-// ─── Core Fetch Helper ────────────────────────────────────────────────────────
-async function callAPI(endpoint) {
-  showViewerLoading();
-  // Scroll to response section smoothly
-  document.querySelector(".response-section").scrollIntoView({ behavior: "smooth", block: "start" });
+// ─── API Fetch Handler ────────────────────────────────────────────────────────
+async function callApi(endpoint, activeCard) {
+  setActiveCard(activeCard);
+  activeEndpointTag.textContent = `GET ${endpoint}`;
+  responseStatus.textContent = "Loading…";
+  responseStatus.className = "status-badge";
+  responseCode.innerHTML = "<code>Fetching data from server…</code>";
 
   try {
     const res = await fetch(endpoint);
-    let data;
-    try {
-      data = await res.json();
-    } catch {
-      throw new Error("Server returned non-JSON response.");
+    const data = await res.json();
+    currentRawJson = JSON.stringify(data, null, 2);
+
+    responseCode.innerHTML = `<code>${colorizeJson(currentRawJson)}</code>`;
+
+    if (res.ok) {
+      responseStatus.textContent = `Status: ${res.status} OK`;
+      responseStatus.className = "status-badge status-ok";
+    } else {
+      responseStatus.textContent = `Status: ${res.status} Error`;
+      responseStatus.className = "status-badge status-error";
     }
-    showResponse(data, res.status);
   } catch (err) {
-    showViewerError(`Request failed: ${err.message}`);
+    const errorData = {
+      status: "error",
+      message: "Network request failed. Is the server running?",
+      detail: err.message,
+    };
+    currentRawJson = JSON.stringify(errorData, null, 2);
+    responseCode.innerHTML = `<code>${colorizeJson(currentRawJson)}</code>`;
+    responseStatus.textContent = "Status: 500 Error";
+    responseStatus.className = "status-badge status-error";
   }
 }
 
-// ─── Button: Try /api/status ──────────────────────────────────────────────────
+// ─── Event Listeners ──────────────────────────────────────────────────────────
 btnStatus.addEventListener("click", () => {
-  callAPI("/api/status");
+  callApi("/api/status", cardStatus);
 });
 
-// ─── Button: Try /api/products ────────────────────────────────────────────────
 btnProducts.addEventListener("click", () => {
-  callAPI("/api/products");
+  callApi("/api/products", cardProducts);
 });
 
-// ─── Button: Try /api/products/:id ───────────────────────────────────────────
 btnProductId.addEventListener("click", () => {
-  const id = productIdInput.value.trim();
-  if (!id) {
-    productIdInput.focus();
-    productIdInput.style.borderColor = "#ef4444";
-    productIdInput.style.boxShadow = "0 0 0 3px rgba(239,68,68,0.12)";
-    setTimeout(() => {
-      productIdInput.style.borderColor = "";
-      productIdInput.style.boxShadow = "";
-    }, 1800);
-    return;
-  }
-  callAPI(`/api/products/${encodeURIComponent(id)}`);
+  const id = productIdInput.value.trim() || "1";
+  callApi(`/api/products/${encodeURIComponent(id)}`, cardProductId);
 });
 
-// Allow pressing Enter inside the ID input
 productIdInput.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") btnProductId.click();
+  if (e.key === "Enter") {
+    btnProductId.click();
+  }
 });
 
-// ─── Button: Copy JSON ────────────────────────────────────────────────────────
+// ─── Copy JSON ────────────────────────────────────────────────────────────────
 btnCopy.addEventListener("click", async () => {
-  const json = btnCopy.dataset.json;
-  if (!json) return;
+  if (!currentRawJson) return;
 
   try {
-    await navigator.clipboard.writeText(json);
-    const original = btnCopy.textContent;
+    await navigator.clipboard.writeText(currentRawJson);
     btnCopy.textContent = "✓ Copied!";
     btnCopy.classList.add("copied");
     setTimeout(() => {
-      btnCopy.textContent = original;
+      btnCopy.textContent = "Copy JSON";
       btnCopy.classList.remove("copied");
-    }, 2000);
+    }, 1800);
   } catch {
-    // Fallback for older browsers
     const ta = document.createElement("textarea");
-    ta.value = json;
+    ta.value = currentRawJson;
     ta.style.position = "fixed";
     ta.style.opacity = "0";
     document.body.appendChild(ta);
     ta.select();
     document.execCommand("copy");
     document.body.removeChild(ta);
+
     btnCopy.textContent = "✓ Copied!";
-    setTimeout(() => (btnCopy.textContent = "Copy JSON"), 2000);
+    setTimeout(() => {
+      btnCopy.textContent = "Copy JSON";
+    }, 1800);
   }
 });
 
-// ─── API Status Check (on page load) ─────────────────────────────────────────
-async function checkAPIStatus() {
-  try {
-    const res = await fetch("/api/status");
-    if (res.ok) {
-      statusDot.classList.add("online");
-      statusLabel.textContent = "API Online";
-    } else {
-      statusDot.classList.add("offline");
-      statusLabel.textContent = "API Error";
-    }
-  } catch {
-    statusDot.classList.add("offline");
-    statusLabel.textContent = "Offline";
-  }
-}
-
-// ─── Load Products into Table ─────────────────────────────────────────────────
-function formatPrice(price) {
-  return `₹${price.toLocaleString("en-IN")}`;
-}
-
-function getStockPercent(stock) {
-  // Assume max stock is 80 for display purposes
-  return Math.min(Math.round((stock / 80) * 100), 100);
-}
-
-function buildTableRows(products) {
-  if (!products || products.length === 0) {
-    return `<tr><td colspan="5" class="table-loading">No products found.</td></tr>`;
-  }
-
-  return products
-    .map(
-      (p) => `
-    <tr>
-      <td>#${p.id}</td>
-      <td>${escapeHtml(p.name)}</td>
-      <td><span class="category-pill">${escapeHtml(p.category)}</span></td>
-      <td class="price-cell">${formatPrice(p.price)}</td>
-      <td>
-        <div class="stock-cell">
-          <span>${p.stock}</span>
-          <div class="stock-bar-wrap">
-            <div class="stock-bar" style="width:${getStockPercent(p.stock)}%"></div>
-          </div>
-        </div>
-      </td>
-    </tr>`
-    )
-    .join("");
-}
-
+// ─── Populate Products Table ──────────────────────────────────────────────────
 function escapeHtml(str) {
   return String(str)
     .replace(/&/g, "&amp;")
@@ -238,14 +153,50 @@ async function loadProductsTable() {
     const res = await fetch("/api/products");
     const json = await res.json();
     const products = json.data || [];
-    productsTableBody.innerHTML = buildTableRows(products);
+
+    if (products.length === 0) {
+      productsTableBody.innerHTML = `<tr><td colspan="5" class="table-state-cell">No products found.</td></tr>`;
+      return;
+    }
+
+    productsTableBody.innerHTML = products
+      .map(
+        (p) => `
+        <tr>
+          <td>#${p.id}</td>
+          <td><strong>${escapeHtml(p.name)}</strong></td>
+          <td><span class="category-tag">${escapeHtml(p.category)}</span></td>
+          <td class="price-text">₹${Number(p.price).toLocaleString("en-IN")}</td>
+          <td>${p.stock}</td>
+        </tr>`
+      )
+      .join("");
   } catch {
-    productsTableBody.innerHTML = `<tr><td colspan="5" class="table-error">⚠ Failed to load products. Make sure the server is running.</td></tr>`;
+    productsTableBody.innerHTML = `<tr><td colspan="5" class="table-state-cell" style="color:#ef4444;">Unable to load products from server.</td></tr>`;
   }
 }
 
-// ─── Init ─────────────────────────────────────────────────────────────────────
+// ─── Check Server Status on Load ──────────────────────────────────────────────
+async function checkServerStatus() {
+  try {
+    const res = await fetch("/api/status");
+    if (res.ok) {
+      statusDot.className = "status-dot online";
+      statusLabel.textContent = "API Online";
+    } else {
+      statusDot.className = "status-dot offline";
+      statusLabel.textContent = "API Offline";
+    }
+  } catch {
+    statusDot.className = "status-dot offline";
+    statusLabel.textContent = "Offline";
+  }
+}
+
+// ─── Initial Load ─────────────────────────────────────────────────────────────
 (async function init() {
-  await checkAPIStatus();
+  await checkServerStatus();
   await loadProductsTable();
+  // Automatically show all products in the viewer on initial page load
+  await callApi("/api/products", cardProducts);
 })();
