@@ -8,7 +8,6 @@ const statusDot         = document.getElementById("statusDot");
 const statusLabel       = document.getElementById("statusLabel");
 const responseCode      = document.getElementById("responseCode");
 const responseStatus    = document.getElementById("responseStatus");
-const activeEndpointTag = document.getElementById("activeEndpointTag");
 const respGutter        = document.getElementById("respGutter");
 const btnCopy           = document.getElementById("btnCopy");
 const productsTableBody = document.getElementById("productsTableBody");
