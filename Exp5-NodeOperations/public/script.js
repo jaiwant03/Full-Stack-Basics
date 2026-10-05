@@ -5,9 +5,6 @@
  */
 
 document.addEventListener("DOMContentLoaded", () => {
-  // State
-  let activeFilename = null;
-
   // DOM Elements
   const serverStatusBadge = document.getElementById("serverStatusBadge");
   const serverStatusText = document.getElementById("serverStatusText");
@@ -31,17 +28,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const appendContentInput = document.getElementById("appendContentInput");
   const btnAppendContent = document.getElementById("btnAppendContent");
 
-  const renameModal = document.getElementById("renameModal");
-  const renameFileForm = document.getElementById("renameFileForm");
-  const renameCurrentName = document.getElementById("renameCurrentName");
-  const renameNewNameInput = document.getElementById("renameNewNameInput");
-  const btnSubmitRename = document.getElementById("btnSubmitRename");
-
   const deleteModal = document.getElementById("deleteModal");
   const deleteTargetName = document.getElementById("deleteTargetName");
   const btnConfirmDelete = document.getElementById("btnConfirmDelete");
 
   const toastContainer = document.getElementById("toastContainer");
+
+  // State
+  let activeFilename = null;
 
   // ==========================================================================
   // Toast Notifications
@@ -145,7 +139,6 @@ document.addEventListener("DOMContentLoaded", () => {
             <td class="text-right">
               <div class="table-actions">
                 <button type="button" class="btn-table btn-view" data-action="view" data-name="${escapeHtml(file.filename)}">View</button>
-                <button type="button" class="btn-table btn-rename" data-action="rename" data-name="${escapeHtml(file.filename)}">Rename</button>
                 <button type="button" class="btn-table btn-delete" data-action="delete" data-name="${escapeHtml(file.filename)}">Delete</button>
               </div>
             </td>
@@ -212,8 +205,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (action === "view") {
       openViewModal(filename);
-    } else if (action === "rename") {
-      openRenameModal(filename);
     } else if (action === "delete") {
       openDeleteModal(filename);
     }
@@ -276,52 +267,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 5. Rename File
-  function openRenameModal(filename) {
-    activeFilename = filename;
-    renameCurrentName.textContent = filename;
-    renameNewNameInput.value = filename;
-    openModal(renameModal);
-    setTimeout(() => {
-      renameNewNameInput.focus();
-      renameNewNameInput.select();
-    }, 100);
-  }
-
-  renameFileForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const newFilename = renameNewNameInput.value.trim();
-
-    if (!newFilename) {
-      showToast("Please enter a new filename.", "error");
-      return;
-    }
-
-    btnSubmitRename.disabled = true;
-
-    try {
-      const res = await fetch(`/api/files/${encodeURIComponent(activeFilename)}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ newFilename })
-      });
-
-      const data = await res.json();
-      if (!res.ok || !data.success) {
-        throw new Error(data.message || "Failed to rename file");
-      }
-
-      showToast("File renamed successfully", "success");
-      closeModal(renameModal);
-      fetchFiles();
-    } catch (err) {
-      showToast(err.message, "error");
-    } finally {
-      btnSubmitRename.disabled = false;
-    }
-  });
-
-  // 6. Delete File
+  // 5. Delete File
   function openDeleteModal(filename) {
     activeFilename = filename;
     deleteTargetName.textContent = filename;

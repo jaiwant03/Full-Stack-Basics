@@ -3,14 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NodeFile Server — Node.js Web Server &amp; File Operations</title>
-  <meta name="description" content="Node.js web server and filesystem operations demonstration using Express and fs module.">
+  <title>Node.js — Web Server & File Operations</title>
+  <meta name="description" content="Demonstration of basic web server and file system operations with Node.js and Express.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
   <!-- Toast Notification Container -->
   <div id="toastContainer" class="toast-container" aria-live="polite"></div>
 
@@ -18,8 +19,8 @@
   <header class="app-header">
     <div class="header-container">
       <div class="header-brand">
-        <h1 class="brand-title">NodeFile Server</h1>
-        <p class="brand-subtitle">Node.js Web Server &amp; File Operations</p>
+        <h1 class="brand-title">Node.js — Web Server &amp; File Operations</h1>
+        <p class="brand-subtitle">Basic demonstration using Express.js &amp; the built-in <code class="code-inline">fs</code> module</p>
       </div>
       <div class="header-status">
         <div class="status-badge" id="serverStatusBadge">
@@ -33,22 +34,22 @@
   <!-- Main Container -->
   <main class="main-container">
 
-    <!-- 1. FILE OPERATIONS (Create / Write File) -->
+    <!-- 1. CREATE FILE -->
     <section class="card" id="fileOperationsSection">
       <div class="card-header">
-        <h2 class="card-title">File Operations</h2>
-        <p class="card-subtitle">Create or write a file on the server</p>
+        <h2 class="card-title">Create / Write File</h2>
+        <p class="card-subtitle">Uses <code class="code-inline">fs.writeFile()</code> to write a new file to the server</p>
       </div>
 
       <form id="createFileForm" class="form-layout" novalidate>
         <div class="form-group">
           <label for="createFileName" class="form-label">Filename</label>
-          <input 
-            type="text" 
-            id="createFileName" 
-            class="form-input" 
-            placeholder="example.txt" 
-            required 
+          <input
+            type="text"
+            id="createFileName"
+            class="form-input"
+            placeholder="example.txt"
+            required
             autocomplete="off"
             spellcheck="false"
           >
@@ -56,11 +57,11 @@
 
         <div class="form-group">
           <label for="createFileContent" class="form-label">Content</label>
-          <textarea 
-            id="createFileContent" 
-            class="form-textarea" 
-            rows="4" 
-            placeholder="Enter file content..." 
+          <textarea
+            id="createFileContent"
+            class="form-textarea"
+            rows="4"
+            placeholder="Enter file content..."
             required
             spellcheck="false"
           ></textarea>
@@ -72,11 +73,11 @@
       </form>
     </section>
 
-    <!-- 2. FILES (File List Table) -->
+    <!-- 2. FILE LIST -->
     <section class="card" id="filesSection">
       <div class="card-header">
-        <h2 class="card-title">Files</h2>
-        <p class="card-subtitle">Files stored in <code class="code-inline">server-data/</code></p>
+        <h2 class="card-title">File List</h2>
+        <p class="card-subtitle">Uses <code class="code-inline">fs.readdir()</code> &amp; <code class="code-inline">fs.stat()</code> — files stored in <code class="code-inline">server-data/</code></p>
       </div>
 
       <div class="table-container">
@@ -90,32 +91,31 @@
             </tr>
           </thead>
           <tbody id="filesTableBody">
-            <!-- Dynamically populated rows -->
             <tr>
               <td colspan="4" class="table-message-cell">Loading files...</td>
             </tr>
           </tbody>
         </table>
         <div id="noFilesMessage" class="empty-message hidden">
-          No files available in <code class="code-inline">server-data/</code>. Create a file above.
+          No files found in <code class="code-inline">server-data/</code>. Create a file above.
         </div>
       </div>
     </section>
 
-    <!-- 3. CHECK FILE (File Existence Check) -->
+    <!-- 3. CHECK FILE EXISTENCE -->
     <section class="card" id="checkFileSection">
       <div class="card-header">
-        <h2 class="card-title">Check File</h2>
-        <p class="card-subtitle">Check if a file exists on the server filesystem</p>
+        <h2 class="card-title">Check File Existence</h2>
+        <p class="card-subtitle">Uses <code class="code-inline">fs.existsSync()</code> to verify if a file exists on the server</p>
       </div>
 
       <form id="checkFileForm" class="check-form-layout">
         <div class="check-input-row">
-          <input 
-            type="text" 
-            id="checkFileNameInput" 
-            class="form-input" 
-            placeholder="sample.txt" 
+          <input
+            type="text"
+            id="checkFileNameInput"
+            class="form-input"
+            placeholder="sample.txt"
             value="sample.txt"
             required
             autocomplete="off"
@@ -127,56 +127,9 @@
       </form>
     </section>
 
-    <!-- 4. NODE.JS API ENDPOINTS -->
-    <section class="card" id="apiSection">
-      <div class="card-header">
-        <h2 class="card-title">Node.js API Endpoints</h2>
-        <p class="card-subtitle">Express routes available on the server</p>
-      </div>
-
-      <div class="endpoints-list">
-        <div class="endpoint-row">
-          <span class="method-badge method-get">GET</span>
-          <code class="endpoint-url">/api/status</code>
-        </div>
-        <div class="endpoint-row">
-          <span class="method-badge method-get">GET</span>
-          <code class="endpoint-url">/api/files</code>
-        </div>
-        <div class="endpoint-row">
-          <span class="method-badge method-get">GET</span>
-          <code class="endpoint-url">/api/files/:filename</code>
-        </div>
-        <div class="endpoint-row">
-          <span class="method-badge method-post">POST</span>
-          <code class="endpoint-url">/api/files</code>
-        </div>
-        <div class="endpoint-row">
-          <span class="method-badge method-post">POST</span>
-          <code class="endpoint-url">/api/files/:filename/append</code>
-        </div>
-        <div class="endpoint-row">
-          <span class="method-badge method-put">PUT</span>
-          <code class="endpoint-url">/api/files/:filename</code>
-        </div>
-        <div class="endpoint-row">
-          <span class="method-badge method-delete">DELETE</span>
-          <code class="endpoint-url">/api/files/:filename</code>
-        </div>
-        <div class="endpoint-row">
-          <span class="method-badge method-get">GET</span>
-          <code class="endpoint-url">/api/files/:filename/exists</code>
-        </div>
-      </div>
-    </section>
-
   </main>
 
-  <!-- ========================================================================= -->
-  <!-- MODALS -->
-  <!-- ========================================================================= -->
-
-  <!-- 1. VIEW FILE & APPEND MODAL -->
+  <!-- VIEW FILE MODAL -->
   <div id="viewModal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true">
     <div class="modal-card">
       <div class="modal-header">
@@ -192,11 +145,11 @@
         <div class="modal-divider"></div>
 
         <div class="append-block">
-          <label for="appendContentInput" class="form-label">Append Content</label>
-          <textarea 
-            id="appendContentInput" 
-            class="form-textarea" 
-            rows="3" 
+          <label for="appendContentInput" class="form-label">Append Content <span class="label-hint">— uses <code class="code-inline">fs.appendFile()</code></span></label>
+          <textarea
+            id="appendContentInput"
+            class="form-textarea"
+            rows="3"
             placeholder="Enter content to append..."
             spellcheck="false"
           ></textarea>
@@ -212,48 +165,15 @@
     </div>
   </div>
 
-  <!-- 2. RENAME FILE MODAL -->
-  <div id="renameModal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true">
-    <div class="modal-card modal-card-sm">
-      <div class="modal-header">
-        <h3 class="modal-title">Rename File</h3>
-      </div>
-
-      <form id="renameFileForm">
-        <div class="modal-body">
-          <div class="form-group">
-            <label class="form-label">Current filename:</label>
-            <div id="renameCurrentName" class="current-name-display">example.txt</div>
-          </div>
-          <div class="form-group">
-            <label for="renameNewNameInput" class="form-label">New filename:</label>
-            <input 
-              type="text" 
-              id="renameNewNameInput" 
-              class="form-input" 
-              placeholder="newname.txt" 
-              required
-              autocomplete="off"
-              spellcheck="false"
-            >
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary modal-close-btn" data-close="renameModal">Cancel</button>
-          <button type="submit" id="btnSubmitRename" class="btn btn-primary">Rename</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- 3. DELETE CONFIRMATION MODAL -->
+  <!-- DELETE CONFIRMATION MODAL -->
   <div id="deleteModal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true">
     <div class="modal-card modal-card-sm">
       <div class="modal-header">
         <h3 class="modal-title">Delete File?</h3>
       </div>
       <div class="modal-body">
-        <p>Are you sure you want to delete <strong id="deleteTargetName">example.txt</strong>?</p>
+        <p>Are you sure you want to delete <strong id="deleteTargetName">example.txt</strong>?<br>
+        <span class="hint-text">Uses <code class="code-inline">fs.unlink()</code></span></p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary modal-close-btn" data-close="deleteModal">Cancel</button>
