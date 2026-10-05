@@ -1,7 +1,7 @@
 function Header() {
   return (
     <header className="header">
-      {/* Left — brand logo */}
+      {/* Left — brand */}
       <div className="header__logo">
         <div className="header__logo-icon" aria-hidden="true">
           <span>Q</span>
@@ -9,8 +9,10 @@ function Header() {
         <span className="header__logo-text">QuizMaster</span>
       </div>
 
-      {/* Right — context badge */}
-      <span className="header__badge">React Quiz</span>
+      {/* Right — context tag */}
+      <div className="header__right">
+        <span className="header__tag">React Quiz</span>
+      </div>
     </header>
   )
 }
