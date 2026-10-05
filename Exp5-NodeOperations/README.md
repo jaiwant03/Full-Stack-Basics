@@ -200,7 +200,7 @@ fs.readdir(directoryPath, (err, files) => {
 3. **Express Middleware:** Express parses the incoming JSON body via `express.json()`.
 4. **Filesystem Execution:** Express executes the requested Node.js `fs` function inside `server-data/`.
 5. **JSON Response:** Express sends back an appropriate HTTP status code (`200 OK`, `201 Created`, `400 Bad Request`, `404 Not Found`, or `409 Conflict`) with descriptive JSON.
-6. **UI Update:** The client updates the table, refreshes metrics, shows a toast notification, and logs the operation in the "Recent Activity" panel.
+6. **UI Update:** The client updates the table, shows a toast notification, and automatically synchronizes the filesystem state.
 
 ---
 
@@ -229,44 +229,43 @@ Express is the de-facto standard web framework for Node.js. In this project:
 Follow these steps for a complete demonstration:
 
 1. **Verify Server Status:**
-   - Observe the top summary cards: "Server Status" should show **ONLINE** with active uptime.
-   - The status badge in the header shows **● Server Online**.
+   - Look at the header: the status badge displays **● Server Online**.
 
 2. **Check Pre-Loaded Sample File:**
-   - Look at the **File Manager** table: `sample.txt` should be listed with its size and modification date.
+   - Look at the **Files** table: `sample.txt` is listed with its size and modification date.
 
 3. **Read / View a File:**
    - Click the orange **View** button next to `sample.txt`.
-   - The preview modal opens displaying the file's contents, size, and last modified date.
+   - The preview modal opens displaying the file's contents.
 
 4. **Append Content to a File:**
-   - In the View modal, scroll down to **Append Content**.
-   - Type `Appended test line from dashboard.` and click **Append Content**.
+   - In the View modal, locate **Append Content**.
+   - Type `Appended test line from dashboard.` and click **Append**.
    - Observe the preview update immediately with the new line and a success toast appearing.
+   - Click **Close**.
 
 5. **Create a New File:**
-   - In the **Create / Write File** card, enter:
-     - File Name: `student_demo.txt`
+   - In the **File Operations** card, enter:
+     - Filename: `demo.txt`
      - Content: `This is a test file created from the browser.`
-     - (Or click one of the quick preset chips: Plain Text, JSON Data, or Markdown).
    - Click **Create File**.
-   - Notice the toast `File created successfully`, the dynamic file counter incrementing, and the new file appearing in the table.
+   - Notice the toast `File created successfully` and the new file automatically appearing in the table.
 
 6. **Rename a File:**
-   - Click **Rename** on `student_demo.txt`.
-   - Change the name to `renamed_demo.txt` and click **Rename File**.
+   - Click **Rename** on `demo.txt`.
+   - Change the name to `renamed_demo.txt` and click **Rename**.
    - The table updates immediately to show the new name.
 
 7. **Check File Existence:**
-   - In the **File System Check** card, type `renamed_demo.txt` and click **Check**.
+   - In the **Check File** card, enter `renamed_demo.txt` and click **Check**.
    - Result: `✓ File exists`.
-   - Now click the `missing.txt` chip and click **Check**.
+   - Now enter `missing.txt` and click **Check**.
    - Result: `✕ File does not exist`.
 
 8. **Delete a File:**
    - Click the red **Delete** button on `renamed_demo.txt`.
-   - Confirm in the confirmation modal.
-   - The file is unlinked from disk, the table refreshes, and the storage count decreases.
+   - Confirm in the confirmation modal by clicking **Delete**.
+   - The file is deleted from the server filesystem and removed from the table.
 
 9. **Verify Error Handling:**
    - Try to create a file with an empty name or empty content -> client validation prevents submission with an error toast.
