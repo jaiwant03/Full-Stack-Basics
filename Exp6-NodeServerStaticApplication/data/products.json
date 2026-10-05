@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "name": "Wireless Headphones",
+    "category": "Electronics",
+    "price": 2499,
+    "stock": 25
+  },
+  {
+    "id": 2,
+    "name": "Smart Watch",
+    "category": "Wearables",
+    "price": 3999,
+    "stock": 18
+  },
+  {
+    "id": 3,
+    "name": "Mechanical Keyboard",
+    "category": "Peripherals",
+    "price": 1899,
+    "stock": 40
+  },
+  {
+    "id": 4,
+    "name": "USB-C Hub 7-in-1",
+    "category": "Accessories",
+    "price": 1249,
+    "stock": 55
+  },
+  {
+    "id": 5,
+    "name": "Portable SSD 1TB",
+    "category": "Storage",
+    "price": 4599,
+    "stock": 12
+  },
+  {
+    "id": 6,
+    "name": "Noise Cancelling Earbuds",
+    "category": "Electronics",
+    "price": 1799,
+    "stock": 33
+  },
+  {
+    "id": 7,
+    "name": "Ergonomic Mouse",
+    "category": "Peripherals",
+    "price": 999,
+    "stock": 60
+  },
+  {
+    "id": 8,
+    "name": "Webcam 4K Ultra HD",
+    "category": "Electronics",
+    "price": 3299,
+    "stock": 22
+  },
+  {
+    "id": 9,
+    "name": "Laptop Stand Adjustable",
+    "category": "Accessories",
+    "price": 849,
+    "stock": 75
+  },
+  {
+    "id": 10,
+    "name": "Power Bank 20000mAh",
+    "category": "Wearables",
+    "price": 2199,
+    "stock": 48
+  }
+]
