@@ -1,129 +1,145 @@
 import { useEffect, useRef } from 'react'
 
 /**
- * Returns a performance message and headline based on percentage score.
+ * Returns performance headline and message — no emoji.
  */
 function getPerformanceData(percentage) {
   if (percentage >= 90) {
     return {
-      headline: 'Outstanding! 🎉',
-      message: 'Excellent performance! You have a strong grasp of the material.',
+      headline: 'Outstanding Performance',
+      message: "You nailed it. A near-perfect score shows a strong command of the material.",
     }
   }
   if (percentage >= 70) {
     return {
-      headline: 'Great Job! 👏',
-      message: "Well done! Keep practicing and you'll keep improving.",
+      headline: 'Great Job',
+      message: "Solid work. Keep practicing and you'll reach the top.",
     }
   }
   if (percentage >= 50) {
     return {
-      headline: 'Good Effort! 💪',
-      message: 'A little more practice will go a long way. Keep at it!',
+      headline: 'Good Effort',
+      message: "You're on the right track. A little more practice will make a big difference.",
     }
   }
   return {
-    headline: 'Keep Going! 📚',
-    message: "Don't give up — review the topics and try again. You've got this!",
+    headline: 'Keep Going',
+    message: "Don't give up — review the topics and try again. Every attempt counts.",
   }
 }
 
 /**
  * ResultScreen
- * Displays the final score, a circular progress indicator, stats, and restart button.
- * Props:
+ * Premium centered result layout with animated SVG circle.
+ * Props — unchanged:
  *   score          — number of correct answers
  *   totalQuestions — total number of questions
  *   onRestart      — callback to reset the quiz
  */
 function ResultScreen({ score, totalQuestions, onRestart }) {
-  const percentage = Math.round((score / totalQuestions) * 100)
-  const wrong = totalQuestions - score
+  const percentage   = Math.round((score / totalQuestions) * 100)
+  const wrong        = totalQuestions - score
   const { headline, message } = getPerformanceData(percentage)
 
-  // SVG circle dimensions
-  const radius = 58
+  // SVG circle math
+  const radius       = 62
   const circumference = 2 * Math.PI * radius
-  const offset = circumference - (percentage / 100) * circumference
+  const targetOffset  = circumference - (percentage / 100) * circumference
 
-  // Animate the circle stroke on mount
   const fillRef = useRef(null)
 
   useEffect(() => {
-    // Start from full offset (hidden) then transition to the real offset
-    if (fillRef.current) {
-      fillRef.current.style.strokeDashoffset = circumference
-      // Trigger reflow so the transition fires
-      void fillRef.current.getBoundingClientRect()
-      fillRef.current.style.strokeDashoffset = offset
-    }
-  }, [circumference, offset])
+    if (!fillRef.current) return
+    // Start fully hidden, then animate to the real offset
+    fillRef.current.style.strokeDashoffset = circumference
+    void fillRef.current.getBoundingClientRect() // force reflow
+    fillRef.current.style.strokeDashoffset = targetOffset
+  }, [circumference, targetOffset])
 
   return (
-    <div className="card result-screen">
-      {/* Eyebrow */}
-      <div className="result-screen__eyebrow">
-        <span aria-hidden="true">✦</span> Quiz Completed
-      </div>
+    <div className="result-screen">
+      <div className="result-inner">
+        {/* Tag */}
+        <div className="result-screen__tag">
+          <span className="result-screen__tag-dot" aria-hidden="true" />
+          Quiz Completed
+        </div>
 
-      {/* Circular score indicator */}
-      <div className="score-circle-wrapper" aria-label={`Score: ${percentage}%`}>
-        <div className="score-circle">
-          <svg width="160" height="160" viewBox="0 0 160 160" aria-hidden="true">
-            {/* Background track */}
-            <circle
-              className="score-circle__bg"
-              cx="80"
-              cy="80"
-              r={radius}
-            />
-            {/* Animated fill */}
-            <circle
-              ref={fillRef}
-              className="score-circle__fill"
-              cx="80"
-              cy="80"
-              r={radius}
-              strokeDasharray={circumference}
-              strokeDashoffset={circumference}
-              style={{ transition: 'stroke-dashoffset 1s ease' }}
-            />
-          </svg>
+        {/* Circular progress */}
+        <div
+          className="score-circle-wrapper"
+          aria-label={`Your score is ${percentage} percent`}
+        >
+          <div className="score-circle">
+            <svg
+              width="168"
+              height="168"
+              viewBox="0 0 168 168"
+              aria-hidden="true"
+            >
+              {/* Gradient definition */}
+              <defs>
+                <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%"   stopColor="#007C83" />
+                  <stop offset="100%" stopColor="#38BDF8" />
+                </linearGradient>
+              </defs>
 
-          {/* Centred text overlay */}
-          <div className="score-circle__text">
-            <span className="score-circle__percentage">{percentage}%</span>
-            <span className="score-circle__label">Score</span>
+              {/* Track */}
+              <circle
+                className="score-circle__track"
+                cx="84"
+                cy="84"
+                r={radius}
+              />
+
+              {/* Animated fill */}
+              <circle
+                ref={fillRef}
+                className="score-circle__fill"
+                cx="84"
+                cy="84"
+                r={radius}
+                strokeDasharray={circumference}
+                strokeDashoffset={circumference}
+              />
+            </svg>
+
+            {/* Centred label */}
+            <div className="score-circle__text">
+              <span className="score-circle__pct">{percentage}%</span>
+              <span className="score-circle__sublabel">Score</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Fraction */}
-      <p className="result-screen__fraction">
-        <span>{score}</span> / {totalQuestions}
-      </p>
-      <p className="result-screen__total-label">Questions answered correctly</p>
+        {/* Fraction */}
+        <p className="result-screen__fraction">
+          <em>{score}</em> / {totalQuestions}
+        </p>
+        <p className="result-screen__fraction-label">Questions answered correctly</p>
 
-      {/* Performance headline & message */}
-      <h2 className="result-screen__message">{headline}</h2>
-      <p className="result-screen__sub-message">{message}</p>
+        {/* Performance message */}
+        <h2 className="result-screen__headline">{headline}</h2>
+        <p className="result-screen__message">{message}</p>
 
-      {/* Correct / Wrong pills */}
-      <div className="result-screen__stats">
-        <div className="stat-pill stat-pill--correct">
-          <span className="stat-pill__dot" aria-hidden="true" />
-          {score} Correct
+        {/* Stat cards */}
+        <div className="result-screen__stats">
+          <div className="stat-card stat-card--correct">
+            <span className="stat-card__value">{score}</span>
+            <span className="stat-card__label">Correct</span>
+          </div>
+          <div className="stat-card stat-card--wrong">
+            <span className="stat-card__value">{wrong}</span>
+            <span className="stat-card__label">Wrong</span>
+          </div>
         </div>
-        <div className="stat-pill stat-pill--wrong">
-          <span className="stat-pill__dot" aria-hidden="true" />
-          {wrong} Wrong
-        </div>
-      </div>
 
-      {/* Restart */}
-      <button className="btn-restart" onClick={onRestart}>
-        ↺ Restart Quiz
-      </button>
+        {/* Restart */}
+        <button className="btn-restart" onClick={onRestart}>
+          ↺ Restart Quiz
+        </button>
+      </div>
     </div>
   )
 }

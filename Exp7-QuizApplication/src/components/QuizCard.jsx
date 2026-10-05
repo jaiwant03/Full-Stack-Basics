@@ -3,9 +3,13 @@ import Question from './Question'
 
 /**
  * QuizCard
- * The main quiz interface: meta row, progress bar, question, and navigation.
- * Props:
- *   question        — current question object { question, options[], answer }
+ * Full-screen quiz layout:
+ *   – Sticky top bar: counter | progress bar | score
+ *   – Scrollable body: question + options
+ *   – Bottom nav: left info + right Next/Finish button
+ *
+ * Props — unchanged from original, no logic changes:
+ *   question        — { question, options[], answer }
  *   questionNumber  — 1-based index
  *   totalQuestions  — total count
  *   selectedOption  — currently selected answer text (or null)
@@ -23,44 +27,63 @@ function QuizCard({
   onNext,
 }) {
   const isLastQuestion = questionNumber === totalQuestions
-  const hasSelected = selectedOption !== null
+  const hasSelected    = selectedOption !== null
 
   return (
-    <div className="card quiz-card">
-      {/* ── Top meta row ── */}
-      <div className="quiz-card__meta">
-        <span className="quiz-card__counter">
-          Question {questionNumber} of {totalQuestions}
-        </span>
-        <span className="quiz-card__score-badge">
-          Score: {score}
-        </span>
+    <div className="quiz-screen">
+      {/* ── Top progress bar ── */}
+      <div className="quiz-topbar">
+        <div className="quiz-topbar__inner">
+          <span className="quiz-topbar__counter">
+            Question <span>{questionNumber}</span> of {totalQuestions}
+          </span>
+
+          <div className="quiz-topbar__progress">
+            <ProgressBar current={questionNumber} total={totalQuestions} />
+          </div>
+
+          <span className="quiz-topbar__score">
+            Score <span>{score}</span> / {totalQuestions}
+          </span>
+        </div>
       </div>
 
-      {/* ── Progress bar ── */}
-      <ProgressBar current={questionNumber} total={totalQuestions} />
+      {/* ── Question + options ── */}
+      <div className="quiz-body">
+        {/* key forces re-mount (and re-animation) on each new question */}
+        <Question
+          key={questionNumber}
+          questionData={question}
+          questionNumber={questionNumber}
+          selectedOption={selectedOption}
+          onSelectOption={onSelectOption}
+        />
 
-      {/* ── Question + options (key forces remount / re-animation on change) ── */}
-      <Question
-        key={questionNumber}
-        questionData={question}
-        questionNumber={questionNumber}
-        selectedOption={selectedOption}
-        onSelectOption={onSelectOption}
-      />
-
-      {/* ── Navigation ── */}
-      <div className="quiz-card__nav">
-        {hasSelected ? (
-          <button className="btn-next" onClick={onNext}>
-            {isLastQuestion ? 'Finish Quiz' : 'Next Question'}
-            <span className="btn-next__arrow" aria-hidden="true">
-              {isLastQuestion ? '✓' : '→'}
+        {/* ── Bottom navigation ── */}
+        <div className="quiz-nav">
+          {/* Left — context info */}
+          <div className="quiz-nav__info">
+            <span className="quiz-nav__info-label">Current score</span>
+            <span className="quiz-nav__info-value">
+              {score} correct out of {questionNumber - 1} answered
             </span>
-          </button>
-        ) : (
-          <span className="nav-hint">Select an answer to continue</span>
-        )}
+          </div>
+
+          {/* Right — action */}
+          {hasSelected ? (
+            <button className="btn-next" onClick={onNext}>
+              {isLastQuestion ? 'Finish Quiz' : 'Next Question'}
+              <span className="btn-next__icon" aria-hidden="true">
+                {isLastQuestion ? '✓' : '→'}
+              </span>
+            </button>
+          ) : (
+            <span className="nav-hint">
+              <span className="nav-hint-icon" aria-hidden="true">?</span>
+              Select an answer to continue
+            </span>
+          )}
+        </div>
       </div>
     </div>
   )
