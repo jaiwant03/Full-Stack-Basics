@@ -1,8 +1,9 @@
 /**
  * ProgressBar
+ * Thin animated bar used inside the quiz top bar.
  * Props:
- *   current  — 1-based question number
- *   total    — total number of questions
+ *   current — 1-based question number
+ *   total   — total number of questions
  */
 function ProgressBar({ current, total }) {
   const percentage = Math.round((current / total) * 100)

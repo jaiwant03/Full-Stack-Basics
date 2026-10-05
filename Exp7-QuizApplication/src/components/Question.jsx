@@ -1,8 +1,11 @@
 import Option from './Option'
 
+// Maps option index → letter label
+const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F']
+
 /**
  * Question
- * Renders the question text and its list of answer options.
+ * Two-column layout: large number on left, question text + 2×2 option grid on right.
  * Props:
  *   questionData    — { question, options[], answer }
  *   questionNumber  — 1-based display number
@@ -11,27 +14,38 @@ import Option from './Option'
  */
 function Question({ questionData, questionNumber, selectedOption, onSelectOption }) {
   const { question, options } = questionData
+  // Zero-pad the question number for the large decorative numeral
+  const numDisplay = String(questionNumber).padStart(2, '0')
 
   return (
     <div className="question question-enter">
-      {/* Small "Question N" label */}
-      <span className="question__number">Question {questionNumber}</span>
+      {/* Large decorative number column */}
+      <div className="question__num-col" aria-hidden="true">
+        <span className="question__num">{numDisplay}</span>
+        <span className="question__num-label">Q</span>
+      </div>
 
-      {/* Question text */}
-      <p className="question__text">{question}</p>
+      {/* Question text + options */}
+      <div className="question__content">
+        <span className="question__tag">Question {questionNumber}</span>
+        <p className="question__text">{question}</p>
+      </div>
 
-      {/* Answer options */}
-      <ul className="options-list" role="list">
-        {options.map((option) => (
-          <li key={option} role="listitem">
-            <Option
-              text={option}
-              isSelected={selectedOption === option}
-              onSelect={onSelectOption}
-            />
-          </li>
-        ))}
-      </ul>
+      {/* Options span full width below the two columns — use grid area trick */}
+      <div style={{ gridColumn: '1 / -1' }}>
+        <div className="options-grid" role="list">
+          {options.map((option, index) => (
+            <div key={option} role="listitem">
+              <Option
+                text={option}
+                letter={LETTERS[index] ?? String(index + 1)}
+                isSelected={selectedOption === option}
+                onSelect={onSelectOption}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
