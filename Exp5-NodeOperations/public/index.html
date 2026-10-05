@@ -3,45 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NodeFile Server — Node.js Web Server & File System Operations</title>
-  <meta name="description" content="A modern Node.js web server dashboard demonstrating core file system operations: create, read, append, rename, delete, and check existence using Express and the fs module.">
+  <title>NodeFile Server — Node.js Web Server &amp; File Operations</title>
+  <meta name="description" content="Node.js web server and filesystem operations demonstration using Express and fs module.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <!-- Toast Notification Container -->
-  <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
 
-  <!-- App Header -->
+  <!-- Header -->
   <header class="app-header">
     <div class="header-container">
       <div class="header-brand">
-        <div class="brand-icon">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-          </svg>
-        </div>
-        <div class="brand-text">
-          <h1 class="brand-title">NodeFile Server</h1>
-          <p class="brand-subtitle">Node.js Web Server &amp; File Operations</p>
-        </div>
+        <h1 class="brand-title">NodeFile Server</h1>
+        <p class="brand-subtitle">Node.js Web Server &amp; File Operations</p>
       </div>
-
       <div class="header-status">
         <div class="status-badge" id="serverStatusBadge">
           <span class="status-dot"></span>
           <span id="serverStatusText">Server Online</span>
         </div>
-        <div class="server-meta-badge">
-          <span>Port 5000</span>
-        </div>
-        <button id="btnGlobalRefresh" class="btn-icon" title="Refresh files and stats" aria-label="Refresh">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.19"/>
-          </svg>
-        </button>
       </div>
     </div>
   </header>
@@ -49,459 +33,175 @@
   <!-- Main Container -->
   <main class="main-container">
 
-    <!-- Top 4 Summary Cards -->
-    <section class="summary-cards-grid" aria-label="Server Metrics">
-      <!-- Card 1: Server Status -->
-      <div class="summary-card">
-        <div class="card-icon-wrapper orange">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
-            <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
-            <line x1="6" y1="6" x2="6.01" y2="6"></line>
-            <line x1="6" y1="18" x2="6.01" y2="18"></line>
-          </svg>
-        </div>
-        <div class="card-info">
-          <span class="card-label">Server Status</span>
-          <div class="card-value-row">
-            <h2 class="card-value" id="metricServerStatus">ONLINE</h2>
-            <span class="badge badge-success">HTTP 200</span>
-          </div>
-          <p class="card-subtext" id="metricUptime">Uptime: 0s</p>
-        </div>
+    <!-- 1. FILE OPERATIONS (Create / Write File) -->
+    <section class="card" id="fileOperationsSection">
+      <div class="card-header">
+        <h2 class="card-title">File Operations</h2>
+        <p class="card-subtitle">Create or write a file on the server</p>
       </div>
 
-      <!-- Card 2: Files -->
-      <div class="summary-card">
-        <div class="card-icon-wrapper orange">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-            <polyline points="14 2 14 8 20 8"></polyline>
-            <line x1="16" y1="13" x2="8" y2="13"></line>
-            <line x1="16" y1="17" x2="8" y2="17"></line>
-            <polyline points="10 9 9 9 8 9"></polyline>
-          </svg>
+      <form id="createFileForm" class="form-layout" novalidate>
+        <div class="form-group">
+          <label for="createFileName" class="form-label">Filename</label>
+          <input 
+            type="text" 
+            id="createFileName" 
+            class="form-input" 
+            placeholder="example.txt" 
+            required 
+            autocomplete="off"
+            spellcheck="false"
+          >
         </div>
-        <div class="card-info">
-          <span class="card-label">Files</span>
-          <div class="card-value-row">
-            <h2 class="card-value" id="metricFileCount">0</h2>
-            <span class="badge badge-neutral">server-data/</span>
-          </div>
-          <p class="card-subtext">Active files in storage</p>
+
+        <div class="form-group">
+          <label for="createFileContent" class="form-label">Content</label>
+          <textarea 
+            id="createFileContent" 
+            class="form-textarea" 
+            rows="4" 
+            placeholder="Enter file content..." 
+            required
+            spellcheck="false"
+          ></textarea>
         </div>
+
+        <div class="form-actions-right">
+          <button type="submit" id="btnCreateFile" class="btn btn-primary">Create File</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- 2. FILES (File List Table) -->
+    <section class="card" id="filesSection">
+      <div class="card-header">
+        <h2 class="card-title">Files</h2>
+        <p class="card-subtitle">Files stored in <code class="code-inline">server-data/</code></p>
       </div>
 
-      <!-- Card 3: Storage Used -->
-      <div class="summary-card">
-        <div class="card-icon-wrapper orange">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-            <line x1="12" y1="22.08" x2="12" y2="12"></line>
-          </svg>
-        </div>
-        <div class="card-info">
-          <span class="card-label">Storage Used</span>
-          <div class="card-value-row">
-            <h2 class="card-value" id="metricStorageUsed">0 B</h2>
-          </div>
-          <p class="card-subtext" id="metricStorageDetail">Total disk space</p>
-        </div>
-      </div>
-
-      <!-- Card 4: Node.js -->
-      <div class="summary-card">
-        <div class="card-icon-wrapper orange">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"></circle>
-            <polygon points="10 8 16 12 10 16 10 8"></polygon>
-          </svg>
-        </div>
-        <div class="card-info">
-          <span class="card-label">Node.js</span>
-          <div class="card-value-row">
-            <h2 class="card-value" id="metricNodeStatus">Running</h2>
-            <span class="badge badge-orange" id="metricNodeVersion">Node</span>
-          </div>
-          <p class="card-subtext">Express REST Engine</p>
+      <div class="table-container">
+        <table class="files-table">
+          <thead>
+            <tr>
+              <th scope="col">File Name</th>
+              <th scope="col">Size</th>
+              <th scope="col">Last Modified</th>
+              <th scope="col" class="text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="filesTableBody">
+            <!-- Dynamically populated rows -->
+            <tr>
+              <td colspan="4" class="table-message-cell">Loading files...</td>
+            </tr>
+          </tbody>
+        </table>
+        <div id="noFilesMessage" class="empty-message hidden">
+          No files available in <code class="code-inline">server-data/</code>. Create a file above.
         </div>
       </div>
     </section>
 
-    <!-- Main 2-Column Content Grid -->
-    <div class="dashboard-content-grid">
-
-      <!-- LEFT COLUMN: File Manager & Create File -->
-      <div class="content-primary-col">
-
-        <!-- SECTION: File Manager -->
-        <section class="dashboard-card file-manager-card" id="fileManagerSection">
-          <div class="card-header">
-            <div>
-              <h2 class="card-title">File Manager</h2>
-              <p class="card-subtitle">Manage files using Node.js filesystem operations</p>
-            </div>
-            <div class="card-header-actions">
-              <div class="search-input-wrapper">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="11" cy="11" r="8"></circle>
-                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
-                <input type="text" id="fileSearchInput" placeholder="Filter files..." aria-label="Filter files">
-              </div>
-              <button id="btnRefreshFiles" class="btn btn-secondary btn-sm" title="Reload list from server">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.19"/>
-                </svg>
-                <span>Refresh</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- File Table Container -->
-          <div class="table-container">
-            <table class="file-table" id="fileTable">
-              <thead>
-                <tr>
-                  <th scope="col">FILE NAME</th>
-                  <th scope="col">SIZE</th>
-                  <th scope="col">LAST MODIFIED</th>
-                  <th scope="col">STATUS</th>
-                  <th scope="col" class="text-right">ACTIONS</th>
-                </tr>
-              </thead>
-              <tbody id="fileTableBody">
-                <!-- Dynamically populated rows -->
-                <tr>
-                  <td colspan="5" class="table-loading-cell">
-                    <div class="loading-spinner"></div>
-                    <span>Loading files from server...</span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-
-            <!-- Empty State -->
-            <div id="fileEmptyState" class="empty-state hidden">
-              <div class="empty-icon-wrapper">
-                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                  <polyline points="14 2 14 8 20 8"></polyline>
-                  <line x1="12" y1="18" x2="12" y2="12"></line>
-                  <line x1="9" y1="15" x2="15" y2="15"></line>
-                </svg>
-              </div>
-              <h3 class="empty-title">No files found</h3>
-              <p class="empty-desc">The <code class="code-inline">server-data/</code> folder is currently empty. Create your first file below!</p>
-            </div>
-          </div>
-        </section>
-
-        <!-- SECTION: Create / Write File -->
-        <section class="dashboard-card create-file-card" id="createFileSection">
-          <div class="card-header">
-            <div>
-              <h2 class="card-title">Create / Write File</h2>
-              <p class="card-subtitle">Demonstrates Node.js <code class="code-inline">fs.writeFile</code> via <code class="code-inline">POST /api/files</code></p>
-            </div>
-            <!-- Quick Preset Chips -->
-            <div class="preset-chips">
-              <span class="chips-label">Presets:</span>
-              <button type="button" class="preset-chip" data-name="notes.txt" data-content="Meeting Notes - Node.js File System Demo&#10;Date: 2026-10-05&#10;1. Tested fs.writeFile()&#10;2. Verified directory integrity">Plain Text</button>
-              <button type="button" class="preset-chip" data-name="config.json" data-content='{&#10;  "appName": "NodeFile Server",&#10;  "environment": "development",&#10;  "port": 5000&#10;}'>JSON Data</button>
-              <button type="button" class="preset-chip" data-name="guide.md" data-content="# Node.js File System&#10;&#10;The Node.js fs module enables executing POSIX filesystem operations with ease.">Markdown</button>
-            </div>
-          </div>
-
-          <form id="createFileForm" class="create-form" novalidate>
-            <div class="form-group">
-              <label for="createFileName" class="form-label">
-                File Name <span class="label-required">*</span>
-              </label>
-              <div class="input-prefix-group">
-                <span class="input-prefix">server-data/</span>
-                <input 
-                  type="text" 
-                  id="createFileName" 
-                  class="form-control" 
-                  placeholder="example.txt" 
-                  required 
-                  autocomplete="off"
-                  spellcheck="false"
-                >
-              </div>
-              <span class="form-help">Letters, numbers, dots, hyphens, and underscores only. Must not contain slashes.</span>
-            </div>
-
-            <div class="form-group">
-              <div class="label-with-meta">
-                <label for="createFileContent" class="form-label">
-                  File Content <span class="label-required">*</span>
-                </label>
-                <span class="char-counter" id="charCounter">0 characters</span>
-              </div>
-              <textarea 
-                id="createFileContent" 
-                class="form-control form-textarea" 
-                placeholder="Enter content here..." 
-                rows="5" 
-                required
-                spellcheck="false"
-              ></textarea>
-            </div>
-
-            <div class="form-actions">
-              <button type="button" id="btnClearCreateForm" class="btn btn-secondary">
-                Clear
-              </button>
-              <button type="submit" id="btnSubmitCreateFile" class="btn btn-primary">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
-                  <polyline points="17 21 17 13 7 13 7 21"></polyline>
-                  <polyline points="7 3 7 8 15 8"></polyline>
-                </svg>
-                <span>Create File</span>
-              </button>
-            </div>
-          </form>
-        </section>
-
+    <!-- 3. CHECK FILE (File Existence Check) -->
+    <section class="card" id="checkFileSection">
+      <div class="card-header">
+        <h2 class="card-title">Check File</h2>
+        <p class="card-subtitle">Check if a file exists on the server filesystem</p>
       </div>
 
-      <!-- RIGHT COLUMN: Check File, API Endpoints & Activity Log -->
-      <div class="content-secondary-col">
+      <form id="checkFileForm" class="check-form-layout">
+        <div class="check-input-row">
+          <input 
+            type="text" 
+            id="checkFileNameInput" 
+            class="form-input" 
+            placeholder="sample.txt" 
+            value="sample.txt"
+            required
+            autocomplete="off"
+            spellcheck="false"
+          >
+          <button type="submit" id="btnCheckFile" class="btn btn-primary">Check</button>
+        </div>
+        <div id="checkResult" class="check-result-text"></div>
+      </form>
+    </section>
 
-        <!-- SECTION: File System Check -->
-        <section class="dashboard-card check-file-card" id="fileCheckSection">
-          <div class="card-header">
-            <div>
-              <h2 class="card-title">File System Check</h2>
-              <p class="card-subtitle">Demonstrates Node.js <code class="code-inline">fs.existsSync()</code></p>
-            </div>
-          </div>
-
-          <form id="checkFileForm" class="check-form">
-            <div class="check-input-row">
-              <input 
-                type="text" 
-                id="checkFileNameInput" 
-                class="form-control" 
-                placeholder="sample.txt" 
-                value="sample.txt"
-                required
-                autocomplete="off"
-                spellcheck="false"
-              >
-              <button type="submit" id="btnCheckFile" class="btn btn-primary">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="11" cy="11" r="8"></circle>
-                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
-                <span>Check</span>
-              </button>
-            </div>
-
-            <!-- Quick quick check chips -->
-            <div class="check-quick-tags">
-              <span class="chips-label">Quick check:</span>
-              <button type="button" class="quick-check-btn" data-target="sample.txt">sample.txt</button>
-              <button type="button" class="quick-check-btn" data-target="missing.txt">missing.txt</button>
-            </div>
-
-            <!-- Check Result Output Box -->
-            <div id="checkResultBox" class="check-result-box neutral">
-              <div class="result-icon-box" id="checkResultIcon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <line x1="12" y1="16" x2="12" y2="12"></line>
-                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                </svg>
-              </div>
-              <div class="result-details">
-                <span class="result-status" id="checkResultText">Ready to check</span>
-                <span class="result-subtext" id="checkResultSubtext">Click "Check" to test file existence on the server</span>
-              </div>
-            </div>
-          </form>
-        </section>
-
-        <!-- SECTION: API Endpoints Demonstration -->
-        <section class="dashboard-card api-endpoints-card" id="apiEndpointsSection">
-          <div class="card-header">
-            <div>
-              <h2 class="card-title">API Endpoints</h2>
-              <p class="card-subtitle">RESTful routes exposed by the Express server</p>
-            </div>
-          </div>
-
-          <div class="api-endpoints-list">
-            <!-- 1. GET /api/status -->
-            <div class="endpoint-item" data-method="GET" data-url="/api/status">
-              <div class="endpoint-left">
-                <span class="method-badge method-get">GET</span>
-                <code class="endpoint-path">/api/status</code>
-              </div>
-              <span class="endpoint-desc">Server health &amp; uptime</span>
-            </div>
-
-            <!-- 2. GET /api/files -->
-            <div class="endpoint-item" data-method="GET" data-url="/api/files">
-              <div class="endpoint-left">
-                <span class="method-badge method-get">GET</span>
-                <code class="endpoint-path">/api/files</code>
-              </div>
-              <span class="endpoint-desc">List all stored files</span>
-            </div>
-
-            <!-- 3. GET /api/files/:filename -->
-            <div class="endpoint-item" data-method="GET" data-url="/api/files/sample.txt">
-              <div class="endpoint-left">
-                <span class="method-badge method-get">GET</span>
-                <code class="endpoint-path">/api/files/:filename</code>
-              </div>
-              <span class="endpoint-desc">Read file content</span>
-            </div>
-
-            <!-- 4. POST /api/files -->
-            <div class="endpoint-item" data-method="POST" data-url="/api/files">
-              <div class="endpoint-left">
-                <span class="method-badge method-post">POST</span>
-                <code class="endpoint-path">/api/files</code>
-              </div>
-              <span class="endpoint-desc">Create / write file</span>
-            </div>
-
-            <!-- 5. POST /api/files/:filename/append -->
-            <div class="endpoint-item" data-method="POST" data-url="/api/files/:filename/append">
-              <div class="endpoint-left">
-                <span class="method-badge method-post">POST</span>
-                <code class="endpoint-path">/api/files/:filename/append</code>
-              </div>
-              <span class="endpoint-desc">Append content to file</span>
-            </div>
-
-            <!-- 6. PUT /api/files/:filename -->
-            <div class="endpoint-item" data-method="PUT" data-url="/api/files/:filename">
-              <div class="endpoint-left">
-                <span class="method-badge method-put">PUT</span>
-                <code class="endpoint-path">/api/files/:filename</code>
-              </div>
-              <span class="endpoint-desc">Rename file</span>
-            </div>
-
-            <!-- 7. DELETE /api/files/:filename -->
-            <div class="endpoint-item" data-method="DELETE" data-url="/api/files/:filename">
-              <div class="endpoint-left">
-                <span class="method-badge method-delete">DELETE</span>
-                <code class="endpoint-path">/api/files/:filename</code>
-              </div>
-              <span class="endpoint-desc">Delete file permanently</span>
-            </div>
-
-            <!-- 8. GET /api/files/:filename/exists -->
-            <div class="endpoint-item" data-method="GET" data-url="/api/files/sample.txt/exists">
-              <div class="endpoint-left">
-                <span class="method-badge method-get">GET</span>
-                <code class="endpoint-path">/api/files/:filename/exists</code>
-              </div>
-              <span class="endpoint-desc">Check if file exists</span>
-            </div>
-          </div>
-        </section>
-
-        <!-- SECTION: Recent Activity -->
-        <section class="dashboard-card activity-log-card" id="activityLogSection">
-          <div class="card-header">
-            <div>
-              <h2 class="card-title">Recent Activity</h2>
-              <p class="card-subtitle">Live log of filesystem &amp; API operations</p>
-            </div>
-            <button id="btnClearLog" class="btn-text-only" title="Clear log entries">Clear</button>
-          </div>
-
-          <div class="activity-log-container">
-            <ul id="activityLogList" class="activity-log-list">
-              <!-- Dynamically populated items -->
-            </ul>
-          </div>
-        </section>
-
+    <!-- 4. NODE.JS API ENDPOINTS -->
+    <section class="card" id="apiSection">
+      <div class="card-header">
+        <h2 class="card-title">Node.js API Endpoints</h2>
+        <p class="card-subtitle">Express routes available on the server</p>
       </div>
 
-    </div>
+      <div class="endpoints-list">
+        <div class="endpoint-row">
+          <span class="method-badge method-get">GET</span>
+          <code class="endpoint-url">/api/status</code>
+        </div>
+        <div class="endpoint-row">
+          <span class="method-badge method-get">GET</span>
+          <code class="endpoint-url">/api/files</code>
+        </div>
+        <div class="endpoint-row">
+          <span class="method-badge method-get">GET</span>
+          <code class="endpoint-url">/api/files/:filename</code>
+        </div>
+        <div class="endpoint-row">
+          <span class="method-badge method-post">POST</span>
+          <code class="endpoint-url">/api/files</code>
+        </div>
+        <div class="endpoint-row">
+          <span class="method-badge method-post">POST</span>
+          <code class="endpoint-url">/api/files/:filename/append</code>
+        </div>
+        <div class="endpoint-row">
+          <span class="method-badge method-put">PUT</span>
+          <code class="endpoint-url">/api/files/:filename</code>
+        </div>
+        <div class="endpoint-row">
+          <span class="method-badge method-delete">DELETE</span>
+          <code class="endpoint-url">/api/files/:filename</code>
+        </div>
+        <div class="endpoint-row">
+          <span class="method-badge method-get">GET</span>
+          <code class="endpoint-url">/api/files/:filename/exists</code>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- ========================================================================= -->
   <!-- MODALS -->
   <!-- ========================================================================= -->
 
-  <!-- 1. VIEW & APPEND FILE MODAL -->
-  <div id="viewModal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="viewModalTitle">
-    <div class="modal-window modal-lg">
+  <!-- 1. VIEW FILE & APPEND MODAL -->
+  <div id="viewModal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-card">
       <div class="modal-header">
-        <div class="modal-title-group">
-          <span class="badge badge-orange modal-badge">fs.readFile &amp; fs.appendFile</span>
-          <h3 id="viewModalTitle" class="modal-title">File Preview</h3>
-          <p id="viewModalSubtitle" class="modal-subtitle">sample.txt</p>
+        <div>
+          <h3 class="modal-title">File Content</h3>
+          <p id="viewModalFilename" class="modal-subtitle">sample.txt</p>
         </div>
-        <button type="button" class="btn-close modal-close-btn" data-close="viewModal" aria-label="Close modal">&times;</button>
       </div>
 
       <div class="modal-body">
-        <!-- File Info Bar -->
-        <div class="file-meta-bar">
-          <div class="meta-item">
-            <span class="meta-label">File Size:</span>
-            <span class="meta-value" id="viewModalSize">0 B</span>
-          </div>
-          <div class="meta-item">
-            <span class="meta-label">Last Modified:</span>
-            <span class="meta-value" id="viewModalModified">-</span>
-          </div>
-          <button type="button" id="btnCopyFileContent" class="btn btn-secondary btn-xs">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-            </svg>
-            <span>Copy</span>
-          </button>
-        </div>
-
-        <!-- File Content Display -->
-        <div class="file-preview-wrapper">
-          <pre id="viewModalContent" class="file-preview-content">Loading content...</pre>
-        </div>
+        <pre id="viewModalContent" class="modal-code-view">Loading...</pre>
 
         <div class="modal-divider"></div>
 
-        <!-- Append Section -->
-        <div class="append-section">
-          <h4 class="append-section-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="12" y1="5" x2="12" y2="19"></line>
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-            </svg>
-            <span>Append Content (<code class="code-inline">fs.appendFile</code>)</span>
-          </h4>
-          <p class="append-section-desc">Add new lines or text to this file without overwriting existing data.</p>
-          <div class="form-group">
-            <textarea 
-              id="appendContentInput" 
-              class="form-control form-textarea" 
-              rows="3" 
-              placeholder="Enter additional content to append..."
-              spellcheck="false"
-            ></textarea>
-          </div>
-          <div class="append-actions">
-            <button type="button" id="btnSubmitAppend" class="btn btn-primary btn-sm">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="12" y1="5" x2="12" y2="19"></line>
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-              </svg>
-              <span>Append Content</span>
-            </button>
+        <div class="append-block">
+          <label for="appendContentInput" class="form-label">Append Content</label>
+          <textarea 
+            id="appendContentInput" 
+            class="form-textarea" 
+            rows="3" 
+            placeholder="Enter content to append..."
+            spellcheck="false"
+          ></textarea>
+          <div class="append-action-row">
+            <button type="button" id="btnAppendContent" class="btn btn-primary btn-sm">Append</button>
           </div>
         </div>
       </div>
@@ -513,96 +213,54 @@
   </div>
 
   <!-- 2. RENAME FILE MODAL -->
-  <div id="renameModal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="renameModalTitle">
-    <div class="modal-window modal-sm">
+  <div id="renameModal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-card modal-card-sm">
       <div class="modal-header">
-        <div class="modal-title-group">
-          <span class="badge badge-purple modal-badge">fs.rename</span>
-          <h3 id="renameModalTitle" class="modal-title">Rename File</h3>
-        </div>
-        <button type="button" class="btn-close modal-close-btn" data-close="renameModal" aria-label="Close modal">&times;</button>
+        <h3 class="modal-title">Rename File</h3>
       </div>
 
       <form id="renameFileForm">
         <div class="modal-body">
           <div class="form-group">
-            <label class="form-label">Current Filename</label>
-            <div class="current-file-badge" id="renameCurrentName">sample.txt</div>
+            <label class="form-label">Current filename:</label>
+            <div id="renameCurrentName" class="current-name-display">example.txt</div>
           </div>
-
           <div class="form-group">
-            <label for="renameNewNameInput" class="form-label">
-              New Filename <span class="label-required">*</span>
-            </label>
+            <label for="renameNewNameInput" class="form-label">New filename:</label>
             <input 
               type="text" 
               id="renameNewNameInput" 
-              class="form-control" 
-              placeholder="renamed.txt" 
+              class="form-input" 
+              placeholder="newname.txt" 
               required
               autocomplete="off"
               spellcheck="false"
             >
-            <span class="form-help">Must not conflict with existing files in server-data/.</span>
           </div>
         </div>
-
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary modal-close-btn" data-close="renameModal">Cancel</button>
-          <button type="submit" id="btnSubmitRename" class="btn btn-primary">Rename File</button>
+          <button type="submit" id="btnSubmitRename" class="btn btn-primary">Rename</button>
         </div>
       </form>
     </div>
   </div>
 
   <!-- 3. DELETE CONFIRMATION MODAL -->
-  <div id="deleteModal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
-    <div class="modal-window modal-sm">
+  <div id="deleteModal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-card modal-card-sm">
       <div class="modal-header">
-        <div class="modal-title-group">
-          <span class="badge badge-danger modal-badge">fs.unlink</span>
-          <h3 id="deleteModalTitle" class="modal-title">Delete File?</h3>
-        </div>
-        <button type="button" class="btn-close modal-close-btn" data-close="deleteModal" aria-label="Close modal">&times;</button>
+        <h3 class="modal-title">Delete File?</h3>
       </div>
-
       <div class="modal-body">
-        <div class="delete-warning-box">
-          <div class="delete-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
-              <line x1="12" y1="9" x2="12" y2="13"></line>
-              <line x1="12" y1="17" x2="12.01" y2="17"></line>
-            </svg>
-          </div>
-          <div>
-            <p class="delete-message">Are you sure you want to permanently delete this file from the server filesystem?</p>
-            <div class="target-delete-name" id="deleteTargetName">sample.txt</div>
-          </div>
-        </div>
-        <p class="delete-note">This action cannot be undone and will delete the file from <code class="code-inline">server-data/</code>.</p>
+        <p>Are you sure you want to delete <strong id="deleteTargetName">example.txt</strong>?</p>
       </div>
-
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary modal-close-btn" data-close="deleteModal">Cancel</button>
-        <button type="button" id="btnConfirmDelete" class="btn btn-danger">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="3 6 5 6 21 6"></polyline>
-            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-          </svg>
-          <span>Delete File</span>
-        </button>
+        <button type="button" id="btnConfirmDelete" class="btn btn-danger">Delete</button>
       </div>
     </div>
   </div>
-
-  <!-- Footer -->
-  <footer class="app-footer">
-    <div class="footer-container">
-      <p>NodeFile Server &bull; Node.js Web Server &amp; File System Operations Demonstration</p>
-      <p class="footer-subtext">Built with Express.js &bull; Vanilla HTML/CSS/JS &bull; Native Node.js <code class="code-inline">fs</code> Module</p>
-    </div>
-  </footer>
 
   <script src="script.js"></script>
 </body>
