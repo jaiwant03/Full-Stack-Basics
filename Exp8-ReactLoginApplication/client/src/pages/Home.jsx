@@ -14,18 +14,49 @@ function Home({ user, onLogout }) {
 
   return (
     <>
-      <Navbar />
+      {/* Subtle home background */}
+      <div className="home-bg" />
+
+      <Navbar onLogout={handleLogout} />
+
       <div className="home-page">
+        {/* Hero section */}
+        <div className="home-hero">
+          <h1 className="home-hero-title">Dashboard</h1>
+          <p className="home-hero-sub">Welcome to your secure space &#128274;</p>
+        </div>
+
+        {/* User welcome card */}
         <div className="home-card">
           <div className="home-icon">&#128274;</div>
-          <h1 className="home-welcome">Welcome, {storedUser?.name || 'User'}!</h1>
+          <h2 className="home-welcome">Hello, {storedUser?.name || 'User'}!</h2>
           <p className="home-message">You are successfully authenticated.</p>
           {storedUser?.email && (
-            <p className="home-email">{storedUser.email}</p>
+            <span className="home-email">{storedUser.email}</span>
           )}
+          <br />
           <button className="btn-logout" onClick={handleLogout}>
-            Logout
+            Sign Out
           </button>
+        </div>
+
+        {/* Stats / feature cards */}
+        <div className="home-stats">
+          <div className="stat-card">
+            <span className="stat-icon">&#128274;</span>
+            <span className="stat-value">256-bit</span>
+            <span className="stat-label">Encryption</span>
+          </div>
+          <div className="stat-card">
+            <span className="stat-icon">&#9889;</span>
+            <span className="stat-value">&lt;50ms</span>
+            <span className="stat-label">Response Time</span>
+          </div>
+          <div className="stat-card">
+            <span className="stat-icon">&#128200;</span>
+            <span className="stat-value">99.9%</span>
+            <span className="stat-label">Uptime</span>
+          </div>
         </div>
       </div>
     </>
