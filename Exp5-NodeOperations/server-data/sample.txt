@@ -1,0 +1,12 @@
+Welcome to NodeFile Server!
+
+This file demonstrates Node.js file system operations:
+- Reading files using fs.readFile()
+- Writing files using fs.writeFile()
+- Appending content using fs.appendFile()
+- Renaming files using fs.rename()
+- Deleting files using fs.unlink()
+- Checking file existence using fs.existsSync()
+
+All operations are executed live by the Express.js server inside the 'server-data/' directory.
+Feel free to view, append, rename, or delete this file!
