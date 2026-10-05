@@ -275,7 +275,7 @@ code, pre { font-family: var(--font-mono); }
   stroke-linejoin: round;
 }
 
-.card-head-text {}
+
 
 .card-title {
   font-size: 0.97rem;
@@ -708,7 +708,7 @@ code, pre { font-family: var(--font-mono); }
   margin: 4px 0;
 }
 
-.append-section {}
+
 
 .append-actions {
   display: flex;
