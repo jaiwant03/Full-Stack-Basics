@@ -5,12 +5,32 @@ node_modules/
 **/node_modules/
 
 # ==========================================
+# Environment & Secrets
+# ==========================================
+.env
+**/.env
+# Keep .env.example so teammates know what vars are needed
+!**/.env.example
+
+# ==========================================
+# Build Output
+# ==========================================
+dist/
+**/dist/
+build/
+**/build/
+out/
+**/out/
+
+# Vite cache
+.vite/
+**/.vite/
+
+# ==========================================
 # Android & Gradle Build Artifacts
 # ==========================================
 .gradle/
 **/.gradle/
-build/
-**/build/
 local.properties
 **/local.properties
 
@@ -23,7 +43,6 @@ local.properties
 *.class
 bin/
 gen/
-out/
 captures/
 .externalNativeBuild/
 .cxx/
@@ -66,5 +85,8 @@ vcs.xml
 # OS & Ephemeral Temp Files
 # ==========================================
 .DS_Store
+**/.DS_Store
 Thumbs.db
+**/Thumbs.db
 *.log
+**/*.log
