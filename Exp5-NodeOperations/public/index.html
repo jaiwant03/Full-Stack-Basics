@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Node.js — Web Server &amp; File Operations</title>
+  <meta name="description" content="Demonstration of a basic Node.js web server and file system operations using Express.js and the built-in fs module.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- HEADER                                                      -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="header-left">
+        <!-- Logo Icon -->
+        <div class="header-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 1.5L2 7.5v9l10 6 10-6v-9l-10-6zM12 3.74L20 8.5v7L12 20.26 4 15.5v-7l8-4.76z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="brand-name">Web Server &amp; File Operations</div>
+          <div class="brand-sub">Node.js · Express.js · fs Module</div>
+        </div>
+      </div>
+      <!-- Server Status -->
+      <div class="status-pill" id="serverStatusBadge">
+        <span class="status-dot"></span>
+        <span id="serverStatusText">Server Online</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- PAGE BODY                                                   -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <main class="page-body">
+
+    <!-- Section Label -->
+    <div class="section-label">
+      <span class="section-label-text">File Operations</span>
+      <span class="section-label-line"></span>
+    </div>
+
+    <!-- ─── 1. CREATE FILE ───────────────────────────────────── -->
+    <div class="card" id="createSection">
+      <div class="card-head">
+        <div class="card-icon">
+          <!-- Plus / New File icon -->
+          <svg viewBox="0 0 24 24">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="12" y1="18" x2="12" y2="12"/>
+            <line x1="9" y1="15" x2="15" y2="15"/>
+          </svg>
+        </div>
+        <div class="card-head-text">
+          <h2 class="card-title">Create / Write File</h2>
+          <p class="card-subtitle">Writes a new file to the server using <code class="code-inline">fs.writeFile()</code></p>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <form id="createFileForm" class="form-stack" novalidate>
+          <div class="field">
+            <label for="createFileName" class="field-label">Filename</label>
+            <input
+              type="text"
+              id="createFileName"
+              class="form-input mono"
+              placeholder="notes.txt"
+              required
+              autocomplete="off"
+              spellcheck="false"
+            >
+          </div>
+          <div class="field">
+            <label for="createFileContent" class="field-label">Content</label>
+            <textarea
+              id="createFileContent"
+              class="form-textarea"
+              rows="4"
+              placeholder="Enter the file content here..."
+              required
+              spellcheck="false"
+            ></textarea>
+          </div>
+          <div class="btn-right">
+            <button type="submit" id="btnCreateFile" class="btn btn-primary">
+              <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              Create File
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ─── 2. FILE LIST ─────────────────────────────────────── -->
+    <div class="card" id="filesSection">
+      <div class="card-head">
+        <div class="card-icon">
+          <!-- Folder icon -->
+          <svg viewBox="0 0 24 24">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+          </svg>
+        </div>
+        <div class="card-head-text">
+          <h2 class="card-title">File List</h2>
+          <p class="card-subtitle">Reads the <code class="code-inline">server-data/</code> directory using <code class="code-inline">fs.readdir()</code> &amp; <code class="code-inline">fs.stat()</code></p>
+        </div>
+      </div>
+
+      <div class="card-body" style="padding-top: 0; padding-bottom: 0;">
+        <div class="table-wrap">
+          <table class="files-table">
+            <thead>
+              <tr>
+                <th>File Name</th>
+                <th>Size</th>
+                <th>Last Modified</th>
+                <th class="col-actions">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="filesTableBody">
+              <tr class="table-empty-row">
+                <td colspan="4">Loading files…</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="noFilesMessage" class="empty-state hidden">
+          No files found in <code class="code-inline">server-data/</code>. Create one above.
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── 3. CHECK FILE EXISTENCE ──────────────────────────── -->
+    <div class="card" id="checkSection">
+      <div class="card-head">
+        <div class="card-icon">
+          <!-- Search icon -->
+          <svg viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </div>
+        <div class="card-head-text">
+          <h2 class="card-title">Check File Existence</h2>
+          <p class="card-subtitle">Checks if a file exists on the server using <code class="code-inline">fs.existsSync()</code></p>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <form id="checkFileForm" novalidate>
+          <div class="form-row">
+            <div class="field">
+              <label for="checkFileNameInput" class="field-label">Filename to check</label>
+              <input
+                type="text"
+                id="checkFileNameInput"
+                class="form-input mono"
+                placeholder="sample.txt"
+                value="sample.txt"
+                required
+                autocomplete="off"
+                spellcheck="false"
+              >
+            </div>
+            <button type="submit" id="btnCheckFile" class="btn btn-primary">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              Check
+            </button>
+          </div>
+          <div id="checkResult" class="check-result" role="status"></div>
+        </form>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- MODAL — VIEW & APPEND FILE                                  -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <div id="viewModal" class="modal-overlay" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <div class="modal-head">
+        <div>
+          <h3 class="modal-title">File Content</h3>
+          <p id="viewModalFilename" class="modal-filename">—</p>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <!-- Read using fs.readFile -->
+        <pre id="viewModalContent" class="modal-code-block">Loading…</pre>
+
+        <div class="divider"></div>
+
+        <!-- Append using fs.appendFile -->
+        <div class="append-section">
+          <div class="field">
+            <label for="appendContentInput" class="field-label">
+              Append Content
+              <span class="field-hint">— <code class="code-inline">fs.appendFile()</code></span>
+            </label>
+            <textarea
+              id="appendContentInput"
+              class="form-textarea"
+              rows="3"
+              placeholder="Enter content to append to the file..."
+              spellcheck="false"
+            ></textarea>
+          </div>
+          <div class="append-actions">
+            <button type="button" id="btnAppendContent" class="btn btn-primary btn-sm">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Append
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-foot">
+        <button type="button" class="btn btn-secondary modal-close-btn" data-close="viewModal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- MODAL — DELETE CONFIRMATION                                  -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <div id="deleteModal" class="modal-overlay" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-box modal-box-sm">
+      <div class="modal-head">
+        <h3 class="modal-title">Delete File?</h3>
+      </div>
+      <div class="modal-body">
+        <p class="delete-warning">
+          You are about to permanently delete <strong id="deleteTargetName">file.txt</strong>.
+          This action cannot be undone.
+          <span class="fn-note"><code class="code-inline">fs.unlink()</code> will be called on the server.</span>
+        </p>
+      </div>
+      <div class="modal-foot">
+        <button type="button" class="btn btn-secondary modal-close-btn" data-close="deleteModal">Cancel</button>
+        <button type="button" id="btnConfirmDelete" class="btn btn-danger">
+          <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
