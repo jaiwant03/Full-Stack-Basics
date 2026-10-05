@@ -1,13 +1,11 @@
 /**
- * ProgressBar
- * Thin animated bar used inside the quiz top bar.
+ * ProgressBar — thin green bar used in the quiz top bar.
  * Props:
  *   current — 1-based question number
- *   total   — total number of questions
+ *   total   — total questions
  */
 function ProgressBar({ current, total }) {
-  const percentage = Math.round((current / total) * 100)
-
+  const pct = Math.round((current / total) * 100)
   return (
     <div
       className="progress-bar"
@@ -17,10 +15,7 @@ function ProgressBar({ current, total }) {
       aria-valuemax={total}
       aria-label={`Question ${current} of ${total}`}
     >
-      <div
-        className="progress-bar__fill"
-        style={{ width: `${percentage}%` }}
-      />
+      <div className="progress-bar__fill" style={{ width: `${pct}%` }} />
     </div>
   )
 }

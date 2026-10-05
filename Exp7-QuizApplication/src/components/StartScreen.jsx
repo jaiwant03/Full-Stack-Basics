@@ -1,167 +1,149 @@
 /**
  * StartScreen
- * Two-column hero layout.
- * Left: heading, description, info strip, CTA.
- * Right: CSS-only mock quiz card illustration.
+ * Left: badge + heading + description + CTA button
+ * Right: floating quiz card illustration (CSS only, no images)
+ * Bottom: 4-column info strip with icons
  *
  * Props:
  *   totalQuestions — number of questions
  *   onStart        — callback to begin the quiz
  */
 function StartScreen({ totalQuestions, onStart }) {
-  const stripItems = [
+  const stripCards = [
     {
-      cls: 'strip-item--blue',
+      cls: 'strip-card--blue',
       icon: (
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" />
-          <rect x="9" y="3" width="6" height="4" rx="1" />
-          <path d="M9 12h6M9 16h4" />
+        <svg viewBox="0 0 24 24" stroke="#3B82F6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none">
+          <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/>
+          <rect x="9" y="3" width="6" height="4" rx="1"/>
+          <path d="M9 12h6M9 16h4"/>
         </svg>
       ),
-      value: `${totalQuestions} Questions`,
-      label: 'Total to answer',
+      title: `${totalQuestions} Questions`,
+      desc: 'Total questions\nin quiz',
     },
     {
-      cls: 'strip-item--purple',
+      cls: 'strip-card--purple',
       icon: (
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <circle cx="12" cy="12" r="10" />
-          <path d="M12 8v4l3 3" />
+        <svg viewBox="0 0 24 24" stroke="#8B5CF6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none">
+          <line x1="8" y1="6" x2="21" y2="6"/>
+          <line x1="8" y1="12" x2="21" y2="12"/>
+          <line x1="8" y1="18" x2="21" y2="18"/>
+          <line x1="3" y1="6" x2="3.01" y2="6"/>
+          <line x1="3" y1="12" x2="3.01" y2="12"/>
+          <line x1="3" y1="18" x2="3.01" y2="18"/>
         </svg>
       ),
-      value: 'Multiple Choice',
-      label: 'One correct each',
+      title: 'Multiple Choice',
+      desc: 'One correct\nanswer each',
     },
     {
-      cls: 'strip-item--green',
+      cls: 'strip-card--green',
       icon: (
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+        <svg viewBox="0 0 24 24" stroke="#22C55E" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none">
+          <line x1="18" y1="20" x2="18" y2="10"/>
+          <line x1="12" y1="20" x2="12" y2="4"/>
+          <line x1="6"  y1="20" x2="6"  y2="14"/>
         </svg>
       ),
-      value: 'Live Progress',
-      label: 'Track every step',
+      title: 'Live Progress',
+      desc: 'Track your\nperformance',
     },
     {
-      cls: 'strip-item--orange',
+      cls: 'strip-card--orange',
       icon: (
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <circle cx="12" cy="8" r="6" />
-          <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11" />
+        <svg viewBox="0 0 24 24" stroke="#F59E0B" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none">
+          <circle cx="12" cy="8" r="6"/>
+          <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>
         </svg>
       ),
-      value: 'Final Score',
-      label: 'Detailed result',
+      title: 'Final Score',
+      desc: 'Detailed result\nat the end',
     },
   ]
 
   return (
     <div className="start-screen">
       {/* ── Left column ── */}
-      <div className="start-screen__left">
-        {/* Badge */}
-        <div className="start-screen__badge">
-          <span className="start-screen__badge-dot" aria-hidden="true" />
+      <div className="start-left">
+        <div className="start-badge">
+          <span className="start-badge__star" aria-hidden="true">✦</span>
           Interactive Quiz
         </div>
 
-        {/* Heading */}
-        <h1 className="start-screen__heading">Test Your</h1>
-        <span className="start-screen__heading-line2">Knowledge.</span>
+        <h1 className="start-heading">Test Your</h1>
+        <span className="start-heading--green">Knowledge.</span>
 
-        {/* Description */}
-        <p className="start-screen__desc">
-          Answer questions, track your progress in real time, and discover
-          your final score across React, JavaScript, HTML and CSS.
+        <p className="start-desc">
+          Answer questions, track your progress and discover how much you know about
+          React, JavaScript, HTML, CSS and Web Development.
         </p>
 
-        {/* Info strip */}
-        <div className="start-screen__strip" role="list">
-          {stripItems.map((item) => (
-            <div
-              key={item.value}
-              className={`strip-item ${item.cls}`}
-              role="listitem"
-            >
-              <div className="strip-item__icon">{item.icon}</div>
-              <div className="strip-item__body">
-                <span className="strip-item__value">{item.value}</span>
-                <span className="strip-item__label">{item.label}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* CTA */}
         <button className="btn-start" onClick={onStart}>
           Start Quiz
           <span className="btn-start__arrow" aria-hidden="true">→</span>
         </button>
       </div>
 
-      {/* ── Right column — CSS quiz illustration ── */}
-      <div className="start-screen__right" aria-hidden="true">
-        <div className="hero-blob hero-blob--1" />
-        <div className="hero-blob hero-blob--2" />
+      {/* ── Right column — CSS quiz card illustration ── */}
+      <div className="start-right" aria-hidden="true">
+        {/* Big decorative green circle */}
+        <div className="hero-circle" />
 
-        {/* Floating score badge */}
-        <div className="hero-score-badge">
-          <span className="hero-score-badge__value">8/12</span>
-          <span className="hero-score-badge__label">Score</span>
-        </div>
-
-        {/* Mock quiz card */}
+        {/* Floating quiz card */}
         <div className="hero-card">
           <div className="hero-card__top">
-            <span className="hero-card__counter">Question 5 of 12</span>
-            <span className="hero-card__score">Score: 4</span>
+            <span className="hero-card__counter">Question 1 of {totalQuestions}</span>
+            <span className="hero-card__bulb">💡</span>
           </div>
 
           <div className="hero-card__progress">
             <div className="hero-card__progress-fill" />
           </div>
 
-          <p className="hero-card__question">
-            Which hook manages state in a React functional component?
-          </p>
-
-          <div className="hero-card__options">
+          <div className="hero-options">
             {[
-              { letter: 'A', text: 'useEffect', selected: false },
-              { letter: 'B', text: 'useContext', selected: false },
-              { letter: 'C', text: 'useState',  selected: true  },
-              { letter: 'D', text: 'useRef',    selected: false },
+              { letter: 'A', selected: false },
+              { letter: 'B', selected: false },
+              { letter: 'C', selected: true  },
+              { letter: 'D', selected: false },
             ].map((opt) => (
               <div
                 key={opt.letter}
-                className={`hero-option${opt.selected ? ' hero-option--selected' : ''}`}
+                className={`hero-opt${opt.selected ? ' hero-opt--selected' : ''}`}
               >
-                <span className="hero-option__badge">{opt.letter}</span>
-                <span className="hero-option__text">{opt.text}</span>
-                <span className="hero-option__check">✓</span>
+                <span className="hero-opt__badge">{opt.letter}</span>
+                <div className="hero-opt__bar">
+                  <div
+                    className="hero-opt__bar-fill"
+                    style={{ width: opt.selected ? '70%' : `${20 + Math.random() * 30}%` }}
+                  />
+                </div>
+                <span className="hero-opt__check">✓</span>
               </div>
             ))}
           </div>
-
-          <div className="hero-card__btn">
-            <span>Next Question</span>
-            <span>→</span>
-          </div>
         </div>
 
-        {/* Floating streak badge */}
-        <div className="hero-streak-badge">
-          <div className="hero-streak-badge__icon">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7V7z" />
-            </svg>
-          </div>
-          <div className="hero-streak-badge__text">
-            <span className="hero-streak-badge__val">4 Correct</span>
-            <span className="hero-streak-badge__sub">Keep going!</span>
+        {/* Floating trophy badge */}
+        <div className="hero-trophy">
+          <span className="hero-trophy__icon">🏆</span>
+          <div className="hero-trophy__text">
+            <span className="hero-trophy__val">Top Score!</span>
+            <span className="hero-trophy__sub">Keep it up</span>
           </div>
         </div>
+      </div>
+
+      {/* ── Bottom info strip — spans full width ── */}
+      <div className="start-strip" role="list">
+        {stripCards.map((card) => (
+          <div key={card.title} className={`strip-card ${card.cls}`} role="listitem">
+            <div className="strip-card__icon-wrap">{card.icon}</div>
+            <div className="strip-card__title">{card.title}</div>
+            <div className="strip-card__desc" style={{ whiteSpace: 'pre-line' }}>{card.desc}</div>
+          </div>
+        ))}
       </div>
     </div>
   )
