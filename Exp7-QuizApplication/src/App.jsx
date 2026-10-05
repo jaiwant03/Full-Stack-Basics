@@ -38,19 +38,26 @@ function App() {
   }
 
   function handleNext() {
-    // Award a point if the selected answer is correct
-    if (selectedOption === questions[currentIndex].answer) {
-      setScore((prev) => prev + 1)
+    // Calculate the new score synchronously so it's accurate when we
+    // switch screens — React 18 batches setState calls, so reading `score`
+    // after setScore() would still give the stale value in the same render.
+    const isCorrect = selectedOption === questions[currentIndex].answer
+    const newScore = isCorrect ? score + 1 : score
+
+    if (isCorrect) {
+      setScore(newScore)
     }
 
     const nextIndex = currentIndex + 1
 
     if (nextIndex < questions.length) {
-      // Move to the next question and clear selection
+      // Move to the next question and clear the selection
       setCurrentIndex(nextIndex)
       setSelectedOption(null)
     } else {
-      // All questions answered — show results
+      // All questions answered — pass the final score directly to avoid
+      // the stale-state issue on the last question
+      setScore(newScore)
       setScreen(SCREEN.RESULT)
     }
   }
@@ -62,10 +69,6 @@ function App() {
     setSelectedOption(null)
     setScore(0)
   }
-
-  // Calculate final score including the last answer when going to results
-  // Score is updated in handleNext before switching screen, so we use `score`
-  // directly on the result screen.
 
   return (
     <div className="app">
