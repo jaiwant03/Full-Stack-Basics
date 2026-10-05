@@ -4,95 +4,103 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Static JSON API – Node.js + Express</title>
-    <meta
-      name="description"
-      content="A simple Node.js application that serves structured JSON data through REST API endpoints."
-    />
+    <meta name="description" content="A Node.js application that serves static JSON data through REST API endpoints." />
+
+    <!-- Stylish non-cursive font: Space Grotesk -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <!-- ═══════════════════════════════════ HEADER ═══════════════════════════════════ -->
-    <header class="site-header">
-      <div class="header-inner">
-        <div class="header-logo">
-          <span class="logo-icon" aria-hidden="true">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="24" height="24" rx="6" fill="#FF7A00"/>
-              <path d="M6 8.5L12 5.5L18 8.5V15.5L12 18.5L6 15.5V8.5Z" stroke="white" stroke-width="1.5" fill="none"/>
-              <circle cx="12" cy="12" r="2" fill="white"/>
-            </svg>
-          </span>
-          <span class="logo-text">Static JSON API</span>
+
+    <!-- ══════════════════════ HEADER ══════════════════════ -->
+    <header class="header">
+      <div class="header-left">
+        <span class="logo-icon" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="32" height="32" rx="8" fill="#00C853"/>
+            <path d="M8 11.5L16 7.5L24 11.5V20.5L16 24.5L8 20.5V11.5Z" stroke="white" stroke-width="1.8" fill="none"/>
+            <circle cx="16" cy="16" r="3" fill="white"/>
+          </svg>
+        </span>
+        <div class="logo-text-group">
+          <span class="logo-title">Static JSON API</span>
+          <span class="logo-sub">Node.js + Express</span>
         </div>
-        <div class="header-status" id="headerStatus">
+      </div>
+      <div class="header-right">
+        <div class="status-pill" id="statusPill">
           <span class="status-dot" id="statusDot"></span>
-          <span class="status-label" id="statusLabel">Checking…</span>
+          <span id="statusLabel">Checking…</span>
+        </div>
+        <div class="server-chip">
+          <span class="chip-label">Server</span>
+          <code class="chip-url">localhost:5000</code>
         </div>
       </div>
     </header>
 
-    <main class="page-content">
-      <!-- ═══════════════════════════════════ HERO ════════════════════════════════════ -->
-      <section class="hero-section">
-        <div class="container hero-container">
-          <span class="hero-badge">NODE.JS + EXPRESS API</span>
-          <h1 class="hero-heading">
-            Static JSON Data,<br />Served Through a REST API
-          </h1>
-          <p class="hero-subtext">
-            A simple Node.js application that serves structured JSON data through REST API endpoints.
-          </p>
-          <div class="server-url-box">
-            <span class="server-url-label">Server running at</span>
-            <code class="server-url">http://localhost:5000</code>
+    <!-- ══════════════════════ MAIN ══════════════════════ -->
+    <main>
+
+      <!-- ── HERO ────────────────────────────────────── -->
+      <section class="hero">
+        <div class="hero-inner">
+          <div class="hero-badge">
+            <span class="badge-dot" aria-hidden="true"></span>
+            NODE.JS + EXPRESS REST API
           </div>
+          <h1 class="hero-heading">
+            Static JSON Data,<br />
+            <span class="heading-accent">Served Through a REST API</span>
+          </h1>
+          <p class="hero-sub">
+            A clean Node.js server that reads <code>products.json</code> and serves it
+            through live REST endpoints — testable directly from this page.
+          </p>
         </div>
       </section>
 
-      <!-- ═══════════════════════════ API ENDPOINTS & VIEWER ══════════════════════════ -->
-      <section class="api-section">
-        <div class="container">
-          <div class="section-title-wrap">
-            <h2 class="section-title">Available API Endpoints</h2>
-            <p class="section-subtitle">Select an endpoint below to test the REST API live.</p>
-          </div>
+      <!-- ── ENDPOINTS + RESPONSE ────────────────────── -->
+      <section class="api-block">
+        <div class="api-block-inner">
 
-          <!-- 3 Clean Endpoint Cards -->
-          <div class="endpoint-grid">
+          <!-- Left: Endpoint Cards -->
+          <aside class="endpoints-panel">
+            <p class="panel-label">API ENDPOINTS</p>
+
             <!-- Card 1: Status -->
-            <div class="endpoint-card" id="cardStatus">
-              <div class="card-header-row">
-                <span class="method-badge">GET</span>
-                <code class="endpoint-path">/api/status</code>
+            <div class="ep-card" id="cardStatus">
+              <div class="ep-card-top">
+                <span class="badge-get">GET</span>
+                <code class="ep-path">/api/status</code>
               </div>
-              <p class="card-description">Check whether the API server is running.</p>
+              <p class="ep-desc">Check if the API server is running.</p>
               <button class="btn-try" id="btnStatus">Try API</button>
             </div>
 
             <!-- Card 2: All Products -->
-            <div class="endpoint-card active" id="cardProducts">
-              <div class="card-header-row">
-                <span class="method-badge">GET</span>
-                <code class="endpoint-path">/api/products</code>
+            <div class="ep-card active" id="cardProducts">
+              <div class="ep-card-top">
+                <span class="badge-get">GET</span>
+                <code class="ep-path">/api/products</code>
               </div>
-              <p class="card-description">Retrieve all products from the static JSON file.</p>
+              <p class="ep-desc">Retrieve all products from the JSON file.</p>
               <button class="btn-try" id="btnProducts">Try API</button>
             </div>
 
-            <!-- Card 3: Single Product by ID -->
-            <div class="endpoint-card" id="cardProductId">
-              <div class="card-header-row">
-                <span class="method-badge">GET</span>
-                <code class="endpoint-path">/api/products/:id</code>
+            <!-- Card 3: Product by ID -->
+            <div class="ep-card" id="cardProductId">
+              <div class="ep-card-top">
+                <span class="badge-get">GET</span>
+                <code class="ep-path">/api/products/:id</code>
               </div>
-              <p class="card-description">Retrieve a specific product using its ID.</p>
-              <div class="card-input-row">
+              <p class="ep-desc">Retrieve a product by its numeric ID.</p>
+              <div class="ep-input-row">
                 <input
                   type="number"
                   id="productIdInput"
@@ -105,91 +113,94 @@
                 <button class="btn-try" id="btnProductId">Try API</button>
               </div>
             </div>
-          </div>
+          </aside>
 
-          <!-- JSON Response Viewer -->
-          <div class="response-container">
-            <div class="response-bar">
-              <div class="response-title-group">
-                <h3 class="response-title">API Response</h3>
-                <span class="active-endpoint-tag" id="activeEndpointTag">GET /api/products</span>
-                <span class="status-badge status-ok" id="responseStatus">Status: 200 OK</span>
+          <!-- Right: Response Viewer -->
+          <div class="response-panel">
+            <div class="response-topbar">
+              <div class="response-meta-group">
+                <span class="meta-label">RESPONSE</span>
+                <span class="active-ep-tag" id="activeEpTag">GET /api/products</span>
               </div>
-              <button class="btn-copy" id="btnCopy" aria-label="Copy JSON">Copy JSON</button>
+              <div class="response-actions">
+                <span class="http-status-badge" id="httpStatus">200 OK</span>
+                <button class="btn-copy" id="btnCopy">Copy JSON</button>
+              </div>
             </div>
-
-            <div class="response-box">
-              <pre class="response-pre" id="responseCode"><code>Loading API response…</code></pre>
+            <div class="response-body">
+              <pre class="response-pre" id="responseCode"><code>Loading…</code></pre>
             </div>
           </div>
+
         </div>
       </section>
 
-      <!-- ═══════════════════════════════ PRODUCT TABLE ═══════════════════════════════ -->
+      <!-- ── PRODUCTS TABLE ──────────────────────────── -->
       <section class="table-section">
-        <div class="container">
-          <div class="section-title-wrap">
-            <h2 class="section-title">Static JSON Data</h2>
-            <p class="section-subtitle">Live product records loaded from <code>data/products.json</code></p>
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Product Data</h2>
+            <p class="section-sub">Live records from <code>data/products.json</code> via <code>GET /api/products</code></p>
           </div>
+        </div>
 
-          <div class="table-responsive">
-            <table class="products-table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Product</th>
-                  <th>Category</th>
-                  <th>Price</th>
-                  <th>Stock</th>
-                </tr>
-              </thead>
-              <tbody id="productsTableBody">
-                <tr>
-                  <td colspan="5" class="table-state-cell">Loading products from API…</td>
-                </tr>
-              </tbody>
-            </table>
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Product Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+              <tr>
+                <td colspan="5" class="table-msg">Loading products…</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ── HOW IT WORKS ────────────────────────────── -->
+      <section class="flow-section">
+        <h2 class="section-title center">How It Works</h2>
+        <p class="section-sub center">The data path from file to browser</p>
+
+        <div class="flow-track">
+          <div class="flow-box">
+            <span class="flow-icon">📄</span>
+            <span class="flow-name">JSON File</span>
+            <code class="flow-detail">products.json</code>
+          </div>
+          <span class="flow-arrow" aria-hidden="true">→</span>
+          <div class="flow-box flow-box-green">
+            <span class="flow-icon">⚙️</span>
+            <span class="flow-name">Node.js + Express</span>
+            <code class="flow-detail">server.js</code>
+          </div>
+          <span class="flow-arrow" aria-hidden="true">→</span>
+          <div class="flow-box">
+            <span class="flow-icon">🔗</span>
+            <span class="flow-name">REST API</span>
+            <code class="flow-detail">/api/*</code>
+          </div>
+          <span class="flow-arrow" aria-hidden="true">→</span>
+          <div class="flow-box">
+            <span class="flow-icon">🌐</span>
+            <span class="flow-name">Browser</span>
+            <code class="flow-detail">Client UI</code>
           </div>
         </div>
       </section>
 
-      <!-- ═══════════════════════════════ HOW IT WORKS ════════════════════════════════ -->
-      <section class="how-section">
-        <div class="container">
-          <div class="section-title-wrap center">
-            <h2 class="section-title">How It Works</h2>
-            <p class="section-subtitle">Simple data flow from server to browser</p>
-          </div>
-
-          <div class="horizontal-flow" aria-label="Architecture flow: JSON File to Node.js and Express to REST API to Browser">
-            <div class="flow-node">
-              <span class="node-label">JSON File</span>
-              <span class="node-sub">products.json</span>
-            </div>
-            <div class="flow-connector" aria-hidden="true">→</div>
-            <div class="flow-node flow-node-highlight">
-              <span class="node-label">Node.js + Express</span>
-              <span class="node-sub">server.js</span>
-            </div>
-            <div class="flow-connector" aria-hidden="true">→</div>
-            <div class="flow-node">
-              <span class="node-label">REST API</span>
-              <span class="node-sub">/api/*</span>
-            </div>
-            <div class="flow-connector" aria-hidden="true">→</div>
-            <div class="flow-node">
-              <span class="node-label">Browser</span>
-              <span class="node-sub">Client UI</span>
-            </div>
-          </div>
-        </div>
-      </section>
     </main>
 
-    <!-- ═══════════════════════════════════ FOOTER ══════════════════════════════════ -->
-    <footer class="site-footer">
-      <p>Static JSON API &bull; Built with Node.js + Express</p>
+    <!-- ══════════════════════ FOOTER ══════════════════════ -->
+    <footer class="footer">
+      <p>Static JSON API &bull; Built with <span class="footer-accent">Node.js + Express</span></p>
     </footer>
 
     <script src="script.js"></script>
