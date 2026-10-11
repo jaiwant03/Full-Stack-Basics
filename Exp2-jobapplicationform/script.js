@@ -562,6 +562,17 @@ document.addEventListener("DOMContentLoaded", function () {
         updateFormProgress();
     });
 
+    const declarationSection = document.getElementById("declarationSection");
+    if (declarationSection) {
+        declarationSection.addEventListener("click", function (e) {
+            if (e.target !== declarationInput) {
+                declarationInput.checked = !declarationInput.checked;
+                validateDeclaration();
+                updateFormProgress();
+            }
+        });
+    }
+
     // ======================================================================
     // LIVE FORM COMPLETION PROGRESS TRACKER
     // ======================================================================
