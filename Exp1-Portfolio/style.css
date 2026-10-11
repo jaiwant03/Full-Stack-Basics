@@ -132,6 +132,11 @@ body {
   pointer-events: none;
   z-index: 0;
   filter: blur(100px);
+  transition: opacity var(--transition-normal);
+}
+html[data-theme="light"] .bg-glow-orb {
+  opacity: 0;
+  display: none;
 }
 .orb-1 {
   width: 500px;
@@ -156,6 +161,9 @@ body {
     linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
   pointer-events: none;
   z-index: 0;
+}
+html[data-theme="light"] .bg-grid-mesh {
+  opacity: 0.35;
 }
 
 img {
@@ -380,7 +388,9 @@ html[data-theme="light"] .sidenav li button.active .nav-icon {
 
 /* Sidebar Bottom */
 .sidebar-bottom {
-  padding-top: 1.2rem;
+  margin-top: auto;
+  padding-top: 1.4rem;
+  padding-bottom: 0.4rem;
   border-top: 1px solid var(--border-subtle);
 }
 .sidebar-contact-card {
