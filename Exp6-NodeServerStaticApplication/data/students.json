@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "name": "Aarav Sharma",
+    "rollNo": "CS2024001",
+    "department": "Computer Science",
+    "year": 2,
+    "semester": 4,
+    "email": "aarav.sharma@example.edu",
+    "gpa": 8.7
+  },
+  {
+    "id": 2,
+    "name": "Diya Patel",
+    "rollNo": "IT2024002",
+    "department": "Information Technology",
+    "year": 3,
+    "semester": 6,
+    "email": "diya.patel@example.edu",
+    "gpa": 9.1
+  },
+  {
+    "id": 3,
+    "name": "Ishaan Rao",
+    "rollNo": "AIDS2024003",
+    "department": "AI & DS",
+    "year": 1,
+    "semester": 2,
+    "email": "ishaan.rao@example.edu",
+    "gpa": 8.4
+  },
+  {
+    "id": 4,
+    "name": "Meera Nair",
+    "rollNo": "CS2024004",
+    "department": "Computer Science",
+    "year": 4,
+    "semester": 8,
+    "email": "meera.nair@example.edu",
+    "gpa": 9.3
+  },
+  {
+    "id": 5,
+    "name": "Kabir Singh",
+    "rollNo": "IT2024005",
+    "department": "Information Technology",
+    "year": 2,
+    "semester": 4,
+    "email": "kabir.singh@example.edu",
+    "gpa": 7.9
+  },
+  {
+    "id": 6,
+    "name": "Ananya Iyer",
+    "rollNo": "AIDS2024006",
+    "department": "AI & DS",
+    "year": 3,
+    "semester": 6,
+    "email": "ananya.iyer@example.edu",
+    "gpa": 8.9
+  },
+  {
+    "id": 7,
+    "name": "Vihaan Gupta",
+    "rollNo": "CS2024007",
+    "department": "Computer Science",
+    "year": 1,
+    "semester": 2,
+    "email": "vihaan.gupta@example.edu",
+    "gpa": 8.2
+  },
+  {
+    "id": 8,
+    "name": "Sara Khan",
+    "rollNo": "IT2024008",
+    "department": "Information Technology",
+    "year": 4,
+    "semester": 8,
+    "email": "sara.khan@example.edu",
+    "gpa": 9.0
+  },
+  {
+    "id": 9,
+    "name": "Reyansh Desai",
+    "rollNo": "AIDS2024009",
+    "department": "AI & DS",
+    "year": 2,
+    "semester": 4,
+    "email": "reyansh.desai@example.edu",
+    "gpa": 8.5
+  },
+  {
+    "id": 10,
+    "name": "Aditi Verma",
+    "rollNo": "CS2024010",
+    "department": "Computer Science",
+    "year": 3,
+    "semester": 6,
+    "email": "aditi.verma@example.edu",
+    "gpa": 9.4
+  }
+]
