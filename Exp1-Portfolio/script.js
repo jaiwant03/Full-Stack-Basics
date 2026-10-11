@@ -97,8 +97,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ---------- Project Category Filtering ---------- */
-  const filterBtns = document.querySelectorAll('.project-filter-group .filter-btn');
-  const projectCards = document.querySelectorAll('.project-grid .project-card');
+  const filterBtns = document.querySelectorAll('.project-filters .filter-btn, .project-filter-group .filter-btn');
+  const projectCards = document.querySelectorAll('.project-grid .project, .project-grid .project-card');
 
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {

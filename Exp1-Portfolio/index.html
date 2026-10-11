@@ -6,23 +6,35 @@
   <title>Jaiwant Karrun SA — AI-Powered Full Stack Developer | Portfolio</title>
   <meta name="description" content="Portfolio of Jaiwant Karrun SA, an AI-Powered Full Stack Developer specializing in MERN Stack, Generative AI, RAG architectures, and Machine Learning.">
 
-  <!-- Google Fonts -->
+  <!-- Google Fonts: Plus Jakarta Sans (Primary UI), Space Grotesk (Headings), JetBrains Mono (Tech/Metrics) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 
   <!-- ===== CSS TYPE 1: EXTERNAL ===== -->
   <link rel="stylesheet" href="style.css">
 
   <!-- ===== CSS TYPE 2: INTERNAL (page-specific animation & custom utility overrides) ===== -->
   <style>
-    /* Internal CSS for page-specific dynamic visual effects */
-    @keyframes pulseGlow {
-      0%, 100% { opacity: 0.6; transform: scale(1); }
-      50% { opacity: 0.9; transform: scale(1.04); }
+    /* Internal CSS for page-specific animation & custom styling */
+    .legacy-strip {
+      color: #e2e8f0;
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 0.5rem 0;
+      background: rgba(15, 23, 42, 0.95);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
     }
-    .hero-glow-badge {
-      animation: pulseGlow 4s ease-in-out infinite;
+    .hero-name {
+      font-family: var(--font-display);
+      background: linear-gradient(135deg, #ffffff 30%, #34d399 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.02em;
     }
     .old-tag-note {
       font-size: 0.85rem;
@@ -36,118 +48,103 @@
 </head>
 <body>
 
-  <!-- Ambient visual lighting / aurora backdrops -->
-  <div class="bg-glow bg-glow-1" aria-hidden="true"></div>
-  <div class="bg-glow bg-glow-2" aria-hidden="true"></div>
-  <div class="bg-grid-overlay" aria-hidden="true"></div>
+  <!-- Ambient background glow elements -->
+  <div class="bg-glow-orb orb-1" aria-hidden="true"></div>
+  <div class="bg-glow-orb orb-2" aria-hidden="true"></div>
+  <div class="bg-grid-mesh" aria-hidden="true"></div>
 
-  <!-- OLD TAG: <marquee> — styled as a sleek, high-tech ticker strip with pause on hover -->
-  <div class="ticker-wrapper" role="region" aria-label="Highlights Ticker">
-    <div class="ticker-badge">LIVE UPDATES</div>
-    <marquee class="legacy-strip" behavior="scroll" scrollamount="5" onmouseover="this.stop();" onmouseout="this.start();">
-      <span class="ticker-item"><span class="dot-live"></span> 1st Place Winner — Thooral Hackathon (PSG Tech)</span>
-      <span class="ticker-sep">✦</span>
-      <span class="ticker-item"><span class="dot-live"></span> AI-Powered Full Stack Developer (MERN + GenAI + FastAPI)</span>
-      <span class="ticker-sep">✦</span>
-      <span class="ticker-item"><span class="dot-live"></span> B.Tech AI & Data Science @ KPR Institute (9.13 CGPA)</span>
-      <span class="ticker-sep">✦</span>
-      <span class="ticker-item"><span class="dot-live"></span> Building with LangChain, FAISS, Ollama RAG & Vector Search</span>
-      <span class="ticker-sep">✦</span>
-      <span class="ticker-item"><span class="dot-live"></span> Completed 3+ Professional Industry Internships</span>
-    </marquee>
-  </div>
+  <!-- OLD TAG: <marquee> — styled as a modern live ticker bar with pause-on-hover -->
+  <marquee class="legacy-strip" behavior="scroll" scrollamount="5" onmouseover="this.stop();" onmouseout="this.start();">
+    <span class="ticker-live-dot"></span> <b>AI-Powered Full Stack Developer</b> &nbsp;&nbsp;&bull;&nbsp;&nbsp;
+    🏆 <b>1st Place, Thooral Hackathon</b> (PSG Tech) &nbsp;&nbsp;&bull;&nbsp;&nbsp;
+    ⚡ <b>Building with LangChain, FAISS, RAG &amp; the MERN stack</b> &nbsp;&nbsp;&bull;&nbsp;&nbsp;
+    🎓 <b>9.13 CGPA</b> &mdash; B.Tech AI &amp; Data Science @ KPR Institute &nbsp;&nbsp;&bull;&nbsp;&nbsp;
+    💼 <b>3+ Professional Industry Internships Completed</b>
+  </marquee>
 
   <div class="app">
 
-    <!-- Mobile Navigation Overlay -->
+    <!-- Mobile Drawer Overlay -->
     <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
     <!-- NEW TAG: <aside> as sidebar landmark -->
     <aside class="sidebar" id="sidebar">
-      <div class="sidebar-header">
-        <div class="brand-container">
-          <div class="brand-monogram">JK</div>
-          <div>
-            <p class="brand">Jaiwant Karrun</p>
-            <p class="sidebar-tagline">AI &amp; Full Stack Dev</p>
+      <div class="sidebar-top">
+        <div class="brand-row">
+          <div class="brand-avatar">JK</div>
+          <div class="brand-text">
+            <h2 class="brand-title">JK's Portfolio</h2>
+            <p class="sidebar-tagline">AI &amp; Full Stack Developer</p>
           </div>
+          <button class="mobile-close-btn" id="closeSidebarBtn" aria-label="Close menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
         </div>
-        <button class="mobile-close-btn" id="closeSidebarBtn" aria-label="Close menu">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
-        </button>
+
+        <div class="status-indicator-badge">
+          <span class="status-pulse-dot"></span>
+          <span>Open to Opportunities</span>
+        </div>
+
+        <!-- NEW TAG: <nav> -->
+        <nav class="sidebar-nav">
+          <ul class="sidenav" id="sidenav">
+            <li>
+              <button data-target="profile" class="active">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                </span>
+                <span>Profile</span>
+              </button>
+            </li>
+            <li>
+              <button data-target="experience">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                </span>
+                <span>Experience</span>
+              </button>
+            </li>
+            <li>
+              <button data-target="projects">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                </span>
+                <span>Projects</span>
+              </button>
+            </li>
+            <li>
+              <button data-target="skills">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                </span>
+                <span>Skills</span>
+              </button>
+            </li>
+            <li>
+              <button data-target="links">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                </span>
+                <span>Links</span>
+              </button>
+            </li>
+            <li>
+              <button data-target="contact">
+                <span class="nav-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                </span>
+                <span>Contact</span>
+              </button>
+            </li>
+          </ul>
+        </nav>
       </div>
 
-      <div class="status-pill">
-        <span class="status-indicator"></span>
-        <span>Open to Opportunities</span>
-      </div>
-
-      <!-- NEW TAG: <nav> -->
-      <nav class="sidebar-nav">
-        <ul class="sidenav" id="sidenav">
-          <li>
-            <button data-target="profile" class="active">
-              <span class="nav-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-              </span>
-              <span>Profile</span>
-            </button>
-          </li>
-          <li>
-            <button data-target="experience">
-              <span class="nav-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-              </span>
-              <span>Experience</span>
-            </button>
-          </li>
-          <li>
-            <button data-target="projects">
-              <span class="nav-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-              </span>
-              <span>Projects</span>
-            </button>
-          </li>
-          <li>
-            <button data-target="skills">
-              <span class="nav-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-              </span>
-              <span>Skills</span>
-            </button>
-          </li>
-          <li>
-            <button data-target="achievements">
-              <span class="nav-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
-              </span>
-              <span>Achievements</span>
-            </button>
-          </li>
-          <li>
-            <button data-target="links">
-              <span class="nav-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
-              </span>
-              <span>Links</span>
-            </button>
-          </li>
-          <li>
-            <button data-target="contact">
-              <span class="nav-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-              </span>
-              <span>Contact</span>
-            </button>
-          </li>
-        </ul>
-      </nav>
-
-      <div class="sidebar-footer">
-        <div class="sidebar-mini-contact">
-          <span class="mini-label">Direct Email</span>
-          <a href="mailto:jaisam710@gmail.com" class="mini-val">jaisam710@gmail.com</a>
+      <div class="sidebar-bottom">
+        <div class="sidebar-contact-card">
+          <span class="sidebar-contact-label">Email Me</span>
+          <a href="mailto:jaisam710@gmail.com" class="sidebar-contact-link">jaisam710@gmail.com</a>
         </div>
       </div>
     </aside>
@@ -157,27 +154,24 @@
       <!-- NEW TAG: <header> -->
       <header class="topbar">
         <div class="topbar-inner">
-          <div class="topbar-left">
-            <button class="mobile-menu-btn" id="openSidebarBtn" aria-label="Open navigation menu">
+          <div class="topbar-meta">
+            <button class="mobile-menu-toggle" id="openSidebarBtn" aria-label="Open sidebar menu">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
             </button>
             <div>
-              <div class="badge-role-tag">
-                <span class="badge-dot"></span> Full-Stack &amp; Generative AI
-              </div>
               <h1 class="hero-name">Jaiwant Karrun SA</h1>
               <!-- OLD TAG: <i> for the italic role line -->
-              <p class="role"><i>AI-Powered Full Stack Developer &amp; Data Science Professional</i></p>
+              <p class="role"><i>AI-Powered Full Stack Developer</i></p>
             </div>
           </div>
 
-          <div class="topbar-actions">
+          <div class="topbar-controls">
             <!-- Theme Toggle Button -->
-            <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle light/dark theme" title="Toggle theme">
-              <span class="theme-icon-dark">
+            <button class="theme-switch-btn" id="themeToggleBtn" aria-label="Toggle dark/light theme" title="Toggle theme">
+              <span class="icon-moon">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
               </span>
-              <span class="theme-icon-light">
+              <span class="icon-sun">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
               </span>
             </button>
@@ -192,317 +186,234 @@
 
       <main class="content">
 
-        <!-- ============ PROFILE VIEW ============ -->
+        <!-- ============ 1. PROFILE VIEW ============ -->
         <section id="profile" class="view active">
 
-          <!-- Key Metrics Grid -->
-          <div class="stats-grid">
-            <div class="stat-card">
-              <div class="stat-icon-wrap trophy">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
-              </div>
-              <div class="stat-details">
-                <span class="stat-num">1st Place</span>
-                <span class="stat-label">Thooral Hackathon @ PSG Tech</span>
-              </div>
-            </div>
+          <!-- Section: About Me -->
+          <h2 class="section-title">About Me</h2>
 
-            <div class="stat-card">
-              <div class="stat-icon-wrap gpa">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
-              </div>
-              <div class="stat-details">
-                <span class="stat-num">9.13 CGPA</span>
-                <span class="stat-label">B.Tech AI &amp; Data Science</span>
-              </div>
-            </div>
-
-            <div class="stat-card">
-              <div class="stat-icon-wrap code">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-              </div>
-              <div class="stat-details">
-                <span class="stat-num">3 Internships</span>
-                <span class="stat-label">Full Stack, AI &amp; Data Analytics</span>
-              </div>
-            </div>
-
-            <div class="stat-card">
-              <div class="stat-icon-wrap ai">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-              </div>
-              <div class="stat-details">
-                <span class="stat-num">10,000+</span>
-                <span class="stat-label">Data Records &amp; Pages Processed</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- About Me Panel -->
           <div class="panel about-grid">
-            <div class="about-content">
-              <div class="section-tag-row">
-                <span class="pill-chip">Introduction</span>
-                <span class="pill-chip-accent">Coimbatore, India</span>
-              </div>
-
-              <h2 class="section-title">About Me</h2>
-
+            <div class="about-text-column">
               <!-- Using semantic b, u, i tags per original academic baseline -->
               <p class="about-text">
                 Hi, I'm <b>Jaiwant Karrun SA</b> &mdash; an <u>aspiring AI &amp; Data Science professional</u>
-                with deep hands-on expertise across <b>MERN Stack development, Generative AI, Machine Learning</b> and
-                <i>Data Science</i>. I engineer <b>scalable full-stack architectures</b> and AI-driven solutions
-                using modern web technologies, turning creative ideas into <i>practical, production-ready</i>
+                with expertise in <b>MERN Stack development, Generative AI, Machine Learning</b> and
+                <i>Data Science</i>. I build <b>scalable full-stack applications</b> and AI-driven solutions
+                using modern technologies, turning innovative ideas into <i>practical, production-ready</i>
                 software that delivers <b>measurable value</b>.
               </p>
-
-              <p class="about-text secondary-text">
-                I am passionate about <b><i>solving real-world problems</i></b> through continuous engineering and innovation.
-                From indexing 2,000+ course pages with FAISS &amp; LangChain to scraping 10,000+ posts with automated sentiment pipelines,
-                I develop end-to-end intelligent products &mdash; from concept and system design to prototype and deployment.
+              <p class="about-text" style="margin-top: 1rem;">
+                I'm passionate about <b><i>solving real-world problems</i></b> through innovation and continuous learning, and I'm
+                actively developing AI-powered products end-to-end &mdash; from idea, to prototype, to a
+                polished, deployable result.
               </p>
 
-              <div class="focus-tags">
-                <span class="focus-tag"><span class="tag-bullet">✦</span> Generative AI &amp; RAG</span>
-                <span class="focus-tag"><span class="tag-bullet">✦</span> React &amp; Node.js</span>
-                <span class="focus-tag"><span class="tag-bullet">✦</span> FastAPI &amp; Python</span>
-                <span class="focus-tag"><span class="tag-bullet">✦</span> LangChain &amp; FAISS</span>
-                <span class="focus-tag"><span class="tag-bullet">✦</span> MongoDB &amp; SQL</span>
+              <div class="about-highlights-row">
+                <span class="badge-chip">✨ MERN Stack</span>
+                <span class="badge-chip">🤖 GenAI &amp; RAG</span>
+                <span class="badge-chip">⚡ FastAPI &amp; Python</span>
+                <span class="badge-chip">📊 Machine Learning</span>
               </div>
             </div>
 
             <div class="avatar-card">
               <!-- NEW TAG: <figure>/<figcaption> -->
-              <figure class="avatar-figure" style="margin:0;">
-                <div class="avatar-halo-wrap">
+              <figure class="profile-figure">
+                <div class="avatar-frame">
                   <div class="avatar">
-                    <img src="./profile.png" alt="Jaiwant Karrun SA portrait" id="profileImg">
+                    <img src="./profile.png" alt="Jaiwant Karrun SA" id="profileImg">
                     <span class="avatar-fallback" id="avatarFallback" hidden>JK</span>
                   </div>
-                  <div class="avatar-online-badge" title="Active"></div>
+                  <div class="avatar-status-dot" title="Active"></div>
                 </div>
                 <figcaption class="avatar-caption">
-                  <span class="caption-name">Jaiwant Karrun SA</span>
-                  <span class="caption-title">AI-Powered Full Stack Developer</span>
-                  <span class="caption-badge">KPR Institute of Engg &amp; Tech</span>
+                  <b class="caption-name">Jaiwant Karrun SA</b>
+                  <small class="caption-role">AI-Powered Full Stack Developer</small>
                 </figcaption>
               </figure>
-
-              <div class="avatar-actions">
-                <button class="btn btn-outline" id="resumeBtn">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                  <span>View Resume</span>
-                </button>
-                <button class="btn btn-ghost" id="openContact2">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                  <span>Enquire</span>
-                </button>
-              </div>
+              <button class="btn btn-ghost" id="resumeBtn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                <span>View Resume</span>
+              </button>
             </div>
           </div>
 
-          <!-- Education Section with clean modern table -->
-          <div class="panel-section-wrap">
-            <div class="panel-header-row">
-              <div>
-                <h2 class="section-title">Academic Background</h2>
-                <p class="section-subtitle">Education trajectory and coursework performance</p>
-              </div>
-              <span class="pill-chip">B.Tech AI &amp; DS</span>
-            </div>
+          <hr class="section-divider">
 
-            <div class="panel table-responsive-wrap">
+          <!-- Section: Education -->
+          <h2 class="section-title">Education</h2>
+          <div class="panel table-panel">
+            <div class="table-responsive-container">
               <table class="edu">
-                <caption>Formal qualifications &amp; educational background</caption>
+                <caption>Academic background</caption>
                 <thead>
                   <tr>
-                    <th scope="col">Qualification</th>
-                    <th scope="col">Institution</th>
-                    <th scope="col">Year</th>
-                    <th scope="col">Board / System</th>
-                    <th scope="col">Grade / Score</th>
+                    <th>Qualification</th>
+                    <th>Institution</th>
+                    <th>Year</th>
+                    <th>Board / System</th>
+                    <th>Grade / Score</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr class="highlight-row">
-                    <td>
-                      <div class="edu-qual">
-                        <span class="edu-icon">🎓</span>
-                        <div>
-                          <b>B.Tech, Artificial Intelligence &amp; Data Science</b>
-                          <small class="edu-sub">Specialization in AI Systems &amp; Analytics</small>
-                        </div>
-                      </div>
-                    </td>
+                    <td><b>B.Tech, Artificial Intelligence &amp; Data Science</b></td>
                     <td>KPR Institute of Engineering and Technology, Arasur, Coimbatore</td>
-                    <td><span class="badge-year">2024 &ndash; 2028</span></td>
-                    <td>Autonomous (Anna Univ. Affiliated)</td>
+                    <td><span class="year-badge">2024 &ndash; 2028</span></td>
+                    <td>Autonomous</td>
                     <td><span class="pill pill-gold">9.13 CGPA</span></td>
                   </tr>
                   <tr>
-                    <td>
-                      <div class="edu-qual">
-                        <span class="edu-icon">🏫</span>
-                        <div>
-                          <b>Higher Secondary Certificate (HSC &mdash; Class XII)</b>
-                          <small class="edu-sub">Computer Science &amp; Mathematics</small>
-                        </div>
-                      </div>
-                    </td>
+                    <td>HSC (Class XII)</td>
                     <td>Shri Nehru Vidyalaya Matriculation Hr. Sec. School, R.S. Puram, Coimbatore</td>
-                    <td><span class="badge-year">2024</span></td>
+                    <td><span class="year-badge">2024</span></td>
                     <td>State Board</td>
-                    <td><span class="pill pill-emerald">91.6%</span></td>
+                    <td><span class="pill pill-green">91.6%</span></td>
                   </tr>
                   <tr>
-                    <td>
-                      <div class="edu-qual">
-                        <span class="edu-icon">📚</span>
-                        <div>
-                          <b>Secondary School Leaving Certificate (SSLC &mdash; Class X)</b>
-                          <small class="edu-sub">General Academic Curriculum</small>
-                        </div>
-                      </div>
-                    </td>
+                    <td>SSLC (Class X)</td>
                     <td>Shri Nehru Vidyalaya Matriculation Hr. Sec. School, R.S. Puram, Coimbatore</td>
-                    <td><span class="badge-year">2022</span></td>
+                    <td><span class="year-badge">2022</span></td>
                     <td>State Board</td>
-                    <td><span class="pill pill-emerald">97.2%</span></td>
+                    <td><span class="pill pill-green">97.2%</span></td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
 
+          <hr class="section-divider">
+
+          <!-- Section: Achievements & Certifications -->
+          <h2 class="section-title">Achievements &amp; Certifications</h2>
+          <div class="panel">
+            <ul class="achv-list">
+              <li>
+                <span class="achv-icon">🏆</span>
+                <span class="achv-text"><b>1st place, Thooral Hackathon</b> &mdash; PSG College of Technology</span>
+              </li>
+              <li>
+                <span class="achv-icon">🥉</span>
+                <span class="achv-text"><b>3rd place, Code 'O' Clock Hackathon</b> &mdash; Coimbatore Institute of Technology</span>
+              </li>
+              <li>
+                <span class="achv-icon">🌟</span>
+                <span class="achv-text"><b>3rd rank, Semester 3</b> (Relative Grading)</span>
+              </li>
+              <li>
+                <span class="achv-icon">💡</span>
+                <span class="achv-text"><b>Best Prompt Innovator</b> &mdash; Prompt Engineering (2025)</span>
+              </li>
+              <li>
+                <span class="achv-icon">🎓</span>
+                <span class="achv-text"><b>OCI Certifications</b> &mdash; Data Science, Generative AI, AI Foundations</span>
+              </li>
+              <li>
+                <span class="achv-icon">🍃</span>
+                <span class="achv-text"><b>MongoDB Associate Developer Certification</b></span>
+              </li>
+              <li>
+                <span class="achv-icon">🐙</span>
+                <span class="achv-text"><b>GitHub Foundations Certification</b></span>
+              </li>
+              <li>
+                <span class="achv-icon">🛡️</span>
+                <span class="achv-text"><b>NPTEL</b> &mdash; Responsible &amp; Safe AI Systems (Elite)</span>
+              </li>
+              <li>
+                <span class="achv-icon">👥</span>
+                <span class="achv-text"><b>Technical Team Coordinator</b> &mdash; Ignitron Software Development Club</span>
+              </li>
+              <li>
+                <span class="achv-icon">🌐</span>
+                <span class="achv-text"><b>Executive Member</b>, IEEE Student Branch</span>
+              </li>
+            </ul>
+          </div>
         </section>
 
-        <!-- ============ EXPERIENCE VIEW ============ -->
+        <!-- ============ 2. EXPERIENCE VIEW ============ -->
         <section id="experience" class="view">
-          <div class="panel-header-row">
-            <div>
-              <h2 class="section-title">Professional Experience</h2>
-              <p class="section-subtitle">Real-world internships in full-stack engineering, AI development, and data workflows</p>
-            </div>
-            <span class="pill-chip">3 Internships</span>
-          </div>
+          <h2 class="section-title">Professional Experience</h2>
+          <div class="panel experience-panel">
 
-          <div class="experience-timeline">
-
-            <!-- Item 1 -->
-            <div class="exp-card">
-              <div class="exp-timeline-indicator">
-                <span class="exp-node-dot"></span>
-                <span class="exp-node-line"></span>
+            <div class="exp-item">
+              <div class="exp-header-row">
+                <h3>Full Stack Intern &mdash; Yaane Technologies</h3>
+                <span class="exp-meta">Dec 2025 &ndash; Jan 2026</span>
               </div>
-              <div class="exp-content-box">
-                <div class="exp-header">
-                  <div>
-                    <h3 class="exp-role">Full Stack Intern</h3>
-                    <h4 class="exp-company">Yaane Technologies</h4>
-                  </div>
-                  <span class="exp-period-badge">Dec 2025 &ndash; Jan 2026</span>
-                </div>
-                <ul class="exp-responsibilities">
-                  <li>Designed and deployed a robust rule-based alert management system processing <b>500+ automated notifications</b> with instant latency.</li>
-                  <li>Architected a scalable backend with <b>3+ high-throughput REST API endpoints</b> supporting multi-tenant workflow automations.</li>
-                  <li>Engineered an automated Reddit web scraping tool collecting <b>10,000+ posts &amp; comments</b>, feeding automated trend tracking and sentiment pipelines.</li>
-                </ul>
-                <div class="exp-tags">
-                  <span class="tag-pill">Python</span>
-                  <span class="tag-pill">REST APIs</span>
-                  <span class="tag-pill">Web Scraping</span>
-                  <span class="tag-pill">Sentiment Analysis</span>
-                  <span class="tag-pill">System Architecture</span>
-                </div>
+              <ul>
+                <li>Designed a rule-based alert management system handling <b>500+</b> automated notifications.</li>
+                <li>Built a scalable backend with 3+ REST API endpoints for automated notification workflows.</li>
+                <li>Engineered a Reddit web scraping tool that collected over <b>10,000</b> posts and comments, with automated trend &amp; sentiment analysis pipelines.</li>
+              </ul>
+              <div class="exp-tags">
+                <span class="tag">Python</span>
+                <span class="tag">REST APIs</span>
+                <span class="tag">Web Scraping</span>
+                <span class="tag">Sentiment Analysis</span>
               </div>
             </div>
 
-            <!-- Item 2 -->
-            <div class="exp-card">
-              <div class="exp-timeline-indicator">
-                <span class="exp-node-dot"></span>
-                <span class="exp-node-line"></span>
+            <div class="exp-item">
+              <div class="exp-header-row">
+                <h3>Data Collection Executive Intern &mdash; Book My Venue</h3>
+                <span class="exp-meta">Mar 2026 &ndash; May 2026</span>
               </div>
-              <div class="exp-content-box">
-                <div class="exp-header">
-                  <div>
-                    <h3 class="exp-role">Data Collection Executive Intern</h3>
-                    <h4 class="exp-company">Book My Venue</h4>
-                  </div>
-                  <span class="exp-period-badge">Mar 2026 &ndash; May 2026</span>
-                </div>
-                <ul class="exp-responsibilities">
-                  <li>Executed structured data ingestion, transformation, and cleansing on <b>10+ real-time commercial datasets</b>.</li>
-                  <li>Built interactive <b>Power BI analytics dashboards</b> visualizing KPIs and conversion rates for management review.</li>
-                  <li>Cleaned and standardized <b>5,000+ raw records</b>, slashing manual reporting cycle time by <b>30%</b>.</li>
-                </ul>
-                <div class="exp-tags">
-                  <span class="tag-pill">Power BI</span>
-                  <span class="tag-pill">Data Cleansing</span>
-                  <span class="tag-pill">ETL Pipelines</span>
-                  <span class="tag-pill">Business Intelligence</span>
-                </div>
+              <ul>
+                <li>Performed data collection, cleaning, and preprocessing on 10+ real-time datasets, visualising key trends in Power BI.</li>
+                <li>Cleaned and analysed <b>5,000+</b> records, reducing manual reporting time by <b>30%</b>.</li>
+              </ul>
+              <div class="exp-tags">
+                <span class="tag">Power BI</span>
+                <span class="tag">Data Preprocessing</span>
+                <span class="tag">Analytics</span>
               </div>
             </div>
 
-            <!-- Item 3 -->
-            <div class="exp-card">
-              <div class="exp-timeline-indicator">
-                <span class="exp-node-dot"></span>
+            <div class="exp-item">
+              <div class="exp-header-row">
+                <h3>Artificial Intelligence Intern &mdash; Infosys Springboard Internship 7.0</h3>
+                <span class="exp-meta">Jun 2026 &ndash; Jul 2026</span>
               </div>
-              <div class="exp-content-box">
-                <div class="exp-header">
-                  <div>
-                    <h3 class="exp-role">Artificial Intelligence Intern</h3>
-                    <h4 class="exp-company">Infosys Springboard Internship 7.0</h4>
-                  </div>
-                  <span class="exp-period-badge">Jun 2026 &ndash; Jul 2026</span>
-                </div>
-                <ul class="exp-responsibilities">
-                  <li>Leveraged Machine Learning, Deep Learning, and Natural Language Processing algorithms to address <b>3+ complex industry problem statements</b>.</li>
-                  <li>Developed <b>2+ comprehensive AI systems</b> enhancing intelligent automation, pattern detection, and decision-making workflows.</li>
-                  <li>Benchmarked model architectures for inference performance and generalizability.</li>
-                </ul>
-                <div class="exp-tags">
-                  <span class="tag-pill">Deep Learning</span>
-                  <span class="tag-pill">NLP</span>
-                  <span class="tag-pill">TensorFlow</span>
-                  <span class="tag-pill">Scikit-Learn</span>
-                  <span class="tag-pill">AI Automation</span>
-                </div>
+              <ul>
+                <li>Applied Machine Learning, Deep Learning, and NLP concepts to solve 3+ real-world problem statements.</li>
+                <li>Developed 2+ AI-based projects enhancing decision-making and automation workflows.</li>
+              </ul>
+              <div class="exp-tags">
+                <span class="tag">Machine Learning</span>
+                <span class="tag">Deep Learning</span>
+                <span class="tag">NLP</span>
+                <span class="tag">AI Workflows</span>
               </div>
             </div>
 
           </div>
         </section>
 
-        <!-- ============ PROJECTS VIEW ============ -->
+        <!-- ============ 3. PROJECTS VIEW ============ -->
         <section id="projects" class="view">
-          <div class="panel-header-row">
-            <div>
-              <h2 class="section-title">Featured Projects</h2>
-              <p class="section-subtitle">Real-world AI tools, RAG architectures, and collaborative web platforms</p>
-            </div>
-            <!-- Category Filter Tabs -->
-            <div class="project-filter-group" role="tablist" aria-label="Filter projects">
+          <div class="section-title-bar">
+            <h2 class="section-title">Projects</h2>
+            <!-- Project Category Filter Tabs -->
+            <div class="project-filters">
               <button class="filter-btn active" data-filter="all">All</button>
               <button class="filter-btn" data-filter="ai">AI &amp; GenAI</button>
-              <button class="filter-btn" data-filter="web">Full-Stack MERN</button>
+              <button class="filter-btn" data-filter="fullstack">Full-Stack MERN</button>
             </div>
           </div>
 
           <div class="project-grid">
 
             <!-- Project 1 -->
-            <article class="project-card" data-category="ai">
-              <div class="project-top">
+            <article class="project" data-category="ai">
+              <div class="project-head">
                 <div class="project-badge-row">
-                  <span class="proj-category-badge genai">✨ GenAI &amp; RAG</span>
-                  <span class="proj-star-badge">Featured</span>
+                  <span class="badge-tag">✨ GenAI &amp; RAG</span>
+                  <span class="featured-badge">Featured</span>
                 </div>
-                <h3 class="proj-title">SmartPrep AI</h3>
-                <p class="proj-desc">AI academic assistant featuring document-aware chat, instant question paper generation, and intelligent answer evaluation.</p>
+                <h3>SmartPrep AI</h3>
+                <p>AI academic assistant with document-aware chat, question paper generation, and AI-powered answer evaluation.</p>
               </div>
 
               <div class="tags">
@@ -515,41 +426,32 @@
               </div>
 
               <!-- NEW TAG: <details> / <summary> -->
-              <details class="project-details">
-                <summary>
-                  <span>Technical Architecture &amp; Impact</span>
-                  <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                </summary>
-                <div class="details-body">
-                  <p>Indexed <b>2,000+ pages</b> of textbook &amp; course material into dense vector embeddings using FAISS. Powered by local LLMs via Ollama, cutting student preparation and manual grading time by <b>70%</b>.</p>
-                  <div class="metric-callout">
-                    <span class="metric-num">70%</span>
-                    <span class="metric-text">Grading turnaround reduction with local vector retrieval</span>
-                  </div>
-                </div>
+              <details>
+                <summary>More detail</summary>
+                <p>Indexed 2,000+ pages of course material with FAISS and local LLMs via Ollama, cutting manual grading time by <b>70%</b>.</p>
               </details>
 
-              <div class="project-actions">
-                <a href="#contact" class="proj-btn proj-btn-primary" onclick="document.querySelector('[data-target=contact]').click();">
+              <div class="project-footer-actions">
+                <a href="#contact" class="btn btn-ghost btn-sm" onclick="document.querySelector('[data-target=contact]').click();">
                   <span>Enquire Architecture</span>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
                 </a>
-                <a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="proj-btn proj-btn-ghost">
+                <a href="https://github.com/jaiwant03" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-                  <span>Source</span>
+                  <span>Code</span>
                 </a>
               </div>
             </article>
 
             <!-- Project 2 -->
-            <article class="project-card" data-category="web">
-              <div class="project-top">
+            <article class="project" data-category="fullstack">
+              <div class="project-head">
                 <div class="project-badge-row">
-                  <span class="proj-category-badge fullstack">⚡ Full-Stack Web</span>
-                  <span class="proj-star-badge live">Real-Time</span>
+                  <span class="badge-tag">⚡ Full-Stack Web</span>
+                  <span class="featured-badge live">Live</span>
                 </div>
-                <h3 class="proj-title">Collaborative Kanban Board</h3>
-                <p class="proj-desc">High-concurrency task management platform featuring drag-and-drop workflow lanes, real-time board sync, and JWT security.</p>
+                <h3>Collaborative Kanban Board</h3>
+                <p>Real-time task management platform with drag-and-drop and secure authentication.</p>
               </div>
 
               <div class="tags">
@@ -558,45 +460,35 @@
                 <span>Socket.IO</span>
                 <span>MongoDB</span>
                 <span>JWT</span>
-                <span>Tailwind</span>
               </div>
 
               <!-- NEW TAG: <details> / <summary> -->
-              <details class="project-details">
-                <summary>
-                  <span>Technical Architecture &amp; Impact</span>
-                  <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                </summary>
-                <div class="details-body">
-                  <p>Synchronized board updates live across <b>50+ concurrent team members per workspace</b> using low-latency Socket.IO WebSocket broadcasts and optimistic UI updates.</p>
-                  <div class="metric-callout">
-                    <span class="metric-num">50+</span>
-                    <span class="metric-text">Concurrent active collaborator sync per board session</span>
-                  </div>
-                </div>
+              <details>
+                <summary>More detail</summary>
+                <p>Synced task updates live across <b>50+</b> concurrent users per board using Socket.IO-based WebSocket events.</p>
               </details>
 
-              <div class="project-actions">
-                <a href="#contact" class="proj-btn proj-btn-primary" onclick="document.querySelector('[data-target=contact]').click();">
+              <div class="project-footer-actions">
+                <a href="#contact" class="btn btn-ghost btn-sm" onclick="document.querySelector('[data-target=contact]').click();">
                   <span>Enquire Architecture</span>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
                 </a>
-                <a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="proj-btn proj-btn-ghost">
+                <a href="https://github.com/jaiwant03" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-                  <span>Source</span>
+                  <span>Code</span>
                 </a>
               </div>
             </article>
 
             <!-- Project 3 -->
-            <article class="project-card" data-category="ai">
-              <div class="project-top">
+            <article class="project" data-category="ai">
+              <div class="project-head">
                 <div class="project-badge-row">
-                  <span class="proj-category-badge genai">🤖 AI Analytics</span>
-                  <span class="proj-star-badge">Machine Learning</span>
+                  <span class="badge-tag">🤖 AI Analytics</span>
+                  <span class="featured-badge">ML Model</span>
                 </div>
-                <h3 class="proj-title">Idea-to-Startup Predictor</h3>
-                <p class="proj-desc">AI-driven predictive platform evaluating commercial startup viability, market TAM, competitive density, and scalability index.</p>
+                <h3>Idea-to-Startup Predictor</h3>
+                <p>AI platform that evaluates startup idea feasibility &mdash; market demand, competition, and scalability.</p>
               </div>
 
               <div class="tags">
@@ -604,45 +496,36 @@
                 <span>Node.js</span>
                 <span>Express</span>
                 <span>MongoDB</span>
-                <span>ML Pipeline</span>
+                <span>ML Models</span>
               </div>
 
               <!-- NEW TAG: <details> / <summary> -->
-              <details class="project-details">
-                <summary>
-                  <span>Technical Architecture &amp; Impact</span>
-                  <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                </summary>
-                <div class="details-body">
-                  <p>Trained and processed <b>1,000+ startup pitch submissions</b> with automated heuristic and ML feasibility metrics directly integrated into a full-stack MERN dashboard.</p>
-                  <div class="metric-callout">
-                    <span class="metric-num">1,000+</span>
-                    <span class="metric-text">Business pitch datasets scored with automated feedback</span>
-                  </div>
-                </div>
+              <details>
+                <summary>More detail</summary>
+                <p>Processed <b>1,000+</b> startup idea submissions, integrating AI-generated feasibility scoring into a full-stack MERN app.</p>
               </details>
 
-              <div class="project-actions">
-                <a href="#contact" class="proj-btn proj-btn-primary" onclick="document.querySelector('[data-target=contact]').click();">
+              <div class="project-footer-actions">
+                <a href="#contact" class="btn btn-ghost btn-sm" onclick="document.querySelector('[data-target=contact]').click();">
                   <span>Enquire Architecture</span>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
                 </a>
-                <a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="proj-btn proj-btn-ghost">
+                <a href="https://github.com/jaiwant03" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-                  <span>Source</span>
+                  <span>Code</span>
                 </a>
               </div>
             </article>
 
             <!-- Project 4 -->
-            <article class="project-card" data-category="web">
-              <div class="project-top">
+            <article class="project" data-category="fullstack">
+              <div class="project-head">
                 <div class="project-badge-row">
-                  <span class="proj-category-badge fullstack">🏗️ GovTech Platform</span>
-                  <span class="proj-star-badge">Civic Tech</span>
+                  <span class="badge-tag">🏗️ GovTech Platform</span>
+                  <span class="featured-badge">Civic Tech</span>
                 </div>
-                <h3 class="proj-title">RoadFix System</h3>
-                <p class="proj-desc">Civic road maintenance &amp; municipal repair tracking system with role-based field worker dispatch and administrator governance dashboards.</p>
+                <h3>RoadFix System</h3>
+                <p>Road maintenance &amp; repair tracking platform with role-based worker and admin dashboards.</p>
               </div>
 
               <div class="tags">
@@ -650,32 +533,22 @@
                 <span>Node.js</span>
                 <span>Express</span>
                 <span>MongoDB</span>
-                <span>Geo-Tagging</span>
               </div>
 
               <!-- NEW TAG: <details> / <summary> -->
-              <details class="project-details">
-                <summary>
-                  <span>Technical Architecture &amp; Impact</span>
-                  <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                </summary>
-                <div class="details-body">
-                  <p>Streamlined ticket-to-resolution lifecycle for <b>500+ municipal infrastructure issues</b> across 100+ field engineer accounts with audit-ready log verification.</p>
-                  <div class="metric-callout">
-                    <span class="metric-num">500+</span>
-                    <span class="metric-text">Infrastructure complaints resolved through automated dispatcher</span>
-                  </div>
-                </div>
+              <details>
+                <summary>More detail</summary>
+                <p>Streamlined issue-to-resolution tracking for <b>500+</b> reported infrastructure issues across 100+ worker/admin accounts.</p>
               </details>
 
-              <div class="project-actions">
-                <a href="#contact" class="proj-btn proj-btn-primary" onclick="document.querySelector('[data-target=contact]').click();">
+              <div class="project-footer-actions">
+                <a href="#contact" class="btn btn-ghost btn-sm" onclick="document.querySelector('[data-target=contact]').click();">
                   <span>Enquire Architecture</span>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
                 </a>
-                <a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="proj-btn proj-btn-ghost">
+                <a href="https://github.com/jaiwant03" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-                  <span>Source</span>
+                  <span>Code</span>
                 </a>
               </div>
             </article>
@@ -683,430 +556,212 @@
           </div>
         </section>
 
-        <!-- ============ SKILLS VIEW ============ -->
+        <!-- ============ 4. SKILLS VIEW ============ -->
         <section id="skills" class="view">
-          <div class="panel-header-row">
-            <div>
-              <h2 class="section-title">Technical Skills &amp; Proficiencies</h2>
-              <p class="section-subtitle">Proficiency bars &amp; categorized competencies</p>
-            </div>
-            <span class="pill-chip">Full Spectrum</span>
-          </div>
-
-          <!-- HTML5 Semantic Meters and Progress elements -->
-          <div class="panel skills-container">
+          <h2 class="section-title">Skills</h2>
+          <div class="panel skills-panel">
 
             <div class="skill-row">
               <div class="label">
-                <span class="skill-name">
-                  <span class="skill-dot"></span>
-                  <strong>Core Programming</strong> (Python, Java, C, JavaScript/TypeScript, SQL)
-                </span>
-                <span class="skill-val">90%</span>
+                <span class="skill-label-text">Programming (Python, Java, C, JS/TS, SQL)</span>
+                <span class="skill-pill">90%</span>
               </div>
-              <div class="meter-bar-wrapper">
+              <div class="meter-wrap">
                 <meter min="0" max="100" value="90">90%</meter>
               </div>
             </div>
 
             <div class="skill-row">
               <div class="label">
-                <span class="skill-name">
-                  <span class="skill-dot"></span>
-                  <strong>Full-Stack Web Development</strong> (React, Node.js, Express, FastAPI)
-                </span>
-                <span class="skill-val">88%</span>
+                <span class="skill-label-text">Full-Stack (React, Node.js, Express, FastAPI)</span>
+                <span class="skill-pill">88%</span>
               </div>
-              <div class="meter-bar-wrapper">
+              <div class="meter-wrap">
                 <meter min="0" max="100" value="88">88%</meter>
               </div>
             </div>
 
             <div class="skill-row">
               <div class="label">
-                <span class="skill-name">
-                  <span class="skill-dot"></span>
-                  <strong>Generative AI &amp; LLMs</strong> (LangChain, RAG Systems, FAISS, Ollama)
-                </span>
-                <span class="skill-val">85%</span>
+                <span class="skill-label-text">Generative AI (LangChain, RAG, FAISS, Ollama)</span>
+                <span class="skill-pill">85%</span>
               </div>
-              <div class="meter-bar-wrapper">
+              <div class="meter-wrap">
                 <meter min="0" max="100" value="85">85%</meter>
               </div>
             </div>
 
             <div class="skill-row">
               <div class="label">
-                <span class="skill-name">
-                  <span class="skill-dot"></span>
-                  <strong>AI / Machine Learning</strong> (TensorFlow, PyTorch, Scikit-learn, Power BI)
-                </span>
-                <span class="skill-val">80%</span>
+                <span class="skill-label-text">AI/ML (TensorFlow, PyTorch, Scikit-learn)</span>
+                <span class="skill-pill">80%</span>
               </div>
               <!-- NEW TAG: <progress> per academic requirements -->
-              <div class="meter-bar-wrapper">
-                <progress max="100" value="80" style="width:100%; height:12px;">80%</progress>
+              <div class="meter-wrap">
+                <progress max="100" value="80" style="width:100%; height:10px;">80%</progress>
               </div>
             </div>
 
             <div class="skill-row">
               <div class="label">
-                <span class="skill-name">
-                  <span class="skill-dot"></span>
-                  <strong>Databases, Cloud &amp; DevOps</strong> (MongoDB, SQL, Docker, AWS, Git)
-                </span>
-                <span class="skill-val">82%</span>
+                <span class="skill-label-text">Databases &amp; DevOps (MongoDB, SQL, Docker, AWS)</span>
+                <span class="skill-pill">82%</span>
               </div>
-              <div class="meter-bar-wrapper">
+              <div class="meter-wrap">
                 <meter min="0" max="100" value="82">82%</meter>
               </div>
             </div>
 
           </div>
-
-          <!-- Modern Categorized Tech Stack Grid -->
-          <div class="tech-stack-category-grid">
-
-            <div class="tech-category-card">
-              <div class="tech-cat-header">
-                <span class="tech-cat-icon">💻</span>
-                <h4>Languages</h4>
-              </div>
-              <div class="tech-chips">
-                <span class="chip">Python</span>
-                <span class="chip">JavaScript (ES6+)</span>
-                <span class="chip">TypeScript</span>
-                <span class="chip">Java</span>
-                <span class="chip">C</span>
-                <span class="chip">SQL</span>
-              </div>
-            </div>
-
-            <div class="tech-category-card">
-              <div class="tech-cat-header">
-                <span class="tech-cat-icon">🌐</span>
-                <h4>Web &amp; Backend</h4>
-              </div>
-              <div class="tech-chips">
-                <span class="chip">React</span>
-                <span class="chip">Node.js</span>
-                <span class="chip">Express</span>
-                <span class="chip">FastAPI</span>
-                <span class="chip">Socket.IO</span>
-                <span class="chip">HTML5 / CSS3</span>
-              </div>
-            </div>
-
-            <div class="tech-category-card">
-              <div class="tech-cat-header">
-                <span class="tech-cat-icon">🤖</span>
-                <h4>AI &amp; Generative AI</h4>
-              </div>
-              <div class="tech-chips">
-                <span class="chip">LangChain</span>
-                <span class="chip">RAG Architectures</span>
-                <span class="chip">FAISS Vector DB</span>
-                <span class="chip">Ollama</span>
-                <span class="chip">Prompt Engineering</span>
-                <span class="chip">TensorFlow &amp; PyTorch</span>
-              </div>
-            </div>
-
-            <div class="tech-category-card">
-              <div class="tech-cat-header">
-                <span class="tech-cat-icon">🗄️</span>
-                <h4>Data &amp; Cloud Tools</h4>
-              </div>
-              <div class="tech-chips">
-                <span class="chip">MongoDB</span>
-                <span class="chip">Power BI</span>
-                <span class="chip">Docker</span>
-                <span class="chip">AWS</span>
-                <span class="chip">Git / GitHub</span>
-                <span class="chip">Scikit-learn</span>
-              </div>
-            </div>
-
-          </div>
-
         </section>
 
-        <!-- ============ ACHIEVEMENTS & CERTIFICATIONS VIEW ============ -->
-        <section id="achievements" class="view">
-          <div class="panel-header-row">
-            <div>
-              <h2 class="section-title">Achievements &amp; Honors</h2>
-              <p class="section-subtitle">Hackathon podiums, prestigious certifications, and leadership roles</p>
-            </div>
-            <span class="pill-chip pill-gold">10 Recognitions</span>
-          </div>
-
-          <div class="achievements-section-grid">
-
-            <!-- Hackathons & Awards -->
-            <div class="achv-category-box">
-              <h3 class="achv-subheading">
-                <span class="subheading-icon">🏆</span> Hackathons &amp; Academic Honors
-              </h3>
-              <ul class="achv-list">
-                <li class="gold-tier">
-                  <div class="achv-badge-icon">🥇</div>
-                  <div class="achv-text-wrap">
-                    <span class="achv-title">1st Place &mdash; <b>Thooral Hackathon</b></span>
-                    <span class="achv-org">PSG College of Technology, Coimbatore</span>
-                  </div>
-                  <span class="achv-tag">1st Place</span>
-                </li>
-
-                <li class="bronze-tier">
-                  <div class="achv-badge-icon">🥉</div>
-                  <div class="achv-text-wrap">
-                    <span class="achv-title">3rd Place &mdash; <b>Code 'O' Clock Hackathon</b></span>
-                    <span class="achv-org">Coimbatore Institute of Technology (CIT)</span>
-                  </div>
-                  <span class="achv-tag">3rd Place</span>
-                </li>
-
-                <li>
-                  <div class="achv-badge-icon">⭐</div>
-                  <div class="achv-text-wrap">
-                    <span class="achv-title">3rd Rank &mdash; Semester 3</span>
-                    <span class="achv-org">Relative Grading @ KPR Institute of Engineering and Tech</span>
-                  </div>
-                  <span class="achv-tag">Academic</span>
-                </li>
-
-                <li>
-                  <div class="achv-badge-icon">💡</div>
-                  <div class="achv-text-wrap">
-                    <span class="achv-title">Best Prompt Innovator</span>
-                    <span class="achv-org">Prompt Engineering Challenge (2025)</span>
-                  </div>
-                  <span class="achv-tag">Innovation</span>
-                </li>
-              </ul>
-            </div>
-
-            <!-- Certifications & Leadership -->
-            <div class="achv-category-box">
-              <h3 class="achv-subheading">
-                <span class="subheading-icon">📜</span> Certifications &amp; Leadership
-              </h3>
-              <ul class="achv-list">
-                <li>
-                  <div class="achv-badge-icon">☁️</div>
-                  <div class="achv-text-wrap">
-                    <span class="achv-title">Oracle Cloud Infrastructure (OCI) Certifications</span>
-                    <span class="achv-org">Generative AI, Data Science &amp; AI Foundations</span>
-                  </div>
-                  <span class="achv-tag">Oracle</span>
-                </li>
-
-                <li>
-                  <div class="achv-badge-icon">🍃</div>
-                  <div class="achv-text-wrap">
-                    <span class="achv-title">MongoDB Associate Developer Certification</span>
-                    <span class="achv-org">MongoDB University Professional Credential</span>
-                  </div>
-                  <span class="achv-tag">Database</span>
-                </li>
-
-                <li>
-                  <div class="achv-badge-icon">🐙</div>
-                  <div class="achv-text-wrap">
-                    <span class="achv-title">GitHub Foundations Certified</span>
-                    <span class="achv-org">Git, GitHub Actions &amp; Collaboration workflows</span>
-                  </div>
-                  <span class="achv-tag">DevOps</span>
-                </li>
-
-                <li>
-                  <div class="achv-badge-icon">🛡️</div>
-                  <div class="achv-text-wrap">
-                    <span class="achv-title">NPTEL &mdash; Responsible &amp; Safe AI Systems</span>
-                    <span class="achv-org">Elite Grade Certification (IIT / NPTEL)</span>
-                  </div>
-                  <span class="achv-tag">Elite</span>
-                </li>
-
-                <li>
-                  <div class="achv-badge-icon">👥</div>
-                  <div class="achv-text-wrap">
-                    <span class="achv-title">Technical Team Coordinator</span>
-                    <span class="achv-org">Ignitron Software Development Club</span>
-                  </div>
-                  <span class="achv-tag">Leadership</span>
-                </li>
-
-                <li>
-                  <div class="achv-badge-icon">🌐</div>
-                  <div class="achv-text-wrap">
-                    <span class="achv-title">Executive Member</span>
-                    <span class="achv-org">IEEE Student Branch</span>
-                  </div>
-                  <span class="achv-tag">Community</span>
-                </li>
-              </ul>
-            </div>
-
-          </div>
-        </section>
-
-        <!-- ============ LINKS VIEW ============ -->
+        <!-- ============ 5. LINKS VIEW ============ -->
         <section id="links" class="view">
-          <div class="panel-header-row">
-            <div>
-              <h2 class="section-title">Profiles &amp; Coding Platforms</h2>
-              <p class="section-subtitle">Connect with me on professional networks and review my coding repositories</p>
-            </div>
-            <span class="pill-chip">Active Repos</span>
-          </div>
+          <h2 class="section-title">Links</h2>
 
-          <div class="links-modern-grid">
+          <div class="panel">
+            <ul class="links-list">
 
-            <!-- GitHub -->
-            <a href="https://github.com/jaiwant03" target="_blank" rel="noopener noreferrer" class="link-card-modern">
-              <div class="link-card-left">
-                <div class="link-brand-icon github">
-                  <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-                </div>
-                <div>
-                  <h3 class="link-card-title">GitHub</h3>
-                  <p class="link-card-handle">@jaiwant03</p>
-                  <span class="link-card-desc">Open-source AI repositories, MERN applications &amp; RAG prototypes</span>
-                </div>
-              </div>
-              <div class="link-arrow">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-              </div>
-            </a>
+              <li>
+                <a href="https://github.com/jaiwant03" target="_blank" rel="noopener noreferrer">
+                  <div class="link-item-left">
+                    <span class="link-icon-box github">
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                    </span>
+                    <div>
+                      <span class="link-name">GitHub</span>
+                      <small class="link-meta">@jaiwant03 &bull; Open-source repositories &amp; AI projects</small>
+                    </div>
+                  </div>
+                  <span class="link-arrow-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                  </span>
+                </a>
+              </li>
 
-            <!-- LinkedIn -->
-            <a href="https://linkedin.com/in/" target="_blank" rel="noopener noreferrer" class="link-card-modern">
-              <div class="link-card-left">
-                <div class="link-brand-icon linkedin">
-                  <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                </div>
-                <div>
-                  <h3 class="link-card-title">LinkedIn</h3>
-                  <p class="link-card-handle">Jaiwant Karrun SA</p>
-                  <span class="link-card-desc">Professional journey, project updates, industry connections &amp; articles</span>
-                </div>
-              </div>
-              <div class="link-arrow">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-              </div>
-            </a>
+              <li>
+                <a href="https://linkedin.com/in/" target="_blank" rel="noopener noreferrer">
+                  <div class="link-item-left">
+                    <span class="link-icon-box linkedin">
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </span>
+                    <div>
+                      <span class="link-name">LinkedIn</span>
+                      <small class="link-meta">Professional experience &amp; career updates</small>
+                    </div>
+                  </div>
+                  <span class="link-arrow-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                  </span>
+                </a>
+              </li>
 
-            <!-- LeetCode -->
-            <a href="https://leetcode.com/" target="_blank" rel="noopener noreferrer" class="link-card-modern">
-              <div class="link-card-left">
-                <div class="link-brand-icon leetcode">
-                  <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.874 5.874 0 0 0 .749 1.621 5.86 5.86 0 0 0 1.25 1.455l3.228 2.656 3.633 2.99a1.375 1.375 0 0 0 1.748-2.122l-3.633-2.99-3.228-2.656a3.11 3.11 0 0 1-.663-.772 3.125 3.125 0 0 1-.398-.86 2.775 2.775 0 0 1-.033-1.255c.08-.344.24-.658.468-.925l3.854-4.126 5.406-5.788A1.375 1.375 0 0 0 13.483 0zm-2.826 8.12a1.375 1.375 0 0 0-1.375 1.375v4.5c0 .76.615 1.375 1.375 1.375h7.25a1.375 1.375 0 1 0 0-2.75h-5.875V9.495A1.375 1.375 0 0 0 10.657 8.12z"/></svg>
-                </div>
-                <div>
-                  <h3 class="link-card-title">LeetCode</h3>
-                  <p class="link-card-handle">Algorithm &amp; Problem Solving</p>
-                  <span class="link-card-desc">Data structures, algorithm challenges &amp; competitive problem solving</span>
-                </div>
-              </div>
-              <div class="link-arrow">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-              </div>
-            </a>
+              <li>
+                <a href="https://leetcode.com/" target="_blank" rel="noopener noreferrer">
+                  <div class="link-item-left">
+                    <span class="link-icon-box leetcode">
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.874 5.874 0 0 0 .749 1.621 5.86 5.86 0 0 0 1.25 1.455l3.228 2.656 3.633 2.99a1.375 1.375 0 0 0 1.748-2.122l-3.633-2.99-3.228-2.656a3.11 3.11 0 0 1-.663-.772 3.125 3.125 0 0 1-.398-.86 2.775 2.775 0 0 1-.033-1.255c.08-.344.24-.658.468-.925l3.854-4.126 5.406-5.788A1.375 1.375 0 0 0 13.483 0zm-2.826 8.12a1.375 1.375 0 0 0-1.375 1.375v4.5c0 .76.615 1.375 1.375 1.375h7.25a1.375 1.375 0 1 0 0-2.75h-5.875V9.495A1.375 1.375 0 0 0 10.657 8.12z"/></svg>
+                    </span>
+                    <div>
+                      <span class="link-name">LeetCode</span>
+                      <small class="link-meta">Data structures &amp; algorithm challenges</small>
+                    </div>
+                  </div>
+                  <span class="link-arrow-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                  </span>
+                </a>
+              </li>
 
-            <!-- HackerRank -->
-            <a href="https://www.hackerrank.com/" target="_blank" rel="noopener noreferrer" class="link-card-modern">
-              <div class="link-card-left">
-                <div class="link-brand-icon hackerrank">
-                  <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M0 0v24h24v-24h-24zm14.685 18.257h-2.19v-4.848h-1.025v4.848h-2.189v-12.514h2.189v4.887h1.025v-4.887h2.19v12.514z"/></svg>
-                </div>
-                <div>
-                  <h3 class="link-card-title">HackerRank</h3>
-                  <p class="link-card-handle">Python &amp; Problem Solving Verified</p>
-                  <span class="link-card-desc">Skill assessment badges, SQL queries &amp; foundational challenges</span>
-                </div>
-              </div>
-              <div class="link-arrow">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-              </div>
-            </a>
+              <li>
+                <a href="https://www.hackerrank.com/" target="_blank" rel="noopener noreferrer">
+                  <div class="link-item-left">
+                    <span class="link-icon-box hackerrank">
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M0 0v24h24v-24h-24zm14.685 18.257h-2.19v-4.848h-1.025v4.848h-2.189v-12.514h2.189v4.887h1.025v-4.887h2.19v12.514z"/></svg>
+                    </span>
+                    <div>
+                      <span class="link-name">HackerRank</span>
+                      <small class="link-meta">Python &amp; problem solving skill verifications</small>
+                    </div>
+                  </div>
+                  <span class="link-arrow-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                  </span>
+                </a>
+              </li>
 
+            </ul>
           </div>
 
           <p class="old-tag-note">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-            Connect with me across coding networks or email directly to collaborate.
+            Connect with me through my professional profiles.
           </p>
         </section>
 
-        <!-- ============ CONTACT VIEW ============ -->
+        <!-- ============ 6. CONTACT VIEW ============ -->
         <section id="contact" class="view">
-          <div class="panel-header-row">
-            <div>
-              <h2 class="section-title">Get in Touch</h2>
-              <p class="section-subtitle">Reach out for project collaborations, full-time AI/Full-Stack opportunities, or tech discussions</p>
-            </div>
-            <span class="pill-chip">Direct Channels</span>
-          </div>
+          <h2 class="section-title">Contact</h2>
 
-          <div class="panel contact-panel-modern">
-            <div class="contact-cards-grid">
+          <div class="panel contact-panel">
+            <p class="contact-intro">
+              Prefer email or a call? Reach out directly, or use the enquiry form.
+            </p>
 
-              <!-- Email Card -->
-              <div class="contact-card-modern">
-                <div class="contact-icon-box email">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            <div class="contact-info">
+
+              <!-- Email -->
+              <div class="contact-item">
+                <div class="contact-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                 </div>
-                <div class="contact-meta">
-                  <span class="contact-lbl">Email Address</span>
-                  <a href="mailto:jaisam710@gmail.com" class="contact-val">jaisam710@gmail.com</a>
+                <div class="contact-content">
+                  <span class="contact-label">Email</span>
+                  <span class="contact-value">
+                    <a href="mailto:jaisam710@gmail.com">jaisam710@gmail.com</a>
+                  </span>
                 </div>
                 <button class="copy-btn" id="copyEmailBtn" title="Copy email address" aria-label="Copy email">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                   <span>Copy</span>
                 </button>
               </div>
 
-              <!-- Phone Card -->
-              <div class="contact-card-modern">
-                <div class="contact-icon-box phone">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+              <!-- Phone -->
+              <div class="contact-item">
+                <div class="contact-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
                 </div>
-                <div class="contact-meta">
-                  <span class="contact-lbl">Phone / WhatsApp</span>
-                  <a href="tel:+918754159934" class="contact-val">+91 87541 59934</a>
+                <div class="contact-content">
+                  <span class="contact-label">Phone</span>
+                  <span class="contact-value">
+                    <a href="tel:+918754159934">+91 87541 59934</a>
+                  </span>
                 </div>
-                <a href="tel:+918754159934" class="action-btn-link" title="Call directly">
-                  <span>Call</span>
-                </a>
+                <a href="tel:+918754159934" class="contact-action-link" title="Call directly">Call</a>
               </div>
 
-              <!-- Location Card -->
-              <div class="contact-card-modern">
-                <div class="contact-icon-box location">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              <!-- Location -->
+              <div class="contact-item">
+                <div class="contact-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
                 </div>
-                <div class="contact-meta">
-                  <span class="contact-lbl">Location</span>
-                  <span class="contact-val static">Coimbatore, Tamil Nadu, India</span>
+                <div class="contact-content">
+                  <span class="contact-label">Location</span>
+                  <span class="contact-value">Coimbatore, Tamil Nadu, India</span>
                 </div>
                 <span class="location-badge">On-site &amp; Remote</span>
               </div>
 
             </div>
 
-            <!-- Enquiry CTA Banner -->
-            <div class="contact-form-cta">
-              <div class="cta-text">
-                <h3>Have a project or opportunity in mind?</h3>
-                <p>Send an instant enquiry message directly through the interactive form modal.</p>
-              </div>
-              <button class="btn btn-primary btn-large" id="openEnquiryBtn" type="button">
+            <!-- Enquiry Action -->
+            <div class="contact-action">
+              <button class="btn btn-primary" id="openEnquiryBtn" type="button">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                 <span>Open Enquiry Form</span>
               </button>
             </div>
+
           </div>
         </section>
 
@@ -1114,16 +769,11 @@
 
       <!-- NEW TAG: <footer> -->
       <footer class="site-footer">
-        <div class="footer-left">
-          <span>&copy; <span id="year">2026</span> <b>Jaiwant Karrun SA</b>.</span>
-          <span class="footer-dot">•</span>
-          <span>AI-Powered Full Stack Developer</span>
+        <div class="footer-copy">
+          &copy; <span id="year">2026</span> <b>Jaiwant Karrun SA</b>. Built with HTML, CSS &amp; JS.
         </div>
-        <div class="footer-right">
-          <span>Crafted with HTML5, Vanilla CSS &amp; Modern JS</span>
-          <a href="#profile" class="back-to-top" onclick="window.scrollTo({top:0, behavior:'smooth'}); return false;">
-            <span>Top</span> ↑
-          </a>
+        <div class="footer-links">
+          <span>AI-Powered Full Stack Developer</span>
         </div>
       </footer>
 
@@ -1133,11 +783,8 @@
   <!-- NEW TAG: <dialog> — enquiry modal -->
   <dialog id="contactDialog" class="modal-dialog">
     <div class="dialog-inner">
-      <div class="dialog-header">
-        <div>
-          <span class="dialog-badge">Direct Communication</span>
-          <h2>Send an Enquiry</h2>
-        </div>
+      <div class="dialog-top">
+        <h2>Send an Enquiry</h2>
         <button type="button" class="close-dialog-btn" id="cancelDialogIcon" aria-label="Close dialog">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
         </button>
@@ -1145,42 +792,30 @@
 
       <form id="contactForm" method="dialog">
         <div class="field">
-          <label for="nameInput">Full Name <span class="required">*</span></label>
-          <div class="input-wrap">
-            <svg class="field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-            <input id="nameInput" type="text" required placeholder="e.g. Sarah Connor" autocomplete="name">
-          </div>
+          <label for="nameInput">Name</label>
+          <input id="nameInput" type="text" required placeholder="Your name" autocomplete="name">
         </div>
-
         <div class="field">
-          <label for="emailInput">Work Email <span class="required">*</span></label>
-          <div class="input-wrap">
-            <svg class="field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-            <input id="emailInput" type="email" required placeholder="name@company.com" autocomplete="email">
-          </div>
+          <label for="emailInput">Email</label>
+          <input id="emailInput" type="email" required placeholder="you@example.com" autocomplete="email">
         </div>
-
         <div class="field">
           <div class="field-label-row">
-            <label for="msgInput">Your Message <span class="required">*</span></label>
+            <label for="msgInput">Message</label>
             <!-- NEW TAG: <output> -->
-            <small class="char-count-wrap"><output id="charCount">0</output> / 500 chars</small>
+            <small><output id="charCount">0</output> characters</small>
           </div>
-          <textarea id="msgInput" rows="4" maxlength="500" required placeholder="Tell me about your project, timeline, or position details..."></textarea>
+          <textarea id="msgInput" rows="4" required placeholder="What would you like to ask?"></textarea>
         </div>
-
         <div class="dialog-actions">
-          <button type="button" class="btn btn-outline" id="cancelDialog">Cancel</button>
-          <button type="submit" class="btn btn-primary" id="sendBtn">
-            <span>Send Message</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-          </button>
+          <button type="button" class="btn btn-ghost" id="cancelDialog">Cancel</button>
+          <button type="submit" class="btn btn-primary">Send</button>
         </div>
       </form>
     </div>
   </dialog>
 
-  <!-- Interactive Toast Notification -->
+  <!-- Modern Non-Intrusive Toast Notification -->
   <div id="toast" class="toast" role="alert" aria-live="polite">
     <div class="toast-icon" id="toastIcon">✓</div>
     <div class="toast-body">
