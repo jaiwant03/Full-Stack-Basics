@@ -1,28 +1,32 @@
 // ==========================================================================
-// JOB APPLICATION FORM - CLIENT-SIDE VALIDATION & LOGIC
+// CAREER PORTAL - CLIENT-SIDE VALIDATION & LOGIC
 // ==========================================================================
 
 document.addEventListener("DOMContentLoaded", function () {
-    // DOM Elements
+    // Core Form
     const form = document.getElementById("jobForm");
 
-    // Modal elements
+    // Modal & Banner
     const successModal = document.getElementById("successModal");
     const modalTopCloseBtn = document.getElementById("modalTopCloseBtn");
     const closeModalBtn = document.getElementById("closeModalBtn");
     const submitAnotherBtn = document.getElementById("submitAnotherBtn");
     const printReceiptBtn = document.getElementById("printReceiptBtn");
 
-    // Banner elements
     const statusBanner = document.getElementById("statusBanner");
     const bannerMessage = document.getElementById("bannerMessage");
     const closeBannerBtn = document.getElementById("closeBannerBtn");
 
-    // Progress elements
+    // Progress Bar
     const progressBar = document.getElementById("progressBar");
-    const progressText = document.getElementById("progressText");
+    const progressPercent = document.getElementById("progressPercent");
 
-    // Field references
+    // Buttons
+    const submitBtn = document.getElementById("submitBtn");
+    const submitBtnText = document.getElementById("submitBtnText");
+    const resetBtn = document.getElementById("resetBtn");
+
+    // Form Field References
     const nameInput = document.getElementById("name");
     const nameError = document.getElementById("nameError");
 
@@ -71,6 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const otherSkillsInput = document.getElementById("otherSkills");
     const otherSkillsError = document.getElementById("otherSkillsError");
 
+    // File Upload Elements
     const resumeInput = document.getElementById("resumeFile");
     const resumeError = document.getElementById("resumeFileError");
     const dropZone = document.getElementById("dropZone");
@@ -78,7 +83,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const fileNameDisplay = document.getElementById("fileNameDisplay");
     const fileSizeDisplay = document.getElementById("fileSizeDisplay");
     const removeFileBtn = document.getElementById("removeFileBtn");
+    const sampleResumeBtn = document.getElementById("sampleResumeBtn");
 
+    // Web Links
     const portfolioInput = document.getElementById("portfolio");
     const portfolioError = document.getElementById("portfolioError");
 
@@ -88,6 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const githubInput = document.getElementById("github");
     const githubError = document.getElementById("githubError");
 
+    // Textareas & Counters
     const coverLetterInput = document.getElementById("coverLetter");
     const coverLetterError = document.getElementById("coverLetterError");
     const coverLetterCount = document.getElementById("coverLetterCount");
@@ -96,6 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const whyHireError = document.getElementById("whyHireError");
     const whyHireCount = document.getElementById("whyHireCount");
 
+    // Declaration
     const declarationInput = document.getElementById("declaration");
     const declarationError = document.getElementById("declarationError");
 
@@ -126,10 +135,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // ======================================================================
-    // VALIDATION FUNCTIONS
+    // VALIDATION RULES
     // ======================================================================
 
-    // 1. Full Name
+    // 1. Full Name (Letters and spaces only, min 3 chars)
     function validateName() {
         const name = nameInput.value.trim();
         if (name === "") {
@@ -173,7 +182,7 @@ document.addEventListener("DOMContentLoaded", function () {
         updateFormProgress();
     });
 
-    // 3. Phone Number
+    // 3. Phone Number (10 digits)
     function validatePhone() {
         const phone = phoneInput.value.trim();
         const phonePattern = /^[0-9]{10}$/;
@@ -183,7 +192,7 @@ document.addEventListener("DOMContentLoaded", function () {
             return false;
         }
         if (!phonePattern.test(phone)) {
-            showError(phoneInput, phoneError, "Please enter a valid 10-digit phone number.");
+            showError(phoneInput, phoneError, "Please enter a valid 10-digit mobile number.");
             return false;
         }
         clearError(phoneInput, phoneError);
@@ -238,7 +247,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // 6. Qualification (Required)
     function validateQualification() {
         if (qualificationInput.value === "") {
-            showError(qualificationInput, qualificationError, "Please select your qualification.");
+            showError(qualificationInput, qualificationError, "Please select your highest qualification.");
             return false;
         }
         clearError(qualificationInput, qualificationError);
@@ -249,7 +258,7 @@ document.addEventListener("DOMContentLoaded", function () {
         updateFormProgress();
     });
 
-    // 7. College / University (Optional)
+    // 7. College / University (Optional, min 2 chars if given)
     function validateCollege() {
         const college = collegeInput.value.trim();
         if (college === "") {
@@ -265,7 +274,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     collegeInput.addEventListener("input", validateCollege);
 
-    // 8. Graduation Year (Optional)
+    // 8. Graduation Year (Optional, 1950 - 2100)
     function validateYear() {
         const val = yearInput.value.trim();
         if (val === "") {
@@ -287,7 +296,7 @@ document.addEventListener("DOMContentLoaded", function () {
         validateYear();
     });
 
-    // 9. CGPA (Required: 8.0 or above)
+    // 9. CGPA (Required, 8.0 or above)
     function validateCGPA() {
         const val = cgpaInput.value.trim();
         if (val === "") {
@@ -296,7 +305,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         const cgpa = Number(val);
         if (isNaN(cgpa) || cgpa < 0 || cgpa > 10) {
-            showError(cgpaInput, cgpaError, "Please enter a valid CGPA between 0.0 and 10.0.");
+            showError(cgpaInput, cgpaError, "Please enter a valid CGPA score between 0.0 and 10.0.");
             return false;
         }
         if (cgpa < 8.0) {
@@ -337,7 +346,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // 12. Experience (Optional)
+    // 12. Experience (Optional, 0 - 50)
     function validateExperience() {
         const val = experienceInput.value.trim();
         if (val === "") {
@@ -375,7 +384,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // 16. Resume File (Required, PDF/DOC/DOCX, <= 5MB)
+    // 16. Resume File Upload (Required: PDF, DOC, DOCX <= 5MB)
     function formatFileSize(bytes) {
         if (bytes < 1024) return bytes + " B";
         if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
@@ -385,7 +394,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function updateFileDisplay(file) {
         if (file) {
             fileNameDisplay.textContent = file.name;
-            fileSizeDisplay.textContent = formatFileSize(file.size);
+            fileSizeDisplay.textContent = `${formatFileSize(file.size)} • Ready to upload`;
             filePreview.style.display = "flex";
             dropZone.style.display = "none";
         } else {
@@ -395,45 +404,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    if (removeFileBtn) {
-        removeFileBtn.addEventListener("click", function () {
-            updateFileDisplay(null);
-            validateResume();
-            updateFormProgress();
-        });
-    }
-
-    // Drag and drop handlers
-    if (dropZone) {
-        ['dragenter', 'dragover'].forEach(function (eventName) {
-            dropZone.addEventListener(eventName, function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                dropZone.classList.add('dragover');
-            });
-        });
-
-        ['dragleave', 'drop'].forEach(function (eventName) {
-            dropZone.addEventListener(eventName, function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                dropZone.classList.remove('dragover');
-            });
-        });
-
-        dropZone.addEventListener('drop', function (e) {
-            const dt = e.dataTransfer;
-            const files = dt.files;
-            if (files && files.length > 0) {
-                resumeInput.files = files;
-                validateResume();
-                updateFormProgress();
-            }
-        });
-    }
-
     function validateResume() {
-        const file = resumeInput.files[0];
+        const file = resumeInput.files && resumeInput.files[0];
         if (!file) {
             showError(null, resumeError, "Please upload your resume.");
             updateFileDisplay(null);
@@ -461,10 +433,69 @@ document.addEventListener("DOMContentLoaded", function () {
         updateFileDisplay(file);
         return true;
     }
+
     resumeInput.addEventListener("change", function () {
         validateResume();
         updateFormProgress();
     });
+
+    if (removeFileBtn) {
+        removeFileBtn.addEventListener("click", function () {
+            updateFileDisplay(null);
+            validateResume();
+            updateFormProgress();
+        });
+    }
+
+    // Attach Sample Resume for Instant Testing
+    if (sampleResumeBtn) {
+        sampleResumeBtn.addEventListener("click", function () {
+            try {
+                const sampleBlob = new Blob([
+                    "Candidate Resume\nName: Jaiwant Karrun\nRole: Full Stack Engineer\nSkills: HTML, CSS, JavaScript, Python"
+                ], { type: "application/pdf" });
+                const sampleFile = new File([sampleBlob], "Jaiwant_Resume.pdf", { type: "application/pdf" });
+
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(sampleFile);
+                resumeInput.files = dataTransfer.files;
+
+                validateResume();
+                updateFormProgress();
+            } catch (err) {
+                console.log("Quick attach fallback:", err);
+            }
+        });
+    }
+
+    // Drag and Drop Zone
+    if (dropZone) {
+        ['dragenter', 'dragover'].forEach(function (eventName) {
+            dropZone.addEventListener(eventName, function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                dropZone.classList.add('dragover');
+            });
+        });
+
+        ['dragleave', 'drop'].forEach(function (eventName) {
+            dropZone.addEventListener(eventName, function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                dropZone.classList.remove('dragover');
+            });
+        });
+
+        dropZone.addEventListener('drop', function (e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files && files.length > 0) {
+                resumeInput.files = files;
+                validateResume();
+                updateFormProgress();
+            }
+        });
+    }
 
     // 17. URL Validators (Portfolio, LinkedIn, GitHub)
     function validateURL(input, errorElement) {
@@ -503,7 +534,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // 18. Character Counters for Textareas
+    // 18. Character Counters
     if (coverLetterInput && coverLetterCount) {
         coverLetterInput.addEventListener("input", function () {
             coverLetterCount.textContent = `${this.value.length} / 1000`;
@@ -520,7 +551,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // 19. Declaration Checkbox (Required)
     function validateDeclaration() {
         if (!declarationInput.checked) {
-            showError(null, declarationError, "Please confirm the declaration before submitting.");
+            showError(null, declarationError, "Please confirm the declaration checkbox before submitting.");
             return false;
         }
         clearError(null, declarationError);
@@ -555,17 +586,16 @@ document.addEventListener("DOMContentLoaded", function () {
         if (progressBar) {
             progressBar.style.width = percentage + "%";
         }
-        if (progressText) {
-            progressText.textContent = percentage + "% Completed";
+        if (progressPercent) {
+            progressPercent.textContent = percentage + "% Completed";
         }
     }
 
     // ======================================================================
-    // MODAL & BANNER CONTROL
+    // MODAL & RECEIPT CONTROLS
     // ======================================================================
 
     function openSuccessModal(details) {
-        // Populate modal data
         document.getElementById("summaryAppId").textContent = details.appId;
         document.getElementById("summaryName").textContent = details.name;
         document.getElementById("summaryPosition").textContent = details.position;
@@ -573,13 +603,12 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("summaryPhone").textContent = details.phone;
         document.getElementById("summaryTimestamp").textContent = details.timestamp;
 
-        // Display modal
         successModal.style.display = "flex";
-        document.body.style.overflow = "hidden"; // Prevent background scroll
+        document.body.style.overflow = "hidden"; // Prevent scroll under modal
 
-        // Show top banner too
+        // Display status banner on page
         if (statusBanner) {
-            statusBanner.style.display = "flex";
+            statusBanner.style.display = "block";
             if (bannerMessage) {
                 bannerMessage.textContent = "Your response has been submitted successfully!";
             }
@@ -596,7 +625,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (modalTopCloseBtn) modalTopCloseBtn.addEventListener("click", closeSuccessModal);
     if (closeModalBtn) closeModalBtn.addEventListener("click", closeSuccessModal);
 
-    // Close when clicking modal backdrop
     if (successModal) {
         successModal.addEventListener("click", function (e) {
             if (e.target === successModal) {
@@ -605,7 +633,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Submit another response button
     if (submitAnotherBtn) {
         submitAnotherBtn.addEventListener("click", function () {
             closeSuccessModal();
@@ -614,14 +641,12 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Print Receipt button
     if (printReceiptBtn) {
         printReceiptBtn.addEventListener("click", function () {
             window.print();
         });
     }
 
-    // Close banner button
     if (closeBannerBtn) {
         closeBannerBtn.addEventListener("click", function () {
             statusBanner.style.display = "none";
@@ -634,12 +659,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function resetEntireForm() {
         form.reset();
-
-        // Clear file display
         updateFileDisplay(null);
 
-        // Clear error text and classes
-        document.querySelectorAll(".error-message").forEach(function (error) {
+        document.querySelectorAll(".error-text").forEach(function (error) {
             error.textContent = "";
             error.classList.remove("show");
         });
@@ -648,11 +670,9 @@ document.addEventListener("DOMContentLoaded", function () {
             el.classList.remove("input-error", "input-valid");
         });
 
-        // Reset character counters
         if (coverLetterCount) coverLetterCount.textContent = "0 / 1000";
         if (whyHireCount) whyHireCount.textContent = "0 / 800";
 
-        // Reset progress bar
         updateFormProgress();
     }
 
@@ -663,14 +683,13 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // ======================================================================
-    // FORM SUBMISSION HANDLER
+    // FORM SUBMIT HANDLER
     // ======================================================================
 
     form.addEventListener("submit", function (event) {
-        // Prevent default browser submission
         event.preventDefault();
 
-        // Run all individual validations
+        // Run validations
         const isNameValid = validateName();
         const isEmailValid = validateEmail();
         const isPhoneValid = validatePhone();
@@ -707,10 +726,10 @@ document.addEventListener("DOMContentLoaded", function () {
             isDeclarationValid;
 
         if (!isAllValid) {
-            // Find the first error or invalid field and scroll to it smoothly
-            const firstErrorElem = document.querySelector(".input-error, .error-message.show");
+            // Find first error and scroll smoothly
+            const firstErrorElem = document.querySelector(".input-error, .error-text.show");
             if (firstErrorElem) {
-                const target = firstErrorElem.classList.contains("error-message")
+                const target = firstErrorElem.classList.contains("error-text")
                     ? firstErrorElem.parentElement
                     : firstErrorElem;
 
@@ -726,41 +745,45 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        // ==================================================================
-        // SUCCESS HANDLING: BUILD SUMMARY & OPEN CONFIRMATION
-        // ==================================================================
+        // Visual submit state
+        if (submitBtnText) submitBtnText.textContent = "Submitting...";
+        if (submitBtn) submitBtn.disabled = true;
 
-        // Generate unique application ID
-        const randomNum = Math.floor(1000 + Math.random() * 9000);
-        const appId = `#APP-2026-${randomNum}`;
+        setTimeout(function () {
+            if (submitBtnText) submitBtnText.textContent = "Submit Application";
+            if (submitBtn) submitBtn.disabled = false;
 
-        const now = new Date();
-        const formattedDate = now.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "short",
-            day: "numeric"
-        }) + " at " + now.toLocaleTimeString("en-US", {
-            hour: "2-digit",
-            minute: "2-digit"
-        });
+            // Generate Application ID
+            const randomCode = Math.floor(1000 + Math.random() * 9000);
+            const appId = `#APP-2026-${randomCode}`;
 
-        const submissionData = {
-            appId: appId,
-            name: nameInput.value.trim(),
-            email: emailInput.value.trim(),
-            phone: phoneInput.value.trim(),
-            position: positionInput.value.trim(),
-            timestamp: formattedDate
-        };
+            const now = new Date();
+            const formattedDate = now.toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "numeric"
+            }) + " at " + now.toLocaleTimeString("en-US", {
+                hour: "2-digit",
+                minute: "2-digit"
+            });
 
-        // Open the rich confirmation modal
-        openSuccessModal(submissionData);
+            const submissionData = {
+                appId: appId,
+                name: nameInput.value.trim(),
+                email: emailInput.value.trim(),
+                phone: phoneInput.value.trim(),
+                position: positionInput.value.trim(),
+                timestamp: formattedDate
+            };
 
-        // Log formatted submission to developer console
-        console.log("%c Application Submitted Successfully! ", "background: #2e7d32; color: #ffffff; font-weight: bold; padding: 4px 8px; border-radius: 4px;");
-        console.table(submissionData);
+            // Display rich confirmation modal
+            openSuccessModal(submissionData);
+
+            console.log("%c Application Submitted Successfully! ", "background: #2e7d32; color: #ffffff; font-weight: bold; padding: 4px 8px; border-radius: 4px;");
+            console.table(submissionData);
+        }, 300);
     });
 
-    // Initialize progress on page load
+    // Initialize progress bar
     updateFormProgress();
 });
