@@ -84,24 +84,22 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background-color: #ffffff;
-    background-image: none;
+    background-color: #ffffff !important;
+    background-image: none !important;
     -webkit-font-smoothing: antialiased;
 }
 
 /* ==========================================================================
-   FROSTED GLASS NAVIGATION
+   NAVIGATION BAR
    ========================================================================== */
 
 .portal-nav {
-    background: rgba(255, 255, 255, 0.78);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    border-bottom: 1.5px solid rgba(255, 255, 255, 0.9);
+    background: #ffffff;
+    border-bottom: 1.5px solid #e2ece3;
     position: sticky;
     top: 0;
     z-index: 100;
-    box-shadow: 0 4px 18px rgba(46, 125, 50, 0.06);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
 }
 
 .nav-content {
