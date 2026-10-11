@@ -1030,18 +1030,18 @@ textarea {
     font-family: inherit;
     font-size: 16px;
     font-weight: 800;
-    padding: 15px 42px;
-    border-radius: var(--radius-sm);
+    padding: 16px 44px;
+    border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.25);
     cursor: pointer;
-    box-shadow: var(--shadow-3d-btn);
+    box-shadow: 0 6px 20px rgba(46, 125, 50, 0.35);
     transition: all var(--trans-spring);
 }
 
 .btn-primary-action:hover {
     background: linear-gradient(135deg, #256629 0%, #144a19 100%);
-    transform: translateY(-3px) scale(1.015);
-    box-shadow: var(--shadow-3d-btn-hover);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 10px 26px rgba(46, 125, 50, 0.45);
 }
 
 .btn-primary-action:active {
@@ -1054,28 +1054,25 @@ textarea {
     align-items: center;
     justify-content: center;
     gap: 10px;
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(8px);
-    border: 1.5px solid var(--subtle-border);
+    background: #ffffff;
+    border: 2px solid #d4e3d6;
     color: var(--text-muted);
     font-family: inherit;
-    font-size: 15px;
+    font-size: 15.5px;
     font-weight: 700;
-    padding: 15px 32px;
-    border-radius: var(--radius-sm);
+    padding: 16px 34px;
+    border-radius: 12px;
     cursor: pointer;
-    box-shadow: 
-        0 4px 12px rgba(0, 0, 0, 0.04),
-        inset 0 1px 1px #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
     transition: all var(--trans-spring);
 }
 
 .btn-secondary-action:hover {
-    background: #ffffff;
-    border-color: var(--border-control);
-    color: var(--text-main);
+    background: #fbfdfb;
+    border-color: var(--primary);
+    color: var(--primary);
     transform: translateY(-2px);
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 6px 16px rgba(46, 125, 50, 0.1);
 }
 
 /* ==========================================================================
