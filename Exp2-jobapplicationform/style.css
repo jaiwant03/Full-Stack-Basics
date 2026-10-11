@@ -900,12 +900,18 @@ textarea {
    ========================================================================== */
 
 .declaration-highlight {
-    background: rgba(255, 255, 255, 0.88);
-    backdrop-filter: var(--glass-blur);
+    background: #ffffff;
+    border: 1.5px solid #dbeade;
     border-left: 6px solid var(--primary);
     padding: 26px 30px;
     box-shadow: var(--shadow-3d-card);
     cursor: pointer;
+    transition: transform var(--trans-spring), box-shadow 0.3s ease;
+}
+
+.declaration-highlight:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-3d-hover);
 }
 
 .custom-checkbox {
@@ -915,12 +921,16 @@ textarea {
     cursor: pointer;
     user-select: none;
     margin-bottom: 0;
+    position: relative;
 }
 
 .custom-checkbox input[type="checkbox"] {
     position: absolute;
     opacity: 0;
-    pointer-events: none;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    z-index: 2;
 }
 
 .checkbox-box {
