@@ -1,7 +1,7 @@
 {
-  "name": "static-json-api",
+  "name": "student-json-rest-api",
   "version": "1.0.0",
-  "description": "A Node.js + Express application that serves static JSON data through REST API endpoints.",
+  "description": "Experiment 6 - Node.js and Express student JSON REST API.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
