@@ -19,6 +19,20 @@ function readStudents() {
   return students;
 }
 
+function wantsBrowserPage(req) {
+  return req.get("Accept")?.includes("text/html");
+}
+
+function sendStudentBrowserPage(req, res) {
+  if (!wantsBrowserPage(req)) {
+    return false;
+  }
+
+  res.vary("Accept");
+  res.sendFile(path.join(__dirname, "public", "api-view.html"));
+  return true;
+}
+
 app.get("/api/status", (req, res) => {
   res.status(200).json({
     status: "success",
@@ -29,6 +43,10 @@ app.get("/api/status", (req, res) => {
 });
 
 app.get("/api/students", (req, res) => {
+  if (sendStudentBrowserPage(req, res)) {
+    return;
+  }
+
   try {
     res.status(200).json(readStudents());
   } catch (error) {
@@ -38,6 +56,10 @@ app.get("/api/students", (req, res) => {
 });
 
 app.get("/api/students/:id", (req, res) => {
+  if (sendStudentBrowserPage(req, res)) {
+    return;
+  }
+
   const idText = req.params.id;
 
   if (!/^\d+$/.test(idText) || !Number.isSafeInteger(Number(idText))) {

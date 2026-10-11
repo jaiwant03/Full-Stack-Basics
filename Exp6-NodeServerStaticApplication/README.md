@@ -20,10 +20,10 @@ npm install
 npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in a browser. The existing
-responsive interface loads the student directory automatically. Use the student
-ID lookup to search for an individual record; the JSON response area reports
-loading, successful results, not-found responses, and connection errors.
+Open [http://localhost:3000](http://localhost:3000) in a browser. The responsive
+home page loads the student directory automatically. The API URLs below also
+show a formatted student directory or profile when opened directly in a browser.
+Postman, `curl`, and JavaScript `fetch()` requests continue to receive JSON.
 
 For development with Node.js watch mode:
 
@@ -51,7 +51,8 @@ npm run dev
 
 ### `GET /api/students`
 
-Returns all student records as a JSON array with HTTP `200 OK`.
+Returns all student records as a JSON array with HTTP `200 OK` for API clients.
+Opening the URL in a browser displays a responsive directory of student cards.
 
 ```bash
 curl http://localhost:3000/api/students
@@ -59,7 +60,8 @@ curl http://localhost:3000/api/students
 
 ### `GET /api/students/:id`
 
-Returns one student object with HTTP `200 OK`. If the numeric ID does not exist,
+Returns one student object with HTTP `200 OK` for API clients. In a browser, the
+URL displays a formatted profile. If the numeric ID does not exist, the API
 returns HTTP `404 Not Found`:
 
 ```json

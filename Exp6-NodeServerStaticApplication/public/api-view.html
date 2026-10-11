@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f7f5">
+  <title>Student Directory | Student API</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: "DM Sans", sans-serif;
+      color: #172a24;
+      background: #f3f7f5;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      --green: #147d59;
+      --muted: #738078;
+      --line: #e6ece8;
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; min-width: 320px; }
+    a { color: inherit; }
+
+    .topbar {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 max(24px, calc((100vw - 1160px) / 2));
+      background: rgba(255, 255, 255, .9);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .brand-mark {
+      display: grid;
+      width: 38px;
+      height: 38px;
+      place-items: center;
+      border-radius: 12px;
+      color: white;
+      background: linear-gradient(145deg, #22a576, #116346);
+      font-size: 17px;
+      font-weight: 800;
+    }
+    .brand-name { font: 800 15px "Manrope", sans-serif; letter-spacing: -.03em; }
+    .brand-caption { margin-top: 2px; color: var(--muted); font-size: 11px; }
+    .online {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border: 1px solid #d9eee4;
+      border-radius: 99px;
+      background: #f3fbf6;
+      color: #277552;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .online::before {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #28a46d;
+      content: "";
+      box-shadow: 0 0 0 3px #dff3e8;
+    }
+
+    main { width: min(1160px, calc(100% - 48px)); margin: 0 auto; padding: 50px 0 72px; }
+    .eyebrow { color: var(--green); font-size: 11px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin: 10px 0 8px; font: 800 clamp(30px, 5vw, 44px)/1.13 "Manrope", sans-serif; letter-spacing: -.055em; }
+    .intro { max-width: 610px; margin-bottom: 28px; color: var(--muted); font-size: 15px; line-height: 1.7; }
+    .toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin: 28px 0 18px; }
+    .result-count { color: var(--muted); font-size: 13px; }
+    .result-count strong { color: #25382f; }
+    .api-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border: 1px solid #dce8e1;
+      border-radius: 10px;
+      background: white;
+      color: #286b50;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: border-color .18s, transform .18s;
+    }
+    .api-link:hover { transform: translateY(-1px); border-color: #9dcdb5; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 16px; }
+    .student-card {
+      position: relative;
+      overflow: hidden;
+      padding: 21px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: white;
+      box-shadow: 0 5px 18px rgba(31, 62, 47, .035);
+      transition: transform .2s, box-shadow .2s, border-color .2s;
+    }
+    .student-card:hover { transform: translateY(-3px); border-color: #d0e5d8; box-shadow: 0 12px 28px rgba(31, 62, 47, .09); }
+    .card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .person { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .avatar {
+      display: grid;
+      width: 46px;
+      height: 46px;
+      flex: 0 0 46px;
+      place-items: center;
+      border-radius: 14px;
+      background: #eaf5ef;
+      color: #267552;
+      font: 800 14px "Manrope", sans-serif;
+    }
+    .student-name { overflow: hidden; margin: 0; font: 700 16px "Manrope", sans-serif; letter-spacing: -.025em; text-overflow: ellipsis; white-space: nowrap; }
+    .roll { margin-top: 4px; color: var(--muted); font: 11px "DM Sans", sans-serif; }
+    .department {
+      display: inline-flex;
+      max-width: 100%;
+      margin-top: 18px;
+      padding: 6px 10px;
+      overflow: hidden;
+      border: 1px solid #dcefe4;
+      border-radius: 99px;
+      background: #f3faf6;
+      color: #347254;
+      font-size: 11px;
+      font-weight: 700;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .details { display: grid; grid-template-columns: 1fr 1fr; gap: 15px 12px; margin: 19px 0 0; padding-top: 17px; border-top: 1px solid #edf1ee; }
+    .details div { min-width: 0; }
+    .details dt { margin-bottom: 4px; color: #8a958e; font-size: 10px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; }
+    .details dd { overflow: hidden; margin: 0; color: #31443a; font-size: 12px; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
+    .card-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 19px; padding-top: 14px; border-top: 1px solid #edf1ee; }
+    .gpa { color: #1a714d; font: 800 13px "Manrope", sans-serif; }
+    .view-record { color: #267552; font-size: 12px; font-weight: 700; text-decoration: none; }
+    .view-record:hover { text-decoration: underline; }
+    .profile-card { max-width: 760px; padding: 28px; }
+    .profile-card .person { gap: 17px; }
+    .profile-card .avatar { width: 64px; height: 64px; flex-basis: 64px; border-radius: 19px; font-size: 19px; }
+    .profile-card .student-name { font-size: 22px; }
+    .profile-card .roll { font-size: 13px; }
+    .profile-card .department { margin-top: 20px; }
+    .profile-card .details { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+    .profile-card .details dt { font-size: 11px; }
+    .profile-card .details dd { font-size: 14px; }
+    .empty {
+      padding: 32px;
+      border: 1px solid #f2dada;
+      border-radius: 16px;
+      background: white;
+      color: #9d3d3d;
+      line-height: 1.7;
+    }
+    .empty a { color: #267552; font-weight: 700; }
+    .loading { color: var(--muted); }
+    footer { margin-top: 34px; color: #89948d; font-size: 11px; }
+    footer code { color: #567365; }
+
+    @media (max-width: 560px) {
+      .topbar { height: 64px; padding: 0 18px; }
+      .online { padding: 7px 9px; font-size: 11px; }
+      main { width: min(100% - 36px, 1160px); padding-top: 36px; }
+      .intro { font-size: 14px; }
+      .student-card { padding: 18px; }
+      .profile-card { padding: 21px; }
+      .profile-card .details { gap: 16px 10px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/">
+      <span class="brand-mark" aria-hidden="true">S</span>
+      <span>
+        <span class="brand-name">Student Directory</span>
+        <span class="brand-caption" style="display:block">Experiment 6 · Node.js REST API</span>
+      </span>
+    </a>
+    <span class="online" id="apiStatus">Connecting</span>
+  </header>
+
+  <main>
+    <div class="eyebrow" id="pageEyebrow">Student records</div>
+    <h1 id="pageTitle">Student Directory</h1>
+    <p class="intro" id="pageIntro">Browse the student records served by the Express API. Select a student to view their full profile.</p>
+    <div class="toolbar">
+      <div class="result-count" id="resultCount" aria-live="polite"><span class="loading">Loading student records…</span></div>
+      <a class="api-link" href="/" aria-label="Return to the Student JSON API home page">← Back to API home</a>
+    </div>
+    <section class="grid" id="studentGrid" aria-live="polite">
+      <div class="loading">Fetching student data…</div>
+    </section>
+    <footer>Live data from <code id="endpointLabel">/api/students</code> · Node.js + Express</footer>
+  </main>
+
+  <script>
+    "use strict";
+
+    const endpoint = window.location.pathname;
+    const studentId = endpoint.match(/^\/api\/students\/([^/]+)\/?$/)?.[1];
+    const grid = document.getElementById("studentGrid");
+    const count = document.getElementById("resultCount");
+
+    document.getElementById("endpointLabel").textContent = endpoint;
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function initials(name) {
+      return String(name).trim().split(/\s+/).slice(0, 2).map((part) => part[0] || "").join("").toUpperCase();
+    }
+
+    function studentCard(student, profile = false) {
+      const detail = (label, value) => `
+        <div><dt>${label}</dt><dd title="${escapeHtml(value)}">${escapeHtml(value)}</dd></div>`;
+      const href = `/api/students/${encodeURIComponent(student.id)}`;
+
+      return `
+        <article class="student-card${profile ? " profile-card" : ""}">
+          <div class="card-head">
+            <div class="person">
+              <div class="avatar" aria-hidden="true">${escapeHtml(initials(student.name))}</div>
+              <div>
+                <h2 class="student-name">${escapeHtml(student.name)}</h2>
+                <div class="roll">Student ID ${escapeHtml(student.id)} · ${escapeHtml(student.rollNo)}</div>
+              </div>
+            </div>
+          </div>
+          <span class="department">${escapeHtml(student.department)}</span>
+          <dl class="details">
+            ${detail("Email", student.email)}
+            ${detail("Academic year", `Year ${student.year} · Semester ${student.semester}`)}
+            ${detail("Department", student.department)}
+            ${detail("GPA", `${Number(student.gpa).toFixed(1)} / 10`)}
+          </dl>
+          ${profile
+            ? `<div class="card-foot"><span class="gpa">Student profile</span><a class="view-record" href="/api/students">← All students</a></div>`
+            : `<div class="card-foot"><span class="gpa">GPA ${Number(student.gpa).toFixed(1)} / 10</span><a class="view-record" href="${href}">View profile →</a></div>`}
+        </article>`;
+    }
+
+    function showNotFound() {
+      document.getElementById("pageEyebrow").textContent = "No matching record";
+      document.getElementById("pageTitle").textContent = "Student not found";
+      document.getElementById("pageIntro").textContent = `There isn't a student record with ID ${studentId}. Check the ID and try again.`;
+      count.textContent = "No results";
+      grid.innerHTML = '<div class="empty">No student matches that ID. <a href="/api/students">Browse all students</a>.</div>';
+      document.getElementById("apiStatus").textContent = "No match";
+    }
+
+    async function loadStudents() {
+      try {
+        const response = await fetch(endpoint, {
+          headers: { Accept: "application/json" },
+          cache: "no-store",
+        });
+        const data = await response.json();
+
+        if (response.status === 404 && studentId) {
+          showNotFound();
+          return;
+        }
+        if (!response.ok) throw new Error(data.message || `Request failed (${response.status})`);
+
+        document.getElementById("apiStatus").textContent = "API connected";
+        if (studentId) {
+          document.getElementById("pageEyebrow").textContent = "Student profile";
+          document.getElementById("pageTitle").textContent = data.name;
+          document.getElementById("pageIntro").textContent = "Student details retrieved from the Student JSON REST API.";
+          count.innerHTML = `<strong>Record #${escapeHtml(data.id)}</strong> · ${escapeHtml(data.department)}`;
+          grid.innerHTML = studentCard(data, true);
+          grid.style.gridTemplateColumns = "1fr";
+          return;
+        }
+
+        if (!Array.isArray(data)) throw new Error("The API response was not a student list.");
+        count.innerHTML = `<strong>${data.length} students</strong> · All records`;
+        grid.innerHTML = data.length
+          ? data.map((student) => studentCard(student)).join("")
+          : '<div class="empty">No student records are available.</div>';
+      } catch (error) {
+        document.getElementById("apiStatus").textContent = "Connection issue";
+        document.getElementById("pageEyebrow").textContent = "Unable to load data";
+        document.getElementById("pageTitle").textContent = "We couldn't reach the API";
+        document.getElementById("pageIntro").textContent = error.message;
+        count.textContent = "Request failed";
+        grid.innerHTML = '<div class="empty">Check that the Express server is running, then <a href="">try again</a>.</div>';
+      }
+    }
+
+    loadStudents();
+  </script>
+</body>
+</html>
