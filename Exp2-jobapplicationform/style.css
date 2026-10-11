@@ -84,14 +84,8 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background-color: #edf7ef;
-    background-image: 
-        radial-gradient(circle at 10% 12%, rgba(129, 199, 132, 0.35) 0%, transparent 40%),
-        radial-gradient(circle at 92% 25%, rgba(46, 125, 50, 0.22) 0%, transparent 45%),
-        radial-gradient(circle at 15% 65%, rgba(165, 214, 167, 0.4) 0%, transparent 50%),
-        radial-gradient(circle at 85% 85%, rgba(76, 175, 80, 0.28) 0%, transparent 45%),
-        radial-gradient(circle at 50% 45%, rgba(200, 230, 201, 0.3) 0%, transparent 60%);
-    background-attachment: fixed;
+    background-color: #ffffff;
+    background-image: none;
     -webkit-font-smoothing: antialiased;
 }
 
@@ -392,13 +386,14 @@ body {
 }
 
 .card-section {
-    background: var(--glass-bg);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    border: 1.5px solid var(--glass-border);
+    background: #ffffff;
+    border: 1.5px solid #dbeade;
     border-radius: var(--radius-lg);
     margin-bottom: 28px;
-    box-shadow: var(--shadow-3d-card);
+    box-shadow: 
+        0 4px 6px -1px rgba(46, 125, 50, 0.05),
+        0 12px 28px -4px rgba(46, 125, 50, 0.09),
+        0 0 0 1px rgba(46, 125, 50, 0.04);
     transition: transform var(--trans-spring), box-shadow 0.3s ease, border-color 0.3s ease;
     overflow: hidden;
     position: relative;
@@ -411,15 +406,16 @@ body {
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
+    background: linear-gradient(90deg, transparent, rgba(165, 214, 167, 0.8), transparent);
     pointer-events: none;
 }
 
 .card-section:hover {
-    transform: translateY(-4px) scale(1.004);
-    box-shadow: var(--shadow-3d-hover);
-    border-color: rgba(165, 214, 167, 0.85);
-    background: var(--glass-bg-hover);
+    transform: translateY(-4px);
+    box-shadow: 
+        0 8px 14px -2px rgba(46, 125, 50, 0.07),
+        0 20px 40px -4px rgba(46, 125, 50, 0.16);
+    border-color: #a5d6a7;
 }
 
 /* 3D Section Header */
@@ -428,8 +424,8 @@ body {
     align-items: center;
     gap: 16px;
     padding: 24px 30px 18px;
-    border-bottom: 1.5px solid rgba(200, 223, 204, 0.45);
-    background: rgba(255, 255, 255, 0.4);
+    border-bottom: 1.5px solid #edf6ee;
+    background: #fbfdfb;
 }
 
 .section-number {
