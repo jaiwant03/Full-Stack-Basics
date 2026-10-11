@@ -1525,7 +1525,11 @@ progress::-moz-progress-bar {
     --sidebar-width: 0px;
   }
   .app {
-    grid-template-columns: 1fr;
+    display: block;
+    width: 100%;
+  }
+  .main {
+    width: 100%;
   }
 
   /* Off-canvas Mobile Sidebar */
