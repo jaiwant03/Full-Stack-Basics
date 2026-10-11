@@ -4,757 +4,740 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job Application Form | Careers Portal</title>
-    <meta name="description" content="Online Job Application Portal. Submit your profile, resume, and skills easily.">
+    <title>Job Application Form | Career Portal</title>
+    <meta name="description" content="Official Job Application Portal. Submit your profile, resume, and skills with client-side verification.">
 
-    <!-- Google Fonts: Plus Jakarta Sans -->
+    <!-- Google Fonts: Plus Jakarta Sans & Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Stylesheet -->
-    <link rel="stylesheet" href="style.css">
+    <!-- Stylesheet with Cache Buster -->
+    <link rel="stylesheet" href="style.css?v=2.2">
 </head>
 
 <body>
 
     <!-- =========================================
-         HEADER & HERO
+         NAVBAR / BRAND HEADER
          ========================================= -->
-    <header class="app-header">
-        <div class="header-container">
-            <div class="header-badge">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <nav class="portal-nav">
+        <div class="nav-content">
+            <div class="nav-brand">
+                <div class="brand-logo">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-name">CareerPortal</span>
+                    <span class="brand-tag">Recruitment Hub</span>
+                </div>
+            </div>
+            <div class="nav-status">
+                <span class="status-dot"></span>
+                <span>Applications Open</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- =========================================
+         HERO SECTION WITH PROGRESS
+         ========================================= -->
+    <header class="app-hero">
+        <div class="hero-inner">
+            <div class="hero-badge">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                     <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
                     <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
                 </svg>
-                <span>Career Opportunities • Apply Now</span>
+                <span>Official Employment Application</span>
             </div>
-            <h1 class="header-title">JOB APPLICATION FORM</h1>
-            <p class="header-subtitle">
-                Take the next step in your career journey. Please fill out the details below carefully.
+            
+            <h1 class="hero-title">Job Application Form</h1>
+            <p class="hero-subtitle">
+                Join our high-performing team. Please complete each section carefully with accurate information.
                 Fields marked with <span class="required">*</span> are mandatory.
             </p>
 
-            <!-- Dynamic Form Progress Tracker -->
-            <div class="progress-wrapper">
-                <div class="progress-info">
-                    <span class="progress-label">Form Completion Progress</span>
-                    <span id="progressText" class="progress-percent">0% Completed</span>
+            <!-- Dynamic Form Progress Tracker Card -->
+            <div class="progress-card">
+                <div class="progress-meta">
+                    <div class="progress-title-wrap">
+                        <span class="progress-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                        </span>
+                        <span class="progress-heading">Application Completion</span>
+                    </div>
+                    <span id="progressPercent" class="progress-badge">0% Completed</span>
                 </div>
-                <div class="progress-bar-bg">
-                    <div id="progressBar" class="progress-bar-fill" style="width: 0%;"></div>
+                <div class="progress-track">
+                    <div id="progressBar" class="progress-fill" style="width: 0%;"></div>
+                </div>
+                <div class="progress-steps-hint">
+                    <span>Personal</span>
+                    <span>Education</span>
+                    <span>Position</span>
+                    <span>Skills</span>
+                    <span>Resume</span>
+                    <span>Submit</span>
                 </div>
             </div>
         </div>
     </header>
 
     <!-- =========================================
-         NOTIFICATION BANNER (SUBMISSION TOAST)
+         STATUS BANNER (POST-SUBMISSION NOTICE)
          ========================================= -->
     <div id="statusBanner" class="status-banner" style="display: none;">
-        <div class="banner-content">
-            <svg class="banner-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                <polyline points="22 4 12 14.01 9 11.01"></polyline>
-            </svg>
-            <span id="bannerMessage">Your response has been submitted successfully!</span>
+        <div class="banner-inner">
+            <div class="banner-icon-wrap">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </div>
+            <div class="banner-text">
+                <strong>Submission Successful:</strong>
+                <span id="bannerMessage">Your response has been submitted successfully!</span>
+            </div>
+            <button type="button" id="closeBannerBtn" class="banner-dismiss" aria-label="Close notification">&times;</button>
         </div>
-        <button type="button" class="banner-close" id="closeBannerBtn" aria-label="Dismiss">&times;</button>
     </div>
 
     <!-- =========================================
-         MAIN APPLICATION CONTENT
+         MAIN APPLICATION FORM
          ========================================= -->
-    <main class="main-container">
+    <main class="form-wrapper">
 
-        <form id="jobForm" novalidate>
+        <form id="jobForm" novalidate autocomplete="on">
 
             <!-- =====================================
-                 1. PERSONAL INFORMATION
+                 SECTION 1: PERSONAL INFORMATION
                  ===================================== -->
-            <section id="personal" class="form-section">
-                <div class="section-header">
-                    <div class="section-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-                    </div>
-                    <div>
+            <section id="personal" class="card-section">
+                <div class="card-header">
+                    <div class="section-number">01</div>
+                    <div class="card-header-text">
                         <h2>Personal Information</h2>
-                        <p class="section-desc">Provide your contact details and basic information.</p>
+                        <p>Provide your contact details and identity information.</p>
                     </div>
                 </div>
 
-                <div class="form-grid">
-                    <!-- Full Name -->
-                    <div class="form-group">
-                        <label for="name">
-                            Full Name <span class="required">*</span>
-                        </label>
-                        <div class="input-wrapper">
-                            <svg class="field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="12" cy="7" r="4"></circle>
-                            </svg>
-                            <input
-                                type="text"
-                                id="name"
-                                name="name"
-                                placeholder="e.g. Jaiwant Karrun"
-                                required
-                                autocomplete="name"
-                            >
+                <div class="card-body">
+                    <div class="grid-2col">
+                        <!-- Full Name -->
+                        <div class="field-item">
+                            <label for="name">
+                                Full Name <span class="required">*</span>
+                            </label>
+                            <div class="input-container">
+                                <input
+                                    type="text"
+                                    id="name"
+                                    name="name"
+                                    placeholder="e.g. Jaiwant Karrun"
+                                    required
+                                    autocomplete="name"
+                                >
+                            </div>
+                            <small id="nameError" class="error-text"></small>
                         </div>
-                        <small id="nameError" class="error-message"></small>
-                    </div>
 
-                    <!-- Email -->
-                    <div class="form-group">
-                        <label for="email">
-                            Email Address <span class="required">*</span>
-                        </label>
-                        <div class="input-wrapper">
-                            <svg class="field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                                <polyline points="22,6 12,13 2,6"></polyline>
-                            </svg>
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                placeholder="name@example.com"
-                                required
-                                autocomplete="email"
-                            >
+                        <!-- Email Address -->
+                        <div class="field-item">
+                            <label for="email">
+                                Email Address <span class="required">*</span>
+                            </label>
+                            <div class="input-container">
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    placeholder="name@example.com"
+                                    required
+                                    autocomplete="email"
+                                >
+                            </div>
+                            <small id="emailError" class="error-text"></small>
                         </div>
-                        <small id="emailError" class="error-message"></small>
-                    </div>
 
-                    <!-- Phone -->
-                    <div class="form-group">
-                        <label for="phone">
-                            Phone Number <span class="required">*</span>
-                        </label>
-                        <div class="input-wrapper">
-                            <svg class="field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                            </svg>
-                            <input
-                                type="tel"
-                                id="phone"
-                                name="phone"
-                                placeholder="10-digit mobile number"
-                                maxlength="10"
-                                required
-                                autocomplete="tel"
-                            >
+                        <!-- Phone Number -->
+                        <div class="field-item">
+                            <label for="phone">
+                                Phone Number <span class="required">*</span>
+                            </label>
+                            <div class="input-container">
+                                <input
+                                    type="tel"
+                                    id="phone"
+                                    name="phone"
+                                    placeholder="10-digit mobile number"
+                                    maxlength="10"
+                                    required
+                                    autocomplete="tel"
+                                >
+                            </div>
+                            <small id="phoneError" class="error-text"></small>
                         </div>
-                        <small id="phoneError" class="error-message"></small>
-                    </div>
 
-                    <!-- Date of Birth -->
-                    <div class="form-group">
-                        <label for="dob">
-                            Date of Birth
-                        </label>
-                        <div class="input-wrapper">
-                            <svg class="field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                                <line x1="16" y1="2" x2="16" y2="6"></line>
-                                <line x1="8" y1="2" x2="8" y2="6"></line>
-                                <line x1="3" y1="10" x2="21" y2="10"></line>
-                            </svg>
-                            <input
-                                type="date"
-                                id="dob"
-                                name="dob"
-                            >
+                        <!-- Date of Birth -->
+                        <div class="field-item">
+                            <label for="dob">
+                                Date of Birth <span class="optional-tag">(Optional)</span>
+                            </label>
+                            <div class="input-container">
+                                <input
+                                    type="date"
+                                    id="dob"
+                                    name="dob"
+                                >
+                            </div>
+                            <small id="dobError" class="error-text"></small>
                         </div>
-                        <small id="dobError" class="error-message"></small>
                     </div>
-                </div>
 
-                <!-- Gender Radio Group -->
-                <div class="form-group mt-3">
-                    <label>
-                        Gender <span class="required">*</span>
-                    </label>
-                    <div class="radio-cards-group">
-                        <label class="radio-card">
-                            <input type="radio" name="gender" value="Male" id="genderMale">
-                            <span class="radio-card-content">
-                                <span class="custom-radio"></span>
-                                <span class="radio-label">Male</span>
-                            </span>
+                    <!-- Gender Radio Group -->
+                    <div class="field-item mt-4">
+                        <label class="group-label">
+                            Gender <span class="required">*</span>
                         </label>
-                        <label class="radio-card">
-                            <input type="radio" name="gender" value="Female" id="genderFemale">
-                            <span class="radio-card-content">
-                                <span class="custom-radio"></span>
-                                <span class="radio-label">Female</span>
-                            </span>
-                        </label>
-                        <label class="radio-card">
-                            <input type="radio" name="gender" value="Other" id="genderOther">
-                            <span class="radio-card-content">
-                                <span class="custom-radio"></span>
-                                <span class="radio-label">Other</span>
-                            </span>
-                        </label>
-                    </div>
-                    <small id="genderError" class="error-message"></small>
-                </div>
-            </section>
+                        <div class="selector-pills-row">
+                            <label class="pill-radio-label">
+                                <input type="radio" name="gender" value="Male" id="genderMale">
+                                <span class="pill-radio-box">
+                                    <span class="pill-dot"></span>
+                                    <span class="pill-title">Male</span>
+                                </span>
+                            </label>
 
-            <!-- =====================================
-                 2. EDUCATION
-                 ===================================== -->
-            <section id="education" class="form-section">
-                <div class="section-header">
-                    <div class="section-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
-                            <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <h2>Education Details</h2>
-                        <p class="section-desc">Share your highest academic qualification and background.</p>
-                    </div>
-                </div>
+                            <label class="pill-radio-label">
+                                <input type="radio" name="gender" value="Female" id="genderFemale">
+                                <span class="pill-radio-box">
+                                    <span class="pill-dot"></span>
+                                    <span class="pill-title">Female</span>
+                                </span>
+                            </label>
 
-                <div class="form-grid">
-                    <!-- Qualification -->
-                    <div class="form-group">
-                        <label for="qualification">
-                            Highest Qualification <span class="required">*</span>
-                        </label>
-                        <div class="input-wrapper">
-                            <svg class="field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                            </svg>
-                            <select id="qualification" name="qualification" required>
-                                <option value="">Select Qualification</option>
-                                <option value="10th">10th Standard</option>
-                                <option value="12th">12th Standard / HSC</option>
-                                <option value="Diploma">Diploma</option>
-                                <option value="Degree">Bachelor's Degree (B.E / B.Tech / B.Sc / BCA)</option>
-                                <option value="Masters">Master's Degree (M.Tech / M.Sc / MCA / MBA)</option>
-                                <option value="PhD">Doctorate / Ph.D.</option>
-                            </select>
+                            <label class="pill-radio-label">
+                                <input type="radio" name="gender" value="Other" id="genderOther">
+                                <span class="pill-radio-box">
+                                    <span class="pill-dot"></span>
+                                    <span class="pill-title">Other</span>
+                                </span>
+                            </label>
                         </div>
-                        <small id="qualificationError" class="error-message"></small>
-                    </div>
-
-                    <!-- College -->
-                    <div class="form-group">
-                        <label for="college">
-                            College / University
-                        </label>
-                        <div class="input-wrapper">
-                            <svg class="field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                            </svg>
-                            <input
-                                type="text"
-                                id="college"
-                                name="college"
-                                placeholder="Enter institution name"
-                            >
-                        </div>
-                        <small id="collegeError" class="error-message"></small>
-                    </div>
-
-                    <!-- Graduation Year -->
-                    <div class="form-group">
-                        <label for="year">
-                            Graduation Year
-                        </label>
-                        <div class="input-wrapper">
-                            <svg class="field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <polyline points="12 6 12 12 16 14"></polyline>
-                            </svg>
-                            <input
-                                type="number"
-                                id="year"
-                                name="year"
-                                min="1950"
-                                max="2100"
-                                placeholder="e.g. 2026"
-                            >
-                        </div>
-                        <small id="yearError" class="error-message"></small>
-                    </div>
-
-                    <!-- CGPA -->
-                    <div class="form-group">
-                        <label for="cgpa">
-                            CGPA (8.0 or above) <span class="required">*</span>
-                        </label>
-                        <div class="input-wrapper">
-                            <svg class="field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                            </svg>
-                            <input
-                                type="number"
-                                id="cgpa"
-                                name="cgpa"
-                                min="0"
-                                max="10"
-                                step="0.01"
-                                placeholder="e.g. 8.50"
-                                required
-                            >
-                        </div>
-                        <small id="cgpaError" class="error-message"></small>
+                        <small id="genderError" class="error-text"></small>
                     </div>
                 </div>
             </section>
 
             <!-- =====================================
-                 3. JOB DETAILS
+                 SECTION 2: EDUCATION
                  ===================================== -->
-            <section id="job" class="form-section">
-                <div class="section-header">
-                    <div class="section-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-                        </svg>
+            <section id="education" class="card-section">
+                <div class="card-header">
+                    <div class="section-number">02</div>
+                    <div class="card-header-text">
+                        <h2>Educational Background</h2>
+                        <p>Tell us about your highest degree, institution, and academic credentials.</p>
                     </div>
-                    <div>
+                </div>
+
+                <div class="card-body">
+                    <div class="grid-2col">
+                        <!-- Qualification -->
+                        <div class="field-item">
+                            <label for="qualification">
+                                Highest Qualification <span class="required">*</span>
+                            </label>
+                            <div class="select-container">
+                                <select id="qualification" name="qualification" required>
+                                    <option value="">Choose Qualification...</option>
+                                    <option value="10th">10th Standard / Matriculation</option>
+                                    <option value="12th">12th Standard / Higher Secondary</option>
+                                    <option value="Diploma">Diploma</option>
+                                    <option value="Degree">Bachelor's Degree (B.E / B.Tech / B.Sc / BCA)</option>
+                                    <option value="Masters">Master's Degree (M.Tech / M.Sc / MCA / MBA)</option>
+                                    <option value="PhD">Doctorate / Ph.D.</option>
+                                </select>
+                            </div>
+                            <small id="qualificationError" class="error-text"></small>
+                        </div>
+
+                        <!-- College / University -->
+                        <div class="field-item">
+                            <label for="college">
+                                College / University <span class="optional-tag">(Optional)</span>
+                            </label>
+                            <div class="input-container">
+                                <input
+                                    type="text"
+                                    id="college"
+                                    name="college"
+                                    placeholder="Enter your college or university"
+                                >
+                            </div>
+                            <small id="collegeError" class="error-text"></small>
+                        </div>
+
+                        <!-- Graduation Year -->
+                        <div class="field-item">
+                            <label for="year">
+                                Graduation Year <span class="optional-tag">(Optional)</span>
+                            </label>
+                            <div class="input-container">
+                                <input
+                                    type="number"
+                                    id="year"
+                                    name="year"
+                                    min="1950"
+                                    max="2100"
+                                    placeholder="e.g. 2026"
+                                >
+                            </div>
+                            <small id="yearError" class="error-text"></small>
+                        </div>
+
+                        <!-- CGPA / Percentage -->
+                        <div class="field-item">
+                            <label for="cgpa">
+                                CGPA / Score (8.0 or above) <span class="required">*</span>
+                            </label>
+                            <div class="input-container">
+                                <input
+                                    type="number"
+                                    id="cgpa"
+                                    name="cgpa"
+                                    min="0"
+                                    max="10"
+                                    step="0.01"
+                                    placeholder="e.g. 8.75"
+                                    required
+                                >
+                            </div>
+                            <small id="cgpaError" class="error-text"></small>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =====================================
+                 SECTION 3: JOB DETAILS
+                 ===================================== -->
+            <section id="job" class="card-section">
+                <div class="card-header">
+                    <div class="section-number">03</div>
+                    <div class="card-header-text">
                         <h2>Position &amp; Role</h2>
-                        <p class="section-desc">Specify the role you are applying for and your work preferences.</p>
+                        <p>Specify the target position and your career preferences.</p>
                     </div>
                 </div>
 
-                <div class="form-grid">
-                    <!-- Position -->
-                    <div class="form-group">
-                        <label for="position">
-                            Position Applied For <span class="required">*</span>
+                <div class="card-body">
+                    <div class="grid-2col">
+                        <!-- Position Applied For -->
+                        <div class="field-item">
+                            <label for="position">
+                                Position Applied For <span class="required">*</span>
+                            </label>
+                            <div class="input-container">
+                                <input
+                                    type="text"
+                                    id="position"
+                                    name="position"
+                                    placeholder="e.g. Software Engineer / Frontend Developer"
+                                    required
+                                >
+                            </div>
+                            <small id="positionError" class="error-text"></small>
+                        </div>
+
+                        <!-- Department -->
+                        <div class="field-item">
+                            <label for="department">
+                                Department <span class="optional-tag">(Optional)</span>
+                            </label>
+                            <div class="select-container">
+                                <select id="department" name="department">
+                                    <option value="">Select Department...</option>
+                                    <option value="IT">Information Technology (IT)</option>
+                                    <option value="AI">Artificial Intelligence &amp; ML</option>
+                                    <option value="Data Science">Data Science &amp; Analytics</option>
+                                    <option value="HR">Human Resources</option>
+                                    <option value="Marketing">Marketing &amp; Growth</option>
+                                </select>
+                            </div>
+                            <small id="departmentError" class="error-text"></small>
+                        </div>
+
+                        <!-- Experience -->
+                        <div class="field-item">
+                            <label for="experience">
+                                Experience (Years) <span class="optional-tag">(Optional)</span>
+                            </label>
+                            <div class="input-container">
+                                <input
+                                    type="number"
+                                    id="experience"
+                                    name="experience"
+                                    min="0"
+                                    max="50"
+                                    placeholder="e.g. 2"
+                                >
+                            </div>
+                            <small id="experienceError" class="error-text"></small>
+                        </div>
+
+                        <!-- Expected Salary -->
+                        <div class="field-item">
+                            <label for="salary">
+                                Expected Salary (Annual) <span class="optional-tag">(Optional)</span>
+                            </label>
+                            <div class="input-container">
+                                <input
+                                    type="number"
+                                    id="salary"
+                                    name="salary"
+                                    placeholder="e.g. 750000"
+                                >
+                            </div>
+                            <small id="salaryError" class="error-text"></small>
+                        </div>
+                    </div>
+
+                    <!-- Work Type -->
+                    <div class="field-item mt-4">
+                        <label class="group-label">
+                            Preferred Work Arrangement <span class="optional-tag">(Optional)</span>
                         </label>
-                        <div class="input-wrapper">
-                            <svg class="field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M20 7h-7"></path>
-                                <path d="M14 17H7"></path>
-                                <circle cx="17" cy="17" r="3"></circle>
-                                <circle cx="7" cy="7" r="3"></circle>
-                            </svg>
+                        <div class="selector-pills-row">
+                            <label class="pill-radio-label">
+                                <input type="radio" name="workType" value="Office" id="workTypeOffice">
+                                <span class="pill-radio-box">
+                                    <span class="pill-dot"></span>
+                                    <span class="pill-title">In-Office</span>
+                                </span>
+                            </label>
+
+                            <label class="pill-radio-label">
+                                <input type="radio" name="workType" value="Remote" id="workTypeRemote">
+                                <span class="pill-radio-box">
+                                    <span class="pill-dot"></span>
+                                    <span class="pill-title">Remote</span>
+                                </span>
+                            </label>
+
+                            <label class="pill-radio-label">
+                                <input type="radio" name="workType" value="Hybrid" id="workTypeHybrid">
+                                <span class="pill-radio-box">
+                                    <span class="pill-dot"></span>
+                                    <span class="pill-title">Hybrid</span>
+                                </span>
+                            </label>
+                        </div>
+                        <small id="workTypeError" class="error-text"></small>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =====================================
+                 SECTION 4: SKILLS
+                 ===================================== -->
+            <section id="skills" class="card-section">
+                <div class="card-header">
+                    <div class="section-number">04</div>
+                    <div class="card-header-text">
+                        <h2>Skills &amp; Competencies</h2>
+                        <p>Select your technical skills and specify other tools or frameworks you master.</p>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="field-item">
+                        <label class="group-label">
+                            Core Technical Skills <span class="optional-tag">(Click to select)</span>
+                        </label>
+                        <div class="skill-chips-wrap">
+                            <label class="skill-chip-label">
+                                <input type="checkbox" name="skills" value="HTML" id="skillHTML">
+                                <span class="chip-item">
+                                    <span class="chip-icon">✓</span>
+                                    <span>HTML</span>
+                                </span>
+                            </label>
+
+                            <label class="skill-chip-label">
+                                <input type="checkbox" name="skills" value="CSS" id="skillCSS">
+                                <span class="chip-item">
+                                    <span class="chip-icon">✓</span>
+                                    <span>CSS</span>
+                                </span>
+                            </label>
+
+                            <label class="skill-chip-label">
+                                <input type="checkbox" name="skills" value="JavaScript" id="skillJS">
+                                <span class="chip-item">
+                                    <span class="chip-icon">✓</span>
+                                    <span>JavaScript</span>
+                                </span>
+                            </label>
+
+                            <label class="skill-chip-label">
+                                <input type="checkbox" name="skills" value="Python" id="skillPython">
+                                <span class="chip-item">
+                                    <span class="chip-icon">✓</span>
+                                    <span>Python</span>
+                                </span>
+                            </label>
+
+                            <label class="skill-chip-label">
+                                <input type="checkbox" name="skills" value="Java" id="skillJava">
+                                <span class="chip-item">
+                                    <span class="chip-icon">✓</span>
+                                    <span>Java</span>
+                                </span>
+                            </label>
+
+                            <label class="skill-chip-label">
+                                <input type="checkbox" name="skills" value="SQL" id="skillSQL">
+                                <span class="chip-item">
+                                    <span class="chip-icon">✓</span>
+                                    <span>SQL</span>
+                                </span>
+                            </label>
+                        </div>
+                        <small id="skillsError" class="error-text"></small>
+                    </div>
+
+                    <!-- Other Skills -->
+                    <div class="field-item mt-4">
+                        <label for="otherSkills">
+                            Other Skills / Technologies <span class="optional-tag">(Optional)</span>
+                        </label>
+                        <textarea
+                            id="otherSkills"
+                            name="otherSkills"
+                            rows="3"
+                            placeholder="e.g. React.js, Node.js, Express, Git, GitHub, Docker, MongoDB..."
+                        ></textarea>
+                        <small id="otherSkillsError" class="error-text"></small>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =====================================
+                 SECTION 5: RESUME & PROFILES
+                 ===================================== -->
+            <section id="resume" class="card-section">
+                <div class="card-header">
+                    <div class="section-number">05</div>
+                    <div class="card-header-text">
+                        <h2>Resume &amp; Web Presence</h2>
+                        <p>Attach your professional CV and link your portfolio or social profiles.</p>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <!-- Modern Drag & Drop File Upload -->
+                    <div class="field-item">
+                        <div class="label-with-action">
+                            <label for="resumeFile">
+                                Upload Resume <span class="required">*</span>
+                            </label>
+                            <button type="button" id="sampleResumeBtn" class="link-btn" title="Click to auto-attach a valid sample resume for testing">
+                                + Attach Sample Resume (Quick Test)
+                            </button>
+                        </div>
+
+                        <!-- Dropzone -->
+                        <div id="dropZone" class="modern-dropzone">
                             <input
-                                type="text"
-                                id="position"
-                                name="position"
-                                placeholder="e.g. Frontend Developer / Full Stack Engineer"
+                                type="file"
+                                id="resumeFile"
+                                name="resumeFile"
+                                accept=".pdf,.doc,.docx"
                                 required
                             >
-                        </div>
-                        <small id="positionError" class="error-message"></small>
-                    </div>
-
-                    <!-- Department -->
-                    <div class="form-group">
-                        <label for="department">
-                            Department
-                        </label>
-                        <div class="input-wrapper">
-                            <svg class="field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="3" width="7" height="7"></rect>
-                                <rect x="14" y="3" width="7" height="7"></rect>
-                                <rect x="14" y="14" width="7" height="7"></rect>
-                                <rect x="3" y="14" width="7" height="7"></rect>
-                            </svg>
-                            <select id="department" name="department">
-                                <option value="">Select Department</option>
-                                <option value="IT">Information Technology (IT)</option>
-                                <option value="AI">Artificial Intelligence &amp; ML</option>
-                                <option value="Data Science">Data Science &amp; Analytics</option>
-                                <option value="HR">Human Resources</option>
-                                <option value="Marketing">Marketing &amp; Growth</option>
-                                <option value="Finance">Finance &amp; Operations</option>
-                            </select>
-                        </div>
-                        <small id="departmentError" class="error-message"></small>
-                    </div>
-
-                    <!-- Experience -->
-                    <div class="form-group">
-                        <label for="experience">
-                            Experience (Years)
-                        </label>
-                        <div class="input-wrapper">
-                            <svg class="field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <polyline points="12 6 12 12 14 14"></polyline>
-                            </svg>
-                            <input
-                                type="number"
-                                id="experience"
-                                name="experience"
-                                min="0"
-                                max="50"
-                                placeholder="e.g. 2"
-                            >
-                        </div>
-                        <small id="experienceError" class="error-message"></small>
-                    </div>
-
-                    <!-- Expected Salary -->
-                    <div class="form-group">
-                        <label for="salary">
-                            Expected Salary (Annual / CTC)
-                        </label>
-                        <div class="input-wrapper">
-                            <svg class="field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <line x1="12" y1="1" x2="12" y2="23"></line>
-                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                            </svg>
-                            <input
-                                type="number"
-                                id="salary"
-                                name="salary"
-                                placeholder="e.g. 600000"
-                            >
-                        </div>
-                        <small id="salaryError" class="error-message"></small>
-                    </div>
-                </div>
-
-                <!-- Preferred Work Type -->
-                <div class="form-group mt-3">
-                    <label>Preferred Work Type</label>
-                    <div class="radio-cards-group">
-                        <label class="radio-card">
-                            <input type="radio" name="workType" value="Office" id="workTypeOffice">
-                            <span class="radio-card-content">
-                                <span class="custom-radio"></span>
-                                <span class="radio-label">In-Office</span>
-                            </span>
-                        </label>
-                        <label class="radio-card">
-                            <input type="radio" name="workType" value="Remote" id="workTypeRemote">
-                            <span class="radio-card-content">
-                                <span class="custom-radio"></span>
-                                <span class="radio-label">Remote</span>
-                            </span>
-                        </label>
-                        <label class="radio-card">
-                            <input type="radio" name="workType" value="Hybrid" id="workTypeHybrid">
-                            <span class="radio-card-content">
-                                <span class="custom-radio"></span>
-                                <span class="radio-label">Hybrid</span>
-                            </span>
-                        </label>
-                    </div>
-                    <small id="workTypeError" class="error-message"></small>
-                </div>
-            </section>
-
-            <!-- =====================================
-                 4. SKILLS & COMPETENCIES
-                 ===================================== -->
-            <section id="skills" class="form-section">
-                <div class="section-header">
-                    <div class="section-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="16 18 22 12 16 6"></polyline>
-                            <polyline points="8 6 2 12 8 18"></polyline>
-                        </svg>
-                    </div>
-                    <div>
-                        <h2>Skills &amp; Expertise</h2>
-                        <p class="section-desc">Select your technical abilities and list relevant tools.</p>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Technical Skills</label>
-                    <div class="skills-badges-grid">
-                        <label class="skill-chip">
-                            <input type="checkbox" name="skills" value="HTML" id="skillHTML">
-                            <span class="chip-content">
-                                <span class="chip-check">✓</span>
-                                <span>HTML</span>
-                            </span>
-                        </label>
-                        <label class="skill-chip">
-                            <input type="checkbox" name="skills" value="CSS" id="skillCSS">
-                            <span class="chip-content">
-                                <span class="chip-check">✓</span>
-                                <span>CSS</span>
-                            </span>
-                        </label>
-                        <label class="skill-chip">
-                            <input type="checkbox" name="skills" value="JavaScript" id="skillJS">
-                            <span class="chip-content">
-                                <span class="chip-check">✓</span>
-                                <span>JavaScript</span>
-                            </span>
-                        </label>
-                        <label class="skill-chip">
-                            <input type="checkbox" name="skills" value="Python" id="skillPython">
-                            <span class="chip-content">
-                                <span class="chip-check">✓</span>
-                                <span>Python</span>
-                            </span>
-                        </label>
-                        <label class="skill-chip">
-                            <input type="checkbox" name="skills" value="Java" id="skillJava">
-                            <span class="chip-content">
-                                <span class="chip-check">✓</span>
-                                <span>Java</span>
-                            </span>
-                        </label>
-                        <label class="skill-chip">
-                            <input type="checkbox" name="skills" value="SQL" id="skillSQL">
-                            <span class="chip-content">
-                                <span class="chip-check">✓</span>
-                                <span>SQL</span>
-                            </span>
-                        </label>
-                    </div>
-                    <small id="skillsError" class="error-message"></small>
-                </div>
-
-                <!-- Other Skills -->
-                <div class="form-group mt-3">
-                    <label for="otherSkills">Other Skills / Frameworks / Tools</label>
-                    <textarea
-                        id="otherSkills"
-                        name="otherSkills"
-                        rows="3"
-                        placeholder="e.g. React, Node.js, Git, Docker, MongoDB, Figma..."
-                    ></textarea>
-                    <small id="otherSkillsError" class="error-message"></small>
-                </div>
-            </section>
-
-            <!-- =====================================
-                 5. RESUME & LINKS
-                 ===================================== -->
-            <section id="resume" class="form-section">
-                <div class="section-header">
-                    <div class="section-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                            <polyline points="14 2 14 8 20 8"></polyline>
-                            <line x1="16" y1="13" x2="8" y2="13"></line>
-                            <line x1="16" y1="17" x2="8" y2="17"></line>
-                            <polyline points="10 9 9 9 8 9"></polyline>
-                        </svg>
-                    </div>
-                    <div>
-                        <h2>Resume &amp; Online Profiles</h2>
-                        <p class="section-desc">Upload your resume document and share your portfolio or profiles.</p>
-                    </div>
-                </div>
-
-                <!-- Modern File Upload Zone -->
-                <div class="form-group">
-                    <label for="resumeFile">
-                        Upload Resume <span class="required">*</span>
-                    </label>
-                    <div class="upload-dropzone" id="dropZone">
-                        <input
-                            type="file"
-                            id="resumeFile"
-                            name="resumeFile"
-                            accept=".pdf,.doc,.docx"
-                            required
-                        >
-                        <div class="dropzone-body">
-                            <div class="dropzone-icon">
-                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                    <polyline points="17 8 12 3 7 8"></polyline>
-                                    <line x1="12" y1="3" x2="12" y2="15"></line>
-                                </svg>
-                            </div>
-                            <div class="dropzone-text">
-                                <p class="dropzone-title"><strong>Click to upload</strong> or drag and drop</p>
-                                <p class="dropzone-hint">PDF, DOC, or DOCX formats accepted (Max file size: 5 MB)</p>
+                            <div class="dropzone-content">
+                                <div class="dropzone-icon-circle">
+                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="17 8 12 3 7 8"></polyline>
+                                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                                    </svg>
+                                </div>
+                                <div class="dropzone-text">
+                                    <p class="dropzone-main"><strong>Click to browse</strong> or drag and drop your resume</p>
+                                    <p class="dropzone-sub">Supported formats: PDF, DOC, DOCX • Maximum file size: 5 MB</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Selected file info preview -->
-                    <div id="filePreview" class="file-preview-card" style="display: none;">
-                        <div class="file-preview-left">
-                            <div class="file-icon-badge">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                    <polyline points="14 2 14 8 20 8"></polyline>
-                                </svg>
+                        <!-- Selected File Preview Card -->
+                        <div id="filePreview" class="file-card-preview" style="display: none;">
+                            <div class="file-card-left">
+                                <div class="file-icon-box">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                        <polyline points="14 2 14 8 20 8"></polyline>
+                                    </svg>
+                                </div>
+                                <div class="file-card-details">
+                                    <span id="fileNameDisplay" class="file-title">resume.pdf</span>
+                                    <span id="fileSizeDisplay" class="file-meta">1.4 MB • Ready</span>
+                                </div>
                             </div>
-                            <div>
-                                <p id="fileNameDisplay" class="file-name">resume.pdf</p>
-                                <p id="fileSizeDisplay" class="file-size">1.2 MB</p>
+                            <button type="button" id="removeFileBtn" class="file-remove-action" title="Remove resume file">
+                                &times; Remove
+                            </button>
+                        </div>
+
+                        <small id="resumeFileError" class="error-text"></small>
+                    </div>
+
+                    <!-- Web Links -->
+                    <div class="grid-2col mt-4">
+                        <!-- Portfolio -->
+                        <div class="field-item">
+                            <label for="portfolio">
+                                Portfolio Website <span class="optional-tag">(Optional)</span>
+                            </label>
+                            <div class="input-container">
+                                <input
+                                    type="url"
+                                    id="portfolio"
+                                    name="portfolio"
+                                    placeholder="https://yourportfolio.com"
+                                >
                             </div>
+                            <small id="portfolioError" class="error-text"></small>
                         </div>
-                        <button type="button" id="removeFileBtn" class="file-remove-btn" title="Remove file">&times;</button>
-                    </div>
 
-                    <small id="resumeFileError" class="error-message"></small>
-                </div>
-
-                <div class="form-grid mt-3">
-                    <!-- Portfolio -->
-                    <div class="form-group">
-                        <label for="portfolio">Portfolio Website</label>
-                        <div class="input-wrapper">
-                            <svg class="field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <line x1="2" y1="12" x2="22" y2="12"></line>
-                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-                            </svg>
-                            <input
-                                type="url"
-                                id="portfolio"
-                                name="portfolio"
-                                placeholder="https://yourportfolio.com"
-                            >
+                        <!-- LinkedIn -->
+                        <div class="field-item">
+                            <label for="linkedin">
+                                LinkedIn Profile <span class="optional-tag">(Optional)</span>
+                            </label>
+                            <div class="input-container">
+                                <input
+                                    type="url"
+                                    id="linkedin"
+                                    name="linkedin"
+                                    placeholder="https://linkedin.com/in/username"
+                                >
+                            </div>
+                            <small id="linkedinError" class="error-text"></small>
                         </div>
-                        <small id="portfolioError" class="error-message"></small>
-                    </div>
 
-                    <!-- LinkedIn -->
-                    <div class="form-group">
-                        <label for="linkedin">LinkedIn Profile</label>
-                        <div class="input-wrapper">
-                            <svg class="field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                                <rect x="2" y="9" width="4" height="12"></rect>
-                                <circle cx="4" cy="4" r="2"></circle>
-                            </svg>
-                            <input
-                                type="url"
-                                id="linkedin"
-                                name="linkedin"
-                                placeholder="https://linkedin.com/in/username"
-                            >
+                        <!-- GitHub -->
+                        <div class="field-item grid-span-2">
+                            <label for="github">
+                                GitHub Profile <span class="optional-tag">(Optional)</span>
+                            </label>
+                            <div class="input-container">
+                                <input
+                                    type="url"
+                                    id="github"
+                                    name="github"
+                                    placeholder="https://github.com/username"
+                                >
+                            </div>
+                            <small id="githubError" class="error-text"></small>
                         </div>
-                        <small id="linkedinError" class="error-message"></small>
-                    </div>
-
-                    <!-- GitHub -->
-                    <div class="form-group form-group-full">
-                        <label for="github">GitHub Profile</label>
-                        <div class="input-wrapper">
-                            <svg class="field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                            </svg>
-                            <input
-                                type="url"
-                                id="github"
-                                name="github"
-                                placeholder="https://github.com/username"
-                            >
-                        </div>
-                        <small id="githubError" class="error-message"></small>
                     </div>
                 </div>
             </section>
 
             <!-- =====================================
-                 6. ABOUT YOU
+                 SECTION 6: ABOUT YOU
                  ===================================== -->
-            <section id="about" class="form-section">
-                <div class="section-header">
-                    <div class="section-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                        </svg>
-                    </div>
-                    <div>
+            <section id="about" class="card-section">
+                <div class="card-header">
+                    <div class="section-number">06</div>
+                    <div class="card-header-text">
                         <h2>About You</h2>
-                        <p class="section-desc">Help us learn more about your motivations and aspirations.</p>
+                        <p>Share your motivations, cover letter notes, and background highlights.</p>
                     </div>
                 </div>
 
-                <!-- Cover Letter -->
-                <div class="form-group">
-                    <div class="label-with-counter">
-                        <label for="coverLetter">Cover Letter</label>
-                        <span id="coverLetterCount" class="char-counter">0 / 1000</span>
+                <div class="card-body">
+                    <!-- Cover Letter -->
+                    <div class="field-item">
+                        <div class="label-with-action">
+                            <label for="coverLetter">
+                                Cover Letter <span class="optional-tag">(Optional)</span>
+                            </label>
+                            <span id="coverLetterCount" class="counter-text">0 / 1000</span>
+                        </div>
+                        <textarea
+                            id="coverLetter"
+                            name="coverLetter"
+                            rows="4"
+                            maxlength="1000"
+                            placeholder="Introduce yourself and tell us what drives your interest in this role..."
+                        ></textarea>
+                        <small id="coverLetterError" class="error-text"></small>
                     </div>
-                    <textarea
-                        id="coverLetter"
-                        name="coverLetter"
-                        rows="4"
-                        maxlength="1000"
-                        placeholder="Introduce yourself and outline why you are interested in this position..."
-                    ></textarea>
-                    <small id="coverLetterError" class="error-message"></small>
-                </div>
 
-                <!-- Why Hire You -->
-                <div class="form-group mt-3">
-                    <div class="label-with-counter">
-                        <label for="whyHire">Why should we hire you?</label>
-                        <span id="whyHireCount" class="char-counter">0 / 800</span>
+                    <!-- Why Hire You -->
+                    <div class="field-item mt-4">
+                        <div class="label-with-action">
+                            <label for="whyHire">
+                                Why should we hire you? <span class="optional-tag">(Optional)</span>
+                            </label>
+                            <span id="whyHireCount" class="counter-text">0 / 800</span>
+                        </div>
+                        <textarea
+                            id="whyHire"
+                            name="whyHire"
+                            rows="4"
+                            maxlength="800"
+                            placeholder="Describe how your past accomplishments and work ethic will benefit our organization..."
+                        ></textarea>
+                        <small id="whyHireError" class="error-text"></small>
                     </div>
-                    <textarea
-                        id="whyHire"
-                        name="whyHire"
-                        rows="4"
-                        maxlength="800"
-                        placeholder="Tell us what makes you a unique candidate and how your skills match our team..."
-                    ></textarea>
-                    <small id="whyHireError" class="error-message"></small>
-                </div>
-
-                <div class="info-tip-box">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="12" y1="16" x2="12" y2="12"></line>
-                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                    </svg>
-                    <span>Please ensure all contact information and details provided are truthful and accurate.</span>
                 </div>
             </section>
 
             <!-- =====================================
-                 7. DECLARATION
+                 SECTION 7: DECLARATION
                  ===================================== -->
-            <section id="declarationSection" class="form-section declaration-card">
-                <div class="declaration-content">
-                    <label class="custom-checkbox-container" for="declaration">
+            <section id="declarationSection" class="card-section declaration-highlight">
+                <div class="declaration-flex">
+                    <label class="custom-checkbox" for="declaration">
                         <input
                             type="checkbox"
                             id="declaration"
                             name="declaration"
                             required
                         >
-                        <span class="custom-checkmark"></span>
-                        <span class="declaration-text">
-                            I hereby declare and confirm that all the information provided in this application is true, complete, and accurate to the best of my knowledge.
+                        <span class="checkbox-box"></span>
+                        <span class="declaration-msg">
+                            I hereby confirm and declare that the details provided in this application are accurate, authentic, and complete to the best of my knowledge.
                             <span class="required">*</span>
                         </span>
                     </label>
-                    <small id="declarationError" class="error-message"></small>
                 </div>
+                <small id="declarationError" class="error-text"></small>
             </section>
 
             <!-- =====================================
-                 ACTION BUTTONS
+                 FORM ACTIONS (SUBMIT & RESET)
                  ===================================== -->
-            <div class="form-actions">
-                <button type="submit" id="submitBtn" class="btn btn-primary">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <div class="form-action-bar">
+                <button type="submit" id="submitBtn" class="btn-primary-action">
+                    <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <line x1="22" y1="2" x2="11" y2="13"></line>
                         <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                     </svg>
-                    <span>Submit Application</span>
+                    <span id="submitBtnText">Submit Application</span>
                 </button>
 
-                <button type="reset" id="resetBtn" class="btn btn-secondary">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <button type="reset" id="resetBtn" class="btn-secondary-action">
+                    <svg class="btn-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <path d="M3 2v6h6"></path>
                         <path d="M21 12A9 9 0 0 0 6 5.3L3 8"></path>
                         <path d="M21 22v-6h-6"></path>
@@ -769,75 +752,80 @@
     </main>
 
     <!-- =========================================
-         SUCCESS SUBMISSION MODAL
+         SUBMISSION SUCCESS MODAL
          ========================================= -->
-    <div id="successModal" class="modal-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-        <div class="modal-dialog">
-            <button type="button" class="modal-close-icon" id="modalTopCloseBtn" aria-label="Close dialog">&times;</button>
+    <div id="successModal" class="modal-backdrop" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-card">
+            <button type="button" class="modal-dismiss" id="modalTopCloseBtn" aria-label="Close dialog">&times;</button>
             
-            <div class="modal-header-visual">
-                <div class="success-icon-ring">
-                    <svg class="checkmark-svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <div class="modal-celebrate-header">
+                <div class="badge-ring">
+                    <svg class="checkmark-icon" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="20 6 9 17 4 12"></polyline>
                     </svg>
                 </div>
             </div>
 
-            <div class="modal-body">
-                <h3 id="modalTitle" class="modal-title">Application Submitted!</h3>
-                <p class="modal-main-message">Your response has been submitted successfully.</p>
-                <p class="modal-submessage">
-                    Thank you for applying. We have received your application details and our recruitment team will review them shortly.
+            <div class="modal-content-area">
+                <h3 id="modalTitle" class="modal-main-title">Application Submitted!</h3>
+                <p class="modal-prominent-callout">Your response has been submitted successfully.</p>
+                <p class="modal-subtext">
+                    Thank you for applying. We have safely recorded your application details and our recruitment team will review your qualifications.
                 </p>
 
-                <!-- Submission summary card -->
-                <div class="submission-summary-card">
-                    <div class="summary-header">
-                        <span>Application Summary</span>
-                        <span id="summaryAppId" class="summary-badge">#APP-2026-0001</span>
+                <!-- Receipt details card -->
+                <div class="receipt-card">
+                    <div class="receipt-header">
+                        <span class="receipt-title">Application Receipt</span>
+                        <span id="summaryAppId" class="receipt-id-badge">#APP-2026-0001</span>
                     </div>
-                    <div class="summary-grid">
-                        <div class="summary-item">
-                            <span class="summary-label">Candidate Name</span>
-                            <span id="summaryName" class="summary-value">-</span>
+
+                    <div class="receipt-body">
+                        <div class="receipt-row">
+                            <span class="receipt-label">Candidate Name:</span>
+                            <span id="summaryName" class="receipt-val">-</span>
                         </div>
-                        <div class="summary-item">
-                            <span class="summary-label">Role Applied</span>
-                            <span id="summaryPosition" class="summary-value">-</span>
+                        <div class="receipt-row">
+                            <span class="receipt-label">Position Applied:</span>
+                            <span id="summaryPosition" class="receipt-val">-</span>
                         </div>
-                        <div class="summary-item">
-                            <span class="summary-label">Email</span>
-                            <span id="summaryEmail" class="summary-value">-</span>
+                        <div class="receipt-row">
+                            <span class="receipt-label">Email:</span>
+                            <span id="summaryEmail" class="receipt-val">-</span>
                         </div>
-                        <div class="summary-item">
-                            <span class="summary-label">Phone</span>
-                            <span id="summaryPhone" class="summary-value">-</span>
+                        <div class="receipt-row">
+                            <span class="receipt-label">Phone:</span>
+                            <span id="summaryPhone" class="receipt-val">-</span>
                         </div>
-                        <div class="summary-item summary-item-full">
-                            <span class="summary-label">Submitted On</span>
-                            <span id="summaryTimestamp" class="summary-value">-</span>
+                        <div class="receipt-row">
+                            <span class="receipt-label">Submitted On:</span>
+                            <span id="summaryTimestamp" class="receipt-val">-</span>
+                        </div>
+                        <div class="receipt-row">
+                            <span class="receipt-label">Status:</span>
+                            <span class="status-chip-received">✓ Received &amp; Verified</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="modal-footer">
-                <button type="button" id="submitAnotherBtn" class="btn btn-primary btn-block">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <div class="modal-actions-area">
+                <button type="button" id="submitAnotherBtn" class="modal-btn-primary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <path d="M12 5v14M5 12h14"></path>
                     </svg>
                     <span>Submit Another Response</span>
                 </button>
-                <div class="modal-secondary-actions">
-                    <button type="button" id="printReceiptBtn" class="btn btn-outline">
+                <div class="modal-btn-row">
+                    <button type="button" id="printReceiptBtn" class="modal-btn-outline">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <polyline points="6 9 6 2 18 2 18 9"></polyline>
                             <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
                             <rect x="6" y="14" width="12" height="8"></rect>
                         </svg>
-                        <span>Print Application</span>
+                        <span>Print Receipt</span>
                     </button>
-                    <button type="button" id="closeModalBtn" class="btn btn-outline">
+                    <button type="button" id="closeModalBtn" class="modal-btn-outline">
                         <span>Done</span>
                     </button>
                 </div>
@@ -849,14 +837,14 @@
          FOOTER
          ========================================= -->
     <footer class="app-footer">
-        <div class="footer-container">
-            <p class="footer-copy">&copy; 2026 Job Application Portal. All rights reserved.</p>
-            <p class="footer-sub">Built with HTML5, Vanilla CSS &amp; Client-Side JavaScript Validation</p>
+        <div class="footer-wrap">
+            <p class="footer-copy">&copy; 2026 CareerPortal. All rights reserved.</p>
+            <p class="footer-tech">Designed with Modern HTML5, Responsive Vanilla CSS &amp; Client-Side Verification</p>
         </div>
     </footer>
 
-    <!-- JavaScript -->
-    <script src="script.js"></script>
+    <!-- JavaScript with Cache Buster -->
+    <script src="script.js?v=2.2"></script>
 
 </body>
 
