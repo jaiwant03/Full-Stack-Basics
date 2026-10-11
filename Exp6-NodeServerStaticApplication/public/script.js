@@ -1,202 +1,198 @@
-/* ═══════════════════════════════════════════════════════════════
-   Static JSON API  ·  Client Script
-   ═══════════════════════════════════════════════════════════════ */
 "use strict";
 
-// ── DOM refs ──────────────────────────────────────────────────────
-const statusDot         = document.getElementById("statusDot");
-const statusLabel       = document.getElementById("statusLabel");
-const responseCode      = document.getElementById("responseCode");
-const responseStatus    = document.getElementById("responseStatus");
-const respGutter        = document.getElementById("respGutter");
-const btnCopy           = document.getElementById("btnCopy");
-const productsTableBody = document.getElementById("productsTableBody");
+const statusDot = document.getElementById("statusDot");
+const statusLabel = document.getElementById("statusLabel");
+const responseCode = document.getElementById("responseCode");
+const responseStatus = document.getElementById("responseStatus");
+const respGutter = document.getElementById("respGutter");
+const btnCopy = document.getElementById("btnCopy");
+const studentsTableBody = document.getElementById("studentsTableBody");
 
-const cardStatus    = document.getElementById("cardStatus");
-const cardProducts  = document.getElementById("cardProducts");
-const cardProductId = document.getElementById("cardProductId");
-
-const btnStatus     = document.getElementById("btnStatus");
-const btnProducts   = document.getElementById("btnProducts");
-const btnProductId  = document.getElementById("btnProductId");
-const productIdInput = document.getElementById("productIdInput");
+const cardStatus = document.getElementById("cardStatus");
+const cardStudents = document.getElementById("cardStudents");
+const cardStudentId = document.getElementById("cardStudentId");
+const btnStatus = document.getElementById("btnStatus");
+const btnStudents = document.getElementById("btnStudents");
+const btnStudentId = document.getElementById("btnStudentId");
+const studentIdInput = document.getElementById("studentIdInput");
 
 let currentRawJson = "";
 
-// ── Scroll Reveal ─────────────────────────────────────────────────
 function initScrollReveal() {
-  const io = new IntersectionObserver(
+  const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add("visible");
-          // once visible, stop watching
-          io.unobserve(entry.target);
+          observer.unobserve(entry.target);
         }
       });
     },
     { threshold: 0.08 }
   );
 
-  document.querySelectorAll(".reveal, .reveal-item").forEach((el) => io.observe(el));
+  document.querySelectorAll(".reveal, .reveal-item").forEach((element) => observer.observe(element));
 }
 
-// ── JSON Syntax Colorizer ─────────────────────────────────────────
 function colorizeJson(json) {
-  const esc = json
+  const escaped = json
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
 
-  return esc.replace(
+  return escaped.replace(
     /("(?:\\u[0-9a-fA-F]{4}|\\[^u]|[^\\"])*"(?:\s*:)?|\b(?:true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
-    (m) => {
-      let cls = "json-number";
-      if (/^"/.test(m))      cls = /:$/.test(m) ? "json-key" : "json-string";
-      else if (/true|false/.test(m)) cls = "json-bool";
-      else if (/null/.test(m))       cls = "json-null";
-      return `<span class="${cls}">${m}</span>`;
+    (match) => {
+      let className = "json-number";
+      if (/^"/.test(match)) className = /:$/.test(match) ? "json-key" : "json-string";
+      else if (/true|false/.test(match)) className = "json-bool";
+      else if (/null/.test(match)) className = "json-null";
+      return `<span class="${className}">${match}</span>`;
     }
   );
 }
 
-// ── Update gutter line numbers ────────────────────────────────────
 function updateGutter(text) {
-  const lines = text.split("\n").length;
-  respGutter.innerHTML = Array.from({ length: lines }, (_, i) => i + 1).join("\n");
+  respGutter.innerHTML = Array.from(
+    { length: text.split("\n").length },
+    (_, index) => index + 1
+  ).join("\n");
 }
 
-// ── Active card ───────────────────────────────────────────────────
 function setActiveCard(card) {
-  [cardStatus, cardProducts, cardProductId].forEach((c) => c?.classList.remove("active"));
-  card?.classList.add("active");
+  [cardStatus, cardStudents, cardStudentId].forEach((element) => element.classList.remove("active"));
+  card.classList.add("active");
 }
 
-// ── Status badge ──────────────────────────────────────────────────
 function setStatus(text, isError = false) {
   responseStatus.textContent = text;
   responseStatus.classList.toggle("error", isError);
 }
 
-// ── API call ──────────────────────────────────────────────────────
+function displayResponse(data) {
+  currentRawJson = JSON.stringify(data, null, 2);
+  responseCode.innerHTML = `<code>${colorizeJson(currentRawJson)}</code>`;
+  updateGutter(currentRawJson);
+}
+
 async function callApi(endpoint, activeCard) {
   setActiveCard(activeCard);
-  setStatus("Status: Loading…", false);
-  const placeholder = "Fetching data…";
-  responseCode.innerHTML = `<code>${placeholder}</code>`;
-  updateGutter(placeholder);
+  setStatus("Status: Loading…");
+  responseCode.innerHTML = "<code>Fetching data…</code>";
+  updateGutter("Fetching data…");
 
   try {
-    const res  = await fetch(endpoint);
-    const data = await res.json();
-    currentRawJson = JSON.stringify(data, null, 2);
-    responseCode.innerHTML = `<code>${colorizeJson(currentRawJson)}</code>`;
-    updateGutter(currentRawJson);
-    setStatus(res.ok ? `Status: ${res.status} OK` : `Status: ${res.status} Error`, !res.ok);
-  } catch (err) {
-    const errObj = { status: "error", message: "Network request failed. Is the server running?", detail: err.message };
-    currentRawJson = JSON.stringify(errObj, null, 2);
-    responseCode.innerHTML = `<code>${colorizeJson(currentRawJson)}</code>`;
-    updateGutter(currentRawJson);
-    setStatus("Status: 500 Error", true);
+    const response = await fetch(endpoint);
+    const data = await response.json();
+    displayResponse(data);
+    setStatus(
+      response.ok ? `Status: ${response.status} OK` : `Status: ${response.status} Error`,
+      !response.ok
+    );
+  } catch (error) {
+    displayResponse({
+      message: "Unable to reach the server. Make sure the Node.js server is running.",
+      detail: error.message,
+    });
+    setStatus("Status: Network Error", true);
   }
 }
 
-// ── Button wiring ─────────────────────────────────────────────────
-btnStatus.addEventListener("click",   () => callApi("/api/status",   cardStatus));
-btnProducts.addEventListener("click", () => callApi("/api/products", cardProducts));
+btnStatus.addEventListener("click", () => callApi("/api/status", cardStatus));
+btnStudents.addEventListener("click", () => callApi("/api/students", cardStudents));
+btnStudentId.addEventListener("click", () => {
+  const id = studentIdInput.value.trim();
+  if (!id) {
+    studentIdInput.focus();
+    setStatus("Enter a student ID", true);
+    return;
+  }
 
-btnProductId.addEventListener("click", () => {
-  const id = (productIdInput.value || "").trim() || "1";
-  callApi(`/api/products/${encodeURIComponent(id)}`, cardProductId);
+  callApi(`/api/students/${encodeURIComponent(id)}`, cardStudentId);
 });
 
-productIdInput.addEventListener("keydown", (e) => { if (e.key === "Enter") btnProductId.click(); });
+studentIdInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") btnStudentId.click();
+});
 
-// ── Copy JSON ─────────────────────────────────────────────────────
 btnCopy.addEventListener("click", async () => {
   if (!currentRawJson) return;
+
   try {
     await navigator.clipboard.writeText(currentRawJson);
   } catch {
-    const ta = document.createElement("textarea");
-    ta.value = currentRawJson;
-    Object.assign(ta.style, { position: "fixed", opacity: "0", pointerEvents: "none" });
-    document.body.appendChild(ta);
-    ta.select();
+    const textarea = document.createElement("textarea");
+    textarea.value = currentRawJson;
+    Object.assign(textarea.style, { position: "fixed", opacity: "0", pointerEvents: "none" });
+    document.body.appendChild(textarea);
+    textarea.select();
     document.execCommand("copy");
-    document.body.removeChild(ta);
+    document.body.removeChild(textarea);
   }
+
   btnCopy.textContent = "✓ Copied!";
   btnCopy.classList.add("copied");
-  setTimeout(() => { btnCopy.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy JSON`; btnCopy.classList.remove("copied"); }, 1800);
+  setTimeout(() => {
+    btnCopy.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy JSON`;
+    btnCopy.classList.remove("copied");
+  }, 1800);
 });
 
-// ── Category icons map ────────────────────────────────────────────
-const ICONS = {
-  "Electronics": "🎧",
-  "Wearables":   "⌚",
-  "Peripherals": "⌨️",
-  "Accessories": "🖥️",
-  "Storage":     "💾",
-  "Audio":       "🔊",
-  "default":     "📦",
+const DEPARTMENT_ICONS = {
+  "Computer Science": "💻",
+  "Information Technology": "🌐",
+  "AI & DS": "🤖",
 };
 
-function getIcon(category) {
-  return ICONS[category] || ICONS["default"];
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
-// ── HTML escape ───────────────────────────────────────────────────
-function esc(str) {
-  return String(str)
-    .replace(/&/g, "&amp;").replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-}
+async function loadStudentsTable() {
+  studentsTableBody.innerHTML = '<tr><td colspan="5" class="tbl-empty">Loading students…</td></tr>';
 
-// ── Products table ────────────────────────────────────────────────
-async function loadProductsTable() {
   try {
-    const res      = await fetch("/api/products");
-    const json     = await res.json();
-    const products = json.data || [];
+    const response = await fetch("/api/students");
+    if (!response.ok) throw new Error(`Server returned ${response.status}`);
+    const students = await response.json();
 
-    if (!products.length) {
-      productsTableBody.innerHTML = `<tr><td colspan="5" class="tbl-empty">No products found.</td></tr>`;
+    if (!Array.isArray(students) || students.length === 0) {
+      studentsTableBody.innerHTML = '<tr><td colspan="5" class="tbl-empty">No students found.</td></tr>';
       return;
     }
 
-    productsTableBody.innerHTML = products.map((p, i) => `
+    studentsTableBody.innerHTML = students.map((student) => `
       <tr>
-        <td><div class="td-icon">${getIcon(p.category)}</div></td>
-        <td><strong>${esc(p.name)}</strong></td>
-        <td class="td-cat">${esc(p.category)}</td>
-        <td class="td-price">${Number(p.price).toLocaleString("en-IN")}</td>
-        <td class="td-stock">${esc(String(p.stock))}</td>
+        <td><div class="td-icon">${escapeHtml(String(student.id))}</div></td>
+        <td><strong>${escapeHtml(student.name)}</strong><br><small>${escapeHtml(student.rollNo)}</small></td>
+        <td><span class="department-badge">${DEPARTMENT_ICONS[student.department] || "🎓"} ${escapeHtml(student.department)}</span></td>
+        <td class="td-stock">Year ${escapeHtml(String(student.year))} / Sem ${escapeHtml(String(student.semester))}</td>
+        <td class="td-price">${escapeHtml(Number(student.gpa).toFixed(1))}</td>
       </tr>`).join("");
-  } catch {
-    productsTableBody.innerHTML = `<tr><td colspan="5" class="tbl-empty" style="color:#ef4444">Unable to load products. Is the server running?</td></tr>`;
+  } catch (error) {
+    studentsTableBody.innerHTML = `<tr><td colspan="5" class="tbl-empty" style="color:#ef4444">Unable to load students: ${escapeHtml(error.message)}</td></tr>`;
   }
 }
 
-// ── Server status ─────────────────────────────────────────────────
 async function checkServerStatus() {
   try {
-    const res = await fetch("/api/status");
-    if (res.ok) {
-      statusDot.className = "hdr-dot online";
-      statusLabel.textContent = "API Online";
-    } else { throw new Error(); }
+    const response = await fetch("/api/status");
+    if (!response.ok) throw new Error(`Server returned ${response.status}`);
+    statusDot.className = "hdr-dot online";
+    statusLabel.textContent = "API Online";
   } catch {
     statusDot.className = "hdr-dot offline";
     statusLabel.textContent = "Offline";
   }
 }
 
-// ── Init ──────────────────────────────────────────────────────────
 (async function init() {
   initScrollReveal();
-  await checkServerStatus();
-  await loadProductsTable();
-  await callApi("/api/products", cardProducts);
+  await Promise.all([checkServerStatus(), loadStudentsTable()]);
+  await callApi("/api/students", cardStudents);
 }());

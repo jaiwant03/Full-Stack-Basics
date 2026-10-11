@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Static JSON API – Node.js + Express</title>
+  <title>Student JSON REST API – Node.js + Express</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -22,7 +22,7 @@
         <circle cx="16" cy="16" r="3.2" fill="white"/>
       </svg>
       <div class="hdr-logo-text">
-        <span class="hdr-logo-name"><strong>Static</strong> JSON API</span>
+        <span class="hdr-logo-name"><strong>Student</strong> JSON API</span>
         <span class="hdr-logo-sub">Node.js + Express</span>
       </div>
     </a>
@@ -33,7 +33,7 @@
       </div>
       <div class="hdr-server">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
-        <span>Server: localhost:5000</span>
+        <span>Server: localhost:3000</span>
       </div>
     </div>
   </div>
@@ -46,20 +46,20 @@
     <div class="hero-left">
       <div class="hero-eyebrow">
         <svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#00C853"/></svg>
-        NODE.JS + EXPRESS REST API
+        EXPERIMENT 6 · NODE.JS + EXPRESS REST API
       </div>
       <h1 class="hero-h1">
-        Static JSON Data,<br>
+        Student Records,<br>
         <span class="hero-accent">Served Through a REST API</span>
       </h1>
       <p class="hero-desc">
-        A simple Node.js application that reads static JSON data from a file
-        and exposes it through clean REST API endpoints.
+        A Node.js application that reads student records from a JSON file
+        and exposes them through clean REST API endpoints.
       </p>
       <div class="hero-url-bar">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00C853" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-        <span>http://localhost:5000</span>
-        <button class="hero-copy-btn" title="Copy URL" onclick="navigator.clipboard.writeText('http://localhost:5000')">
+        <span>http://localhost:3000</span>
+        <button class="hero-copy-btn" title="Copy URL" onclick="navigator.clipboard.writeText('http://localhost:3000')">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
         </button>
       </div>
@@ -73,16 +73,16 @@
             <span class="ltb-dot ltb-red"></span>
             <span class="ltb-dot ltb-amber"></span>
             <span class="ltb-dot ltb-green"></span>
-            <span class="ltb-filename">products.json</span>
+            <span class="ltb-filename">students.json</span>
           </div>
           <div class="laptop-code">
             <pre><code><span class="jk">[</span>
   <span class="jk">{</span>
     <span class="jkey">"id"</span>: <span class="jnum">1</span>,
-    <span class="jkey">"name"</span>: <span class="jstr">"Wireless Headphones"</span>,
-    <span class="jkey">"category"</span>: <span class="jstr">"Electronics"</span>,
-    <span class="jkey">"price"</span>: <span class="jnum">2499</span>,
-    <span class="jkey">"stock"</span>: <span class="jnum">25</span>
+    <span class="jkey">"name"</span>: <span class="jstr">"Aarav Sharma"</span>,
+    <span class="jkey">"department"</span>: <span class="jstr">"Computer Science"</span>,
+    <span class="jkey">"year"</span>: <span class="jnum">2</span>,
+    <span class="jkey">"gpa"</span>: <span class="jnum">8.7</span>
   <span class="jk">}</span>,
   <span class="jdim">…</span>
 <span class="jk">]</span></code></pre>
@@ -157,36 +157,36 @@
           <button class="ep-btn" id="btnStatus">▶ Try API →</button>
         </div>
 
-        <!-- Card: /api/products -->
-        <div class="ep-card reveal-item" id="cardProducts">
+        <!-- Card: /api/students -->
+        <div class="ep-card reveal-item" id="cardStudents">
           <div class="ep-card-top">
             <div class="ep-card-head">
               <span class="ep-badge">GET</span>
-              <code class="ep-path">/api/products</code>
+              <code class="ep-path">/api/students</code>
             </div>
             <div class="ep-card-icon">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00C853" stroke-width="1.8"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
             </div>
           </div>
-          <p class="ep-desc">Retrieve all products from the static JSON file.</p>
-          <button class="ep-btn" id="btnProducts">▶ Try API →</button>
+          <p class="ep-desc">Retrieve all students from the static JSON file.</p>
+          <button class="ep-btn" id="btnStudents">▶ Try API →</button>
         </div>
 
-        <!-- Card: /api/products/:id -->
-        <div class="ep-card reveal-item" id="cardProductId">
+        <!-- Card: /api/students/:id -->
+        <div class="ep-card reveal-item" id="cardStudentId">
           <div class="ep-card-top">
             <div class="ep-card-head">
               <span class="ep-badge">GET</span>
-              <code class="ep-path">/api/products/:id</code>
+              <code class="ep-path">/api/students/:id</code>
             </div>
             <div class="ep-card-icon">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00C853" stroke-width="1.8"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
             </div>
           </div>
-          <p class="ep-desc">Retrieve a specific product using its ID.</p>
+          <p class="ep-desc">Look up a student record using its ID.</p>
           <div class="ep-id-row">
-            <input type="number" id="productIdInput" class="ep-id-input" value="1" min="1" max="10" aria-label="Product ID" />
-            <button class="ep-btn ep-btn-full" id="btnProductId">▶ Try API →</button>
+            <input type="number" id="studentIdInput" class="ep-id-input" value="1" min="1" max="10" aria-label="Student ID" />
+            <button class="ep-btn ep-btn-full" id="btnStudentId">▶ Search student →</button>
           </div>
         </div>
 
@@ -235,22 +235,22 @@
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
           </div>
           <div>
-            <div class="tbl-col-title">Static JSON Data</div>
-            <div class="tbl-col-sub">Products loaded from products.json</div>
+            <div class="tbl-col-title">Student Directory</div>
+            <div class="tbl-col-sub">Student records loaded from students.json</div>
           </div>
         </div>
         <div class="table-wrap">
           <table class="data-table">
             <thead>
               <tr>
-                <th></th>
-                <th>Product</th>
-                <th>Category</th>
-                <th>Price (₹)</th>
-                <th>Stock</th>
+                <th>ID</th>
+                <th>Student</th>
+                <th>Department</th>
+                <th>Year / Semester</th>
+                <th>GPA</th>
               </tr>
             </thead>
-            <tbody id="productsTableBody">
+            <tbody id="studentsTableBody">
               <tr><td colspan="5" class="tbl-empty">Loading…</td></tr>
             </tbody>
           </table>
@@ -275,7 +275,7 @@
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00C853" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
             </div>
             <div class="how-node-label">JSON File</div>
-            <div class="how-node-sub">Static data<br>(products.json)</div>
+            <div class="how-node-sub">Static data<br>(students.json)</div>
           </div>
           <div class="how-arrow">→</div>
           <div class="how-node">
@@ -309,7 +309,7 @@
           </div>
           <p class="kp-text">
             <strong>Key Point</strong><br>
-            The input is a static JSON file, and the output is the JSON data served through REST API endpoints using Node.js and Express.
+            Student records are loaded from a static JSON file and served through REST API endpoints using Node.js and Express.
           </p>
         </div>
       </div>
