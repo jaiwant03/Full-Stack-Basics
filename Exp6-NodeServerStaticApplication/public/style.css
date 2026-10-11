@@ -840,7 +840,7 @@ body {
   padding: 11px 8px;
 }
 
-/* product name col */
+/* student name col */
 .data-table td:nth-child(2) strong {
   font-weight: 600;
   color: #0d1f0d;
@@ -880,7 +880,7 @@ body {
   color: #374151;
 }
 
-/* product icon in first col */
+/* ID badge in first col */
 .td-icon {
   width: 26px;
   height: 26px;
