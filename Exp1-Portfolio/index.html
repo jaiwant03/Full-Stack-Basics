@@ -18,23 +18,45 @@
   <style>
     /* Internal CSS for page-specific animation & custom styling */
     .legacy-strip {
-      color: #e2e8f0;
+      color: var(--text-secondary);
       font-family: var(--font-sans);
       font-size: 0.85rem;
       font-weight: 500;
       padding: 0.5rem 0;
-      background: rgba(15, 23, 42, 0.95);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-subtle);
       display: flex;
       align-items: center;
+      transition: background-color var(--transition-normal), color var(--transition-normal), border-color var(--transition-normal);
+    }
+    html[data-theme="dark"] .legacy-strip,
+    html:not([data-theme="light"]) .legacy-strip {
+      background: rgba(15, 23, 42, 0.95);
+      color: #e2e8f0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    html[data-theme="light"] .legacy-strip {
+      background: #ffffff;
+      color: #334155;
+      border-bottom: 1px solid #e2e8f0;
     }
     .hero-name {
       font-family: var(--font-display);
+      letter-spacing: -0.02em;
+      transition: color var(--transition-normal);
+    }
+    html[data-theme="dark"] .hero-name,
+    html:not([data-theme="light"]) .hero-name {
       background: linear-gradient(135deg, #ffffff 30%, #34d399 100%);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      letter-spacing: -0.02em;
+    }
+    html[data-theme="light"] .hero-name {
+      background: linear-gradient(135deg, #0f172a 30%, #059669 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
     .old-tag-note {
       font-size: 0.85rem;
