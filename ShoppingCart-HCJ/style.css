@@ -1,0 +1,5 @@
+body{font-family:Arial;text-align:center;background:#eee}
+#products{background:white;padding:20px;margin:20px}
+button{padding:8px;margin:5px;background:blue;color:white}
+p{padding:8px;border-bottom:1px solid gray}
+#total{color:green;font-size:20px}
