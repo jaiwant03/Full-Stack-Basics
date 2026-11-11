@@ -1,0 +1,5 @@
+body{font-family:Arial;text-align:center;background:#eee}
+input{padding:10px}
+button{padding:8px;background:blue;color:white}
+li{margin:12px;list-style:none;background:white;padding:10px}
+.done{text-decoration:line-through;color:green}
