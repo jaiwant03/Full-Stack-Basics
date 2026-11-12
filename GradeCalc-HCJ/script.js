@@ -9,7 +9,7 @@ total+=m;points+=m*c;credits+=c;
 if(m<35)pass=false;
 }
 var avg=points/credits;
-var grade=avg>=90?"A":avg>=75?"B":avg>=60?"C":avg>=50?"D":"F";
+var grade=avg>=90?"O":avg>=80?"A+":avg>=70?"A":avg>=60?"B+":"B";
 result.innerHTML="Total: "+total+" Average: "+avg.toFixed(2)+" Grade: "+(pass?grade:"F");
 result.className=pass?"pass":"fail";
 }
