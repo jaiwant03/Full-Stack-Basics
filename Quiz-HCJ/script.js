@@ -1,18 +1,18 @@
-var q=["HTML stands for?","CSS is used for?","JS is used for?"];
-var ans=["HTML","Style","Interaction"];
-var i=0,score=0,time=30;
-function show(){
-quiz.innerHTML=q[i]+"<br><input id='answer'>";
+import React,{useState} from "react";
+import{createRoot}from"react-dom/client";
+import "./style.css";
+function App(){
+var [score,setScore]=useState(0);
+var [show,setShow]=useState(false);
+return <div className="quiz">
+<h2>Online Quiz</h2>
+<p>1. HTML stands for?</p>
+<input type="radio" name="q1" onChange={()=>window.a=1}/>HTML
+<input type="radio" name="q1" onChange={()=>window.a=0}/>CSS
+<p>2. CSS is used for?</p>
+<input id="ans" placeholder="Enter answer"/>
+<button onClick={()=>{setScore((window.a||0)+(document.getElementById("ans").value.toLowerCase()=="styling"?1:0));setShow(true)}}>Submit</button>
+{show&&<h3>Score: {score}/2</h3>}
+</div>;
 }
-function next(){
-if(answer.value==ans[i])score++;
-i++;
-if(i<3)show();
-else{quiz.innerHTML="Quiz Completed";result.innerHTML="Score: "+score+"/3";clearInterval(t);}
-}
-var t=setInterval(function(){
-time--;
-timer.innerHTML="Time: "+time;
-if(time==0){clearInterval(t);quiz.innerHTML="Time Over";result.innerHTML="Score: "+score+"/3";}
-},1000);
-show();
+createRoot(document.getElementById("root")).render(<App/>);
