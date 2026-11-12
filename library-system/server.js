@@ -1,0 +1,11 @@
+var express=require("express");
+var mongoose=require("mongoose");
+var app=express();
+app.use(express.json());
+app.use(express.static("."));
+mongoose.connect("mongodb://127.0.0.1:27017/library");
+var Book=mongoose.model("Book",{bookId:String,title:String,author:String,category:String,copies:Number});
+app.post("/add",async(req,res)=>{await Book.create(req.body);res.send("Added");});
+app.get("/books",async(req,res)=>{res.json(await Book.find());});
+app.delete("/delete/:id",async(req,res)=>{await Book.findByIdAndDelete(req.params.id);res.send("Deleted");});
+app.listen(3000,()=>console.log("Server Started"));

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Library</title>
+<style>
+body{text-align:center;font-family:Arial;background:#eee}
+input{padding:10px;margin:5px}
+button{padding:8px;background:blue;color:white}
+</style>
+</head>
+<body>
+<h2>Library Management</h2>
+<input id="id" placeholder="Book ID">
+<input id="title" placeholder="Title">
+<input id="author" placeholder="Author">
+<input id="cat" placeholder="Category">
+<input id="copies" placeholder="Copies">
+<button onclick="add()">Add Book</button>
+<div id="books"></div>
+<script>
+function add(){
+var b={bookId:id.value,title:title.value,author:author.value,category:cat.value,copies:copies.value};
+fetch("/add",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(b)}).then(()=>show());
+}
+function show(){
+fetch("/books").then(r=>r.json()).then(data=>{
+books.innerHTML="";
+data.forEach(b=>books.innerHTML+="<p>"+b.bookId+" "+b.title+" "+b.author+" Copies:"+b.copies+" <button onclick=\"del('"+b._id+"')\">Delete</button></p>");
+});
+}
+function del(i){fetch("/delete/"+i,{method:"DELETE"}).then(()=>show());}
+show();
+</script>
+</body>
+</html>
