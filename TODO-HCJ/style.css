@@ -1,5 +1,6 @@
 body{font-family:Arial;text-align:center;background:#eee}
 input{padding:10px}
-button{padding:8px;background:blue;color:white}
-li{margin:12px;list-style:none;background:white;padding:10px}
+button{padding:8px;background:blue;color:white;border:0}
+li{list-style:none;background:white;padding:10px;margin:10px}
 .done{text-decoration:line-through;color:green}
+ul{padding:0;max-width:450px;margin:auto}
