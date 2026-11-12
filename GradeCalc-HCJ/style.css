@@ -1,0 +1,7 @@
+body{font-family:Arial;text-align:center;background:#eee}
+#inputs{background:white;padding:15px;margin:auto;width:300px}
+input{padding:8px;margin:5px;width:110px}
+button{padding:10px;background:blue;color:white;border:0}
+#result{padding:15px}
+.pass{color:green}
+.fail{color:red}
